@@ -54,8 +54,26 @@ const userSchema = new Schema(
     isOnline: {
       type: Boolean,
     },
+    lastSeen: {
+      type: Date,
+      default: Date.now,
+    },
     Chat_Bot: {
       type: Boolean,
+    },
+    chat_type: {
+      type: String,
+      enum: ["temporary", "permanent"],
+      default: "temporary",
+      required: true,
+    },
+    read_reciept: {
+      type: Boolean,
+      default: false,
+    },
+    isTyping: {
+      type: Boolean,
+      default: false,
     },
     Archived: [
       {
