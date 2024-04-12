@@ -67,7 +67,6 @@ const userSchema = new Schema(
       type: String,
       enum: ["temporary", "permanent"],
       default: "temporary",
-      required: true,
     },
     read_reciept: {
       type: Boolean,
@@ -82,11 +81,9 @@ const userSchema = new Schema(
         objectType: {
           type: String,
           enum: ["User", "Group"],
-          required: true,
         },
         objectId: {
           type: mongoose.Schema.Types.ObjectId,
-          required: true,
         },
       },
     ],
