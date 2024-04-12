@@ -18,9 +18,6 @@ const groupSchema = new Schema(
         ref: "User",
       },
     ],
-    refreshToken: {
-      type: String,
-    },
     avatar: {
       type: String,
     },
