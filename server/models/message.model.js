@@ -1,34 +1,43 @@
 import mongoose, { Schema } from "mongoose"
 
-const messageSchema = new Schema({
+const messageSchema = new Schema(
+  {
     content: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     sender: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
-    receivers: [{
+    receivers: [
+      {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-    }],
+      },
+    ],
     timestamp: {
-        type: Date,
-        default: Date.now,
+      type: Date,
+      default: Date.now,
     },
     chat: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Chat",
-        required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Chat",
+      required: true,
     },
     isRead: {
-        type: Boolean,
-        default: false,
+      type: Boolean,
+      default: false,
     },
-}, {
+    toGroup: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  {
     timestamps: true,
-})
+  }
+);
 
 export const Message = mongoose.model("Message", messageSchema)
