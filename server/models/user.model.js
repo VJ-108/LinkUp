@@ -62,15 +62,12 @@ const userSchema = new Schema(
     },
     Chat_Bot: {
       type: Boolean,
+      default: false
     },
     chat_type: {
       type: String,
       enum: ["temporary", "permanent"],
       default: "temporary",
-    },
-    read_reciept: {
-      type: Boolean,
-      default: false,
     },
     isTyping: {
       type: Boolean,

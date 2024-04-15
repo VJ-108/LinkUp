@@ -201,7 +201,7 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
       throw new ApiError(401, "Invalid old password");
     }
     user.password = newPassword;
-    user.save({ validateBeforeSave: false });
+    await user.save({ validateBeforeSave: false });
 
     return res
       .status(200)
@@ -216,7 +216,7 @@ const changeAbout = asyncHandler(async (req, res, next) => {
     const { about } = req.body;
     const user = await User.findById(req.user?._id);
     user.about = about;
-    user.save({ validateBeforeSave: false });
+    await user.save({ validateBeforeSave: false });
 
     return res
       .status(200)
@@ -252,6 +252,195 @@ const updateLastseen = asyncHandler(async (req, res, next) => {
   }
 });
 
+const toggleChat_Bot = asyncHandler(async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.user?._id,
+      { Chat_Bot: !req.user.Chat_Bot },
+      { new: true }
+    );
+    return res.json(new ApiResponse(200, "Chat_bot toggled successfully"));
+  } catch (error) {
+    throw new ApiError(500, "Error while toggling chat_bot");
+  }
+});
+
+const toggleChat_type = asyncHandler(async (req, res, next) => {
+  try {
+    const newChatType =
+      req.user.chat_type === "temporary" ? "permanent" : "temporary";
+    const user = await User.findByIdAndUpdate(
+      req.user?._id,
+      { chat_type: newChatType },
+      { new: true }
+    );
+    return res.json(new ApiResponse(200, "Chat_type toggled successfully"));
+  } catch (error) {
+    throw new ApiError(500, "Error while toggling chat_type");
+  }
+});
+
+const toggleBlocked_id = asyncHandler(async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user?._id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const { blocked_id } = req.body;
+    const blockedUser = await User.findById(blocked_id);
+    if (!blockedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const index = user.Blocked_ids.indexOf(blocked_id);
+    if (index === -1) {
+      user.Blocked_ids.push(blocked_id);
+    } else {
+      user.Blocked_ids.splice(index, 1);
+    }
+    await user.save({ validateBeforeSave: false });
+    return res.json(
+      new ApiResponse(
+        200,
+        { Blocked_ids: user.Blocked_ids },
+        "Blocked user toggled successfully"
+      )
+    );
+  } catch (error) {
+    throw new ApiError(500, "Error while toggling blocked_id");
+  }
+});
+
+const getBlocked_ids = asyncHandler(async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user?._id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.json(new ApiResponse(200, { blocked_id: user.Blocked_ids }));
+  } catch (error) {
+    throw new ApiError(500, "Error while fetching blocked_id");
+  }
+});
+
+const toggleContact_id = asyncHandler(async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user?._id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const { contact_id } = req.body;
+    const ContactUser = await User.findById(contact_id);
+    if (!ContactUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const index = user.Contact_ids.indexOf(contact_id);
+    if (index === -1) {
+      user.Contact_ids.push(contact_id);
+    } else {
+      user.Contact_ids.splice(index, 1);
+    }
+    await user.save({ validateBeforeSave: false });
+    return res.json(
+      new ApiResponse(
+        200,
+        { Contact_ids: user.Contact_ids },
+        "Contact user toggled successfully"
+      )
+    );
+  } catch (error) {
+    throw new ApiError(500, "Error while toggling contact_id");
+  }
+});
+
+const getContact_ids = asyncHandler(async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user?._id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.json(new ApiResponse(200, { contact_id: user.Contact_ids }));
+  } catch (error) {
+    throw new ApiError(500, "Error while fetching contact_id");
+  }
+});
+
+const getUserId = asyncHandler(async (req, res, next) => {
+  try {
+    const { username } = req.body;
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.json(new ApiResponse(200, { userId: user._id }));
+  } catch (error) {
+    throw new ApiError(500, "Error while fetching userId");
+  }
+});
+
+const changeUsername = asyncHandler(async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user?._id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const { username } = req.body;
+    const usernameExists = await User.findOne({ username });
+    if (usernameExists) {
+      return res.status(400).json({ message: "Username already exists" });
+    }
+    user.username = username;
+    await user.save({ validateBeforeSave: false });
+    return res
+     .status(200)
+     .json(new ApiResponse(200, {}, "Username changed successfully"));
+  } catch (error) {
+    throw new ApiError(500, "Error while changing username");
+  }
+})
+
+// const toggleGroup_id = asyncHandler(async (req, res, next) => {
+//   try {
+//     const user = await User.findById(req.user?._id);
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+//     const { group_id } = req.body;
+//     const Group = await User.findById(group_id);
+//     if (!Group) {
+//       return res.status(404).json({ message: "Group not found" });
+//     }
+//     const index = user.Group_ids.indexOf(group_id);
+//     if (index === -1) {
+//       user.Group_ids.push(group_id);
+//     } else {
+//       user.Group_ids.splice(index, 1);
+//     }
+//     await user.save({ validateBeforeSave: false });
+//     return res.json(
+//       new ApiResponse(
+//         200,
+//         { Group_ids: user.Group_ids },
+//         "Group toggled successfully"
+//       )
+//     );
+//   } catch (error) {
+//     throw new ApiError(500, "Error while toggling group");
+//   }
+// });
+
+// const getGroup_ids = asyncHandler(async (req, res, next) => {
+//   try {
+//     const user = await User.findById(req.user?._id);
+//     if (!user) {
+//       return res.status(404).json({ message: "User not found" });
+//     }
+//     return res.json(new ApiResponse(200, { groups: user.Group_ids }));
+//   } catch (error) {
+//     throw new ApiError(500, "Error while fetching groups");
+//   }
+// });
+
+//Online,typing,archived,delete account
 
 export {
   registerUser,
@@ -262,4 +451,12 @@ export {
   changeAbout,
   getLastseen,
   updateLastseen,
+  toggleChat_Bot,
+  toggleChat_type,
+  toggleBlocked_id,
+  getBlocked_ids,
+  toggleContact_id,
+  getContact_ids,
+  getUserId,
+  changeUsername,
 };
