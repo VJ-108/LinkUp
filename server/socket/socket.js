@@ -1,9 +1,9 @@
-import express from "express"
 import http from "http";
-import { Server } from "socket.io"
+import { Server } from "socket.io";
 import { app } from "../app.js";
+import { User } from "../models/user.model.js";
 
-const server = http.createServer(app)
+const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: process.env.CORS_ORIGIN,
@@ -12,9 +12,24 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log("User connected: ", socket.id);
-  socket.on("disconnect", () => {
-    console.log("User disconnected: ", socket.id);
+  socket.on("login", async (userId) => {
+    try {
+      await User.findByIdAndUpdate(userId, { isOnline: true });
+      socket.userId = userId;
+      console.log(`User ${socket.id} connected`);
+    } catch (error) {
+      console.log("Error while updating Online status\n", error);
+    }
+  });
+  socket.on("disconnect", async () => {
+    try {
+      if (socket.userId) {
+        await User.findByIdAndUpdate(socket.userId, { isOnline: false });
+        console.log(`User ${socket.id} disconnected`);
+      }
+    } catch (error) {
+      console.log("Error while updating Online status\n", error);
+    }
   });
 });
 
