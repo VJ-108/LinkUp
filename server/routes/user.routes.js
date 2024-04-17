@@ -34,7 +34,7 @@ router.route("/toggle-blocked-id").post(verifyJWT, toggleBlocked_id);
 router.route("/get-blocked-ids").get(verifyJWT, getBlocked_ids);
 router.route("/toggle-contact-id").post(verifyJWT, toggleContact_id);
 router.route("/get-contact-ids").get(verifyJWT, getContact_ids);
-router.route("/get-user-id").get(verifyJWT, getUserId);
+router.route("/get-user-id").post(verifyJWT, getUserId);
 router.route("/change-username").post(verifyJWT, changeUsername);
 
 export default router;

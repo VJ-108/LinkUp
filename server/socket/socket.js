@@ -6,7 +6,7 @@ import { User } from "../models/user.model.js";
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: process.env.CORS_ORIGIN,
+    origin: `${process.env.CORS_ORIGIN}`,
     credentials: true,
   },
 });
