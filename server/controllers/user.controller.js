@@ -391,12 +391,25 @@ const changeUsername = asyncHandler(async (req, res, next) => {
     user.username = username;
     await user.save({ validateBeforeSave: false });
     return res
-     .status(200)
-     .json(new ApiResponse(200, {}, "Username changed successfully"));
+      .status(200)
+      .json(new ApiResponse(200, {}, "Username changed successfully"));
   } catch (error) {
     throw new ApiError(500, "Error while changing username");
   }
-})
+});
+
+const getUsername = asyncHandler(async (req, res, next) => {
+  try {
+    const { userId } = req.body;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.json(new ApiResponse(200, { username: user.username }));
+  } catch (error) {
+    throw new ApiError(500, "Error while fetching username");
+  }
+});
 
 // const toggleGroup_id = asyncHandler(async (req, res, next) => {
 //   try {
@@ -459,4 +472,5 @@ export {
   getContact_ids,
   getUserId,
   changeUsername,
+  getUsername
 };

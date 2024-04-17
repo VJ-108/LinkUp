@@ -16,6 +16,7 @@ import {
   getContact_ids,
   getUserId,
   changeUsername,
+  getUsername
 } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
@@ -36,5 +37,6 @@ router.route("/toggle-contact-id").post(verifyJWT, toggleContact_id);
 router.route("/get-contact-ids").get(verifyJWT, getContact_ids);
 router.route("/get-user-id").post(verifyJWT, getUserId);
 router.route("/change-username").post(verifyJWT, changeUsername);
+router.route("/get-username").post(verifyJWT, getUsername);
 
 export default router;

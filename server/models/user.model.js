@@ -53,9 +53,6 @@ const userSchema = new Schema(
         ref: "Group",
       },
     ],
-    isOnline: {
-      type: Boolean,
-    },
     lastSeen: {
       type: Date,
       default: Date.now,
@@ -68,10 +65,6 @@ const userSchema = new Schema(
       type: String,
       enum: ["temporary", "permanent"],
       default: "temporary",
-    },
-    isTyping: {
-      type: Boolean,
-      default: false,
     },
     Archived: [
       {

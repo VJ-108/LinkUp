@@ -1,7 +1,6 @@
 import http from "http";
 import { Server } from "socket.io";
 import { app } from "../app.js";
-import { User } from "../models/user.model.js";
 
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -11,26 +10,25 @@ const io = new Server(server, {
   },
 });
 
+const activeUsers = new Set();
+
 io.on("connection", (socket) => {
-  socket.on("login", async (userId) => {
+  socket.on("login", ({ userId, contacts }) => {
     try {
-      await User.findByIdAndUpdate(userId, { isOnline: true });
-      socket.userId = userId;
-      console.log(`User ${socket.id} connected`);
+      contacts.forEach((contactId) => {
+        if (activeUsers.has(contactId)) {
+          activeUsers.add(contactId);
+        }
+      });
+      activeUsers.add(userId);
+      io.emit("activeUsers", Array.from(activeUsers));
+      console.log("Active Users:", activeUsers);
     } catch (error) {
       console.log("Error while updating Online status\n", error);
     }
   });
-  socket.on("disconnect", async () => {
-    try {
-      if (socket.userId) {
-        await User.findByIdAndUpdate(socket.userId, { isOnline: false });
-        console.log(`User ${socket.id} disconnected`);
-      }
-    } catch (error) {
-      console.log("Error while updating Online status\n", error);
-    }
-  });
+
+  socket.on("disconnect", () => {});
 });
 
 export { server, io };
