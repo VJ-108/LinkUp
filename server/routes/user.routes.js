@@ -16,7 +16,10 @@ import {
   getContact_ids,
   getUserId,
   changeUsername,
-  getUsername
+  getUsername,
+  deleteAccount,
+  toggleArchived,
+  getArchived,
 } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
@@ -38,5 +41,8 @@ router.route("/get-contact-ids").get(verifyJWT, getContact_ids);
 router.route("/get-user-id").post(verifyJWT, getUserId);
 router.route("/change-username").post(verifyJWT, changeUsername);
 router.route("/get-username").post(verifyJWT, getUsername);
+router.route("/delete-account").delete(verifyJWT, deleteAccount);
+router.route("/toggle-archived").post(verifyJWT, toggleArchived);
+router.route("/get-archived").get(verifyJWT, getArchived);
 
 export default router;

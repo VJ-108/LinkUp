@@ -1,3 +1,4 @@
+import { Group } from "../models/group.model.js";
 import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -459,7 +460,57 @@ const getUsername = asyncHandler(async (req, res, next) => {
 //   }
 // });
 
-//Online,typing,archived,delete account
+const toggleArchived = asyncHandler(async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    const chat = await User.findById(id);
+    if (!chat) {
+      return res.status(404).json({ message: "Chat not found" });
+    }
+    const user = await User.findById(req.user?._id);
+    const index = user.Archived.indexOf(id);
+    if (index === -1) {
+      user.Archived.push(id);
+    } else {
+      user.Archived.splice(index, 1);
+    }
+    await user.save({ validateBeforeSave: false });
+    return res
+      .status(200)
+      .json({ message: "Chat archived state toggled successfully" });
+  } catch (error) {
+    throw new ApiError(500, "Error while toggling archived chats");
+  }
+});
+
+const getArchived = asyncHandler(async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user?._id).populate({
+      path: "Archived",
+      select: "_id username",
+    });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.json(new ApiResponse(200, { Archived: user.Archived }));
+  } catch (error) {
+    throw new ApiError(500, "Error while fetching archived items");
+  }
+});
+
+const deleteAccount = asyncHandler(async (req, res, next) => {
+  try {
+    const user = await User.deleteOne({ _id: req.user?._id });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res
+      .status(200)
+      .json(new ApiResponse(200, {}, "Account deleted successfully"));
+  } catch (error) {
+    throw new ApiError(500, "Error while deleting account");
+  }
+});
 
 export {
   registerUser,
@@ -478,5 +529,8 @@ export {
   getContact_ids,
   getUserId,
   changeUsername,
-  getUsername
+  getUsername,
+  deleteAccount,
+  toggleArchived,
+  getArchived,
 };

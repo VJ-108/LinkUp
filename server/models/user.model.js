@@ -68,13 +68,8 @@ const userSchema = new Schema(
     },
     Archived: [
       {
-        objectType: {
-          type: String,
-          enum: ["User", "Group"],
-        },
-        objectId: {
-          type: mongoose.Schema.Types.ObjectId,
-        },
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
       },
     ],
   },
