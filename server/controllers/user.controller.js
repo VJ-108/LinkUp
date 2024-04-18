@@ -312,7 +312,10 @@ const toggleBlocked_id = asyncHandler(async (req, res, next) => {
 
 const getBlocked_ids = asyncHandler(async (req, res, next) => {
   try {
-    const user = await User.findById(req.user?._id);
+    const user = await User.findById(req.user?._id).populate({
+      path: "Blocked_ids",
+      select: "_id username",
+    });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -354,7 +357,10 @@ const toggleContact_id = asyncHandler(async (req, res, next) => {
 
 const getContact_ids = asyncHandler(async (req, res, next) => {
   try {
-    const user = await User.findById(req.user?._id);
+    const user = await User.findById(req.user?._id).populate({
+      path: "Contact_ids",
+      select: "_id username",
+    });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }

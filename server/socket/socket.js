@@ -10,19 +10,18 @@ const io = new Server(server, {
   },
 });
 
-const activeUsers = new Set();
+const activeUsers = {};
 
 io.on("connection", (socket) => {
-  socket.on("login", ({ userId, contacts }) => {
+  socket.on("login", () => {
     try {
-      contacts.forEach((contactId) => {
-        if (activeUsers.has(contactId)) {
-          activeUsers.add(contactId);
-        }
-      });
-      activeUsers.add(userId);
-      io.emit("activeUsers", Array.from(activeUsers));
-      console.log("Active Users:", activeUsers);
+      const username = socket.handshake.query.username;
+      const userId = socket.handshake.query.userId;
+      if (username !== undefined && userId !== undefined) {
+        activeUsers[username] = userId;
+        io.emit("activeUsers", activeUsers);
+        console.log("Active Users:", activeUsers);
+      }
     } catch (error) {
       console.log("Error while updating Online status\n", error);
     }
