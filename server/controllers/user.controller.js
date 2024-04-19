@@ -4,7 +4,6 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
 
 const formatLastSeen = (lastSeen) => {
   const lastSeenDate = new Date(lastSeen);
@@ -500,14 +499,20 @@ const getArchived = asyncHandler(async (req, res, next) => {
 
 const deleteAccount = asyncHandler(async (req, res, next) => {
   try {
-    const user = await User.deleteOne({ _id: req.user?._id });
+    const user = await User.findById(req.user?._id);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
+    await Group.updateMany(
+      { $or: [{ members: req.user?._id }, { admin: req.user?._id }] },
+      { $pull: { members: req.user?._id, admin: req.user?._id } }
+    );
+    await user.deleteOne({ _id: req.user?._id });
     return res
       .status(200)
       .json(new ApiResponse(200, {}, "Account deleted successfully"));
   } catch (error) {
+    console.error(error);
     throw new ApiError(500, "Error while deleting account");
   }
 });
