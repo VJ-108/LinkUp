@@ -9,26 +9,19 @@ const chatSchema = new Schema(
         required: true,
       },
     ],
-    lastActivity: {
-      type: Date,
-      default: Date.now,
-    },
     messages: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Message",
         required: true,
+        default: [],
       },
     ],
-    type: {
-      type: String,
-      enum: ["private", "group"],
-      default: "private",
-      required: true,
+    groupId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Group",
     },
-    groupName: {
-      type: String,
-    },
+    
   },
   {
     timestamps: true,

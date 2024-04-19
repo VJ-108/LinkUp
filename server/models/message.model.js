@@ -1,38 +1,23 @@
-import mongoose, { Schema } from "mongoose"
+import mongoose, { Schema } from "mongoose";
 
 const messageSchema = new Schema(
   {
-    content: {
+    message: {
       type: String,
       required: true,
     },
-    sender: {
+    senderId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-    receivers: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-    timestamp: {
-      type: Date,
-      default: Date.now,
-    },
-    chat: {
+    receiverId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Chat",
-      required: true,
+      ref: "User",
     },
-    isRead: {
-      type: Boolean,
-      default: false,
-    },
-    toGroup: {
-      type: Boolean,
-      default: false,
+    groupId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Group",
     },
   },
   {
@@ -40,4 +25,4 @@ const messageSchema = new Schema(
   }
 );
 
-export const Message = mongoose.model("Message", messageSchema)
+export const Message = mongoose.model("Message", messageSchema);

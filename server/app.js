@@ -17,8 +17,10 @@ app.use(cookieParser());
 
 import userRouter from "./routes/user.routes.js";
 import groupRouter from "./routes/group.routes.js";
+import messageRouter from "./routes/message.routes.js";
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/groups", groupRouter);
+app.use("/api/v1/messages", messageRouter);
 
 export { app };
