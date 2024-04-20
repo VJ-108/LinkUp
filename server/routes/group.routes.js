@@ -6,6 +6,8 @@ import {
   toggleAdmin,
   changeAbout,
   deleteGroup,
+  changeAvatar,
+  removeAvatar,
 } from "../controllers/group.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
@@ -17,5 +19,7 @@ router.route("/toggle-member").post(verifyJWT, toggleMember);
 router.route("/toggle-admin").post(verifyJWT, toggleAdmin);
 router.route("/change-about").post(verifyJWT, changeAbout);
 router.route("/delete-group").delete(verifyJWT, deleteGroup);
+router.route("/change-avatar").post(verifyJWT, changeAvatar);
+router.route("/remove-avatar").delete(verifyJWT, removeAvatar);
 
 export default router;

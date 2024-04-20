@@ -550,6 +550,36 @@ const deleteAccount = asyncHandler(async (req, res, next) => {
   }
 });
 
+const changeAvatar = asyncHandler(async (req, res, next) => {
+  try {
+    const { avatar } = req.body;
+    const user = await User.findById(req.user?._id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    user.avatar = avatar;
+    await user.save({ validateBeforeSave: false });
+    return res
+      .status(200)
+      .json(new ApiResponse(200, user.avatar, "Successfully changed avatar"));
+  } catch (error) {
+    throw new ApiError(500, "Error while changing Avatar");
+  }
+});
+
+const removeAvatar = asyncHandler(async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user?._id);
+    user.avatar = "";
+    await user.save({ validateBeforeSave: false });
+    return res
+      .status(200)
+      .json(new ApiResponse(200, user.avatar, "Successfully removed avatar"));
+  } catch (error) {
+    throw new ApiError(500, "Error while removing Avatar");
+  }
+});
+
 export {
   registerUser,
   loginUser,
@@ -573,4 +603,6 @@ export {
   getArchived,
   leaveGroup,
   getGroups,
+  changeAvatar,
+  removeAvatar,
 };

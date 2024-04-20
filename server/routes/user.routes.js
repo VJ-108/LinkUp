@@ -22,6 +22,8 @@ import {
   getArchived,
   leaveGroup,
   getGroups,
+  changeAvatar,
+  removeAvatar,
 } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
@@ -48,5 +50,7 @@ router.route("/toggle-archived").post(verifyJWT, toggleArchived);
 router.route("/get-archived").get(verifyJWT, getArchived);
 router.route("/leave-group").post(verifyJWT, leaveGroup);
 router.route("/get-groups").get(verifyJWT, getGroups);
+router.route("/change-avatar").post(verifyJWT, changeAvatar);
+router.route("/remove-avatar").delete(verifyJWT, removeAvatar);
 
 export default router;
