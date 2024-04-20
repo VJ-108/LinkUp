@@ -32,9 +32,6 @@ const userSchema = new Schema(
     about: {
       type: String,
     },
-    status: {
-      type: String,
-    },
     Blocked_ids: [
       {
         type: mongoose.Schema.Types.ObjectId,
