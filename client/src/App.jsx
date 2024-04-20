@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { io } from "socket.io-client";
+import Message from "./message";
 
 const App = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
   const [userId, setUserId] = useState("");
   const [onlineUsers, setOnlineUsers] = useState({});
+  const [socket, setSocket] = useState(null);
 
   const handleLogin = () => {
     axios.defaults.withCredentials = true;
@@ -17,7 +18,6 @@ const App = () => {
         password: password,
       })
       .then((response) => {
-        setUsername(response.data.data?.user?.username);
         setUserId(response.data.data?.user?._id);
       })
       .catch((error) => {
@@ -26,29 +26,29 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (username !== "" && userId !== "") {
-      const socket = io("http://localhost:8000", {
+    if (userId !== "") {
+      const newSocket = io("http://localhost:8000", {
         query: {
-          username: username,
           userId: userId,
         },
       });
-      socket.on("connect", () => {
-        console.log("connected: ", socket.id);
-        socket.emit("login");
+      setSocket(newSocket);
+
+      newSocket.on("connect", () => {
+        console.log("connected: ", newSocket.id);
       });
-      socket.on("activeUsers", (users) => {
+      newSocket.on("activeUsers", (users) => {
         setOnlineUsers(users);
       });
-      socket.on("disconnect", () => {
-        console.log("disconnected: ", socket.id);
+      newSocket.on("disconnect", () => {
+        console.log("disconnected: ", newSocket.id);
       });
 
       return () => {
-        socket.disconnect();
+        newSocket.disconnect();
       };
     }
-  }, [username, userId]);
+  }, [userId]);
 
   return (
     <>
@@ -70,12 +70,13 @@ const App = () => {
       <div>
         <h2>Active Users:</h2>
         <ul>
-          {Object.keys(onlineUsers).map((username) => (
-            <li key={username}>
-              Username: {username}, UserId: {onlineUsers[username]}
+          {Object.keys(onlineUsers).map((userId) => (
+            <li key={userId}>
+              userId: {userId}, SocketId: {onlineUsers[userId]}
             </li>
           ))}
         </ul>
+        <Message socket={socket} />
       </div>
     </>
   );

@@ -12,22 +12,23 @@ const io = new Server(server, {
 
 const activeUsers = {};
 
-io.on("connection", (socket) => {
-  socket.on("login", () => {
-    try {
-      const username = socket.handshake.query.username;
-      const userId = socket.handshake.query.userId;
-      if (username !== undefined && userId !== undefined) {
-        activeUsers[username] = userId;
-        io.emit("activeUsers", activeUsers);
-        console.log("Active Users:", activeUsers);
-      }
-    } catch (error) {
-      console.log("Error while updating Online status\n", error);
-    }
-  });
+export const getReceiverSocketId = (receiverId) => {
+  return activeUsers[receiverId];
+}
 
-  socket.on("disconnect", () => {});
+io.on("connection", (socket) => {
+  const userId = socket.handshake.query.userId;
+  if (userId !== undefined) {
+    activeUsers[userId] = socket.id;
+    io.emit("activeUsers", activeUsers);
+    console.log("Active Users:", activeUsers);
+  }
+
+  socket.on("disconnect", () => {
+    console.log("Active Users:", activeUsers);
+    delete activeUsers[userId];
+    io.emit("activeUsers", activeUsers);
+  });
 });
 
 export { server, io };

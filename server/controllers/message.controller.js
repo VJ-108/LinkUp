@@ -5,6 +5,7 @@ import { Group } from "../models/group.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 const sendMessage = asyncHandler(async (req, res, next) => {
   try {
@@ -48,15 +49,19 @@ const sendMessage = asyncHandler(async (req, res, next) => {
     await newMessage.save();
 
     //Socket Functionality
-
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
+    
     return res
       .status(200)
       .json(new ApiResponse(200, newMessage, "Message sent successfully"));
   } catch (error) {
-    throw new ApiError(500, "Error while sending message");
+    // throw new ApiError(500, "Error while sending message");
+    console.log(error);
   }
 });
-
 
 const getMessage = asyncHandler(async (req, res, next) => {
   try {
@@ -92,6 +97,5 @@ const getMessage = asyncHandler(async (req, res, next) => {
     throw new ApiError(500, "Error while fetching messages");
   }
 });
-
 
 export { sendMessage, getMessage };
