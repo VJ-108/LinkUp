@@ -5,7 +5,7 @@ import {
   logOutUser,
   refreshAccessToken,
   changeCurrentPassword,
-    changeAbout,
+  changeAbout,
   getLastseen,
   updateLastseen,
   toggleChat_Bot,
@@ -20,6 +20,8 @@ import {
   deleteAccount,
   toggleArchived,
   getArchived,
+  leaveGroup,
+  getGroups,
 } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
@@ -44,5 +46,7 @@ router.route("/get-username").post(verifyJWT, getUsername);
 router.route("/delete-account").delete(verifyJWT, deleteAccount);
 router.route("/toggle-archived").post(verifyJWT, toggleArchived);
 router.route("/get-archived").get(verifyJWT, getArchived);
+router.route("/leave-group").post(verifyJWT, leaveGroup);
+router.route("/get-groups").get(verifyJWT, getGroups);
 
 export default router;

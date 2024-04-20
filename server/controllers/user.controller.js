@@ -417,47 +417,51 @@ const getUsername = asyncHandler(async (req, res, next) => {
   }
 });
 
-// const toggleGroup_id = asyncHandler(async (req, res, next) => {
-//   try {
-//     const user = await User.findById(req.user?._id);
-//     if (!user) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
-//     const { group_id } = req.body;
-//     const Group = await User.findById(group_id);
-//     if (!Group) {
-//       return res.status(404).json({ message: "Group not found" });
-//     }
-//     const index = user.Group_ids.indexOf(group_id);
-//     if (index === -1) {
-//       user.Group_ids.push(group_id);
-//     } else {
-//       user.Group_ids.splice(index, 1);
-//     }
-//     await user.save({ validateBeforeSave: false });
-//     return res.json(
-//       new ApiResponse(
-//         200,
-//         { Group_ids: user.Group_ids },
-//         "Group toggled successfully"
-//       )
-//     );
-//   } catch (error) {
-//     throw new ApiError(500, "Error while toggling group");
-//   }
-// });
+const leaveGroup = asyncHandler(async (req, res, next) => {
+  try {
+    const { group } = req.body;
+    const user = await User.findById(req.user?._id);
+    const groupName = await Group.findOne({
+      name: group,
+      members: req.user?._id,
+    });
+    if (!groupName) {
+      return res.json({ message: "Group Not Found" });
+    }
+    const groupIndex = user.Group_ids.indexOf(groupName._id);
+    const userIndex = groupName.members.indexOf(user._id);
+    const adminIndex = groupName.admin.indexOf(user._id);
+    user.Group_ids.splice(groupIndex, 1);
+    groupName.members.splice(userIndex, 1);
+    if (adminIndex !== -1) groupName.admin.splice(adminIndex, 1);
+    await user.save({ validateBeforeSave: false });
+    await groupName.save();
+    if (groupName.admin.length === 0) await Group.findByIdAndDelete(groupName._id);
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, groupName.name, "Successfully left the group")
+      );
+  } catch (error) {
+    throw new ApiError(500, "Error while leaving group");
+  }
+});
 
-// const getGroup_ids = asyncHandler(async (req, res, next) => {
-//   try {
-//     const user = await User.findById(req.user?._id);
-//     if (!user) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
-//     return res.json(new ApiResponse(200, { groups: user.Group_ids }));
-//   } catch (error) {
-//     throw new ApiError(500, "Error while fetching groups");
-//   }
-// });
+const getGroups = asyncHandler(async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user?._id).populate("Group_ids");
+    if (!user) {
+      return res.json({ message: "No Group Found" });
+    }
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(200, user.Group_ids, "Successfully fetched Groups")
+      );
+  } catch (error) {
+    throw new ApiError(500, "Error while fetching groups");
+  }
+});
 
 const toggleArchived = asyncHandler(async (req, res, next) => {
   try {
@@ -538,4 +542,6 @@ export {
   deleteAccount,
   toggleArchived,
   getArchived,
+  leaveGroup,
+  getGroups,
 };
