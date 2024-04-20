@@ -35,7 +35,7 @@ const createGroup = asyncHandler(async (req, res, next) => {
 const getGroup = asyncHandler(async (req, res, next) => {
   try {
     const { name } = req.body;
-    const group = await Group.findOne({ members: req.user?._id });
+    const group = await Group.findOne({ name: name, members: req.user?._id });
     if (!group) {
       return res.json({ message: "Group Doesn't exist" });
     }
@@ -82,7 +82,6 @@ const toggleMember = asyncHandler(async (req, res, next) => {
 const toggleAdmin = asyncHandler(async (req, res, next) => {
   try {
     const { userId, group } = req.body;
-    const user = await User.findById(userId);
     const isMember = await Group.findOne({
       name: group,
       members: userId,

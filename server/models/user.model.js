@@ -59,17 +59,23 @@ const userSchema = new Schema(
     },
     Chat_Bot: {
       type: Boolean,
-      default: false
+      default: false,
     },
     chat_type: {
       type: String,
       enum: ["temporary", "permanent"],
       default: "temporary",
     },
-    Archived: [
+    Archived_User: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+      },
+    ],
+    Archived_Group: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Group",
       },
     ],
   },
