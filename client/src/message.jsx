@@ -5,18 +5,23 @@ const Message = ({ socket }) => {
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
   const [receiverId, setReceiverId] = useState("");
-
+  const [groupId, setGroupId] = useState("");
   useEffect(() => {
     if (!socket) return;
 
     socket.on("newMessage", (newMessage) => {
       setChat([...chat, newMessage]);
     });
-
+    socket.on("groupMessage", (groupMessage) => {
+      if (groupMessage.groupId === groupId) {
+        setChat([...chat, groupMessage.message]);
+      }
+    });
     return () => {
       socket.off("newMessage");
+      socket.off("groupMessage");
     };
-  }, [socket, chat]);
+  }, [socket, chat,groupId]);
 
   const sendMessage = () => {
     axios.defaults.withCredentials = true;
@@ -24,6 +29,7 @@ const Message = ({ socket }) => {
       .post("http://localhost:8000/api/v1/messages/send-message", {
         message: message,
         receiverId: receiverId,
+        groupId: groupId,
       })
       .then(() => {
         setMessage("");
@@ -38,6 +44,7 @@ const Message = ({ socket }) => {
     axios
       .post("http://localhost:8000/api/v1/messages/get-message", {
         receiverId: receiverId,
+        groupId: groupId,
       })
       .then((response) => {
         const messages = response.data.data;
@@ -48,6 +55,9 @@ const Message = ({ socket }) => {
       });
   };
 
+  const joinGroup = () => {
+    socket.emit("joinGroup", groupId);
+  };
   return (
     <div>
       <input
@@ -62,8 +72,14 @@ const Message = ({ socket }) => {
         value={receiverId}
         onChange={(e) => setReceiverId(e.target.value)}
       />
+      <input
+        type="text"
+        placeholder="GroupId"
+        value={groupId}
+        onChange={(e) => setGroupId(e.target.value)}
+      />
       <button onClick={sendMessage}>Send</button>
-      <button onClick={fetchMessages}>Fetch Messages</button>
+      <button onClick={joinGroup}>Join Group</button>
       <div>
         {chat.map((message) => (
           <div key={message._id}>{message.message}</div>

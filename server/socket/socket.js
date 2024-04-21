@@ -14,7 +14,7 @@ const activeUsers = {};
 
 export const getReceiverSocketId = (receiverId) => {
   return activeUsers[receiverId];
-}
+};
 
 io.on("connection", (socket) => {
   const userId = socket.handshake.query.userId;
@@ -23,7 +23,10 @@ io.on("connection", (socket) => {
     io.emit("activeUsers", activeUsers);
     console.log("Active Users:", activeUsers);
   }
-
+  socket.on("joinGroup", (groupId) => {
+    socket.join(groupId);
+    console.log(`User ${userId} joined group ${groupId}`);
+  });
   socket.on("disconnect", () => {
     console.log("Active Users:", activeUsers);
     delete activeUsers[userId];

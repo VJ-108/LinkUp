@@ -12,6 +12,7 @@ const sendMessage = asyncHandler(async (req, res, next) => {
     const { message, receiverId, groupId } = req.body;
     const senderId = req.user?._id;
     let conversation;
+    let newMessage;
     if (!groupId) {
       const receiver = await User.findById(receiverId);
       if (!receiver) {
@@ -25,6 +26,11 @@ const sendMessage = asyncHandler(async (req, res, next) => {
           participants: [senderId, receiverId],
         });
       }
+      newMessage = new Message({
+        senderId,
+        receiverId,
+        message,
+      });
     } else {
       const group = await Group.findById(groupId);
       if (!group) {
@@ -37,29 +43,30 @@ const sendMessage = asyncHandler(async (req, res, next) => {
           groupId,
         });
       }
+      newMessage = new Message({
+        senderId,
+        groupId,
+        message,
+      });
     }
-    const newMessage = new Message({
-      senderId,
-      receiverId,
-      groupId,
-      message,
-    });
     conversation.messages.push(newMessage._id);
     await conversation.save();
     await newMessage.save();
 
     //Socket Functionality
     const receiverSocketId = getReceiverSocketId(receiverId);
+    const senderSocketId = getReceiverSocketId(senderId);
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("newMessage", newMessage);
+      io.to(senderSocketId).emit("newMessage", newMessage);
+    } else if (groupId) {
+      io.to(groupId).emit("groupMessage", { groupId, message: newMessage });
     }
-    
     return res
       .status(200)
       .json(new ApiResponse(200, newMessage, "Message sent successfully"));
   } catch (error) {
-    // throw new ApiError(500, "Error while sending message");
-    console.log(error);
+    throw new ApiError(500, "Error while sending message");
   }
 });
 
