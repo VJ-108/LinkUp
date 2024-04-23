@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import useSendMessage from "../hooks/useSendMessage";
+import useFetchMessage from "../hooks/useFetchMessage";
 
 const Message = ({ socket }) => {
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState([]);
   const [receiverId, setReceiverId] = useState("");
   const [groupId, setGroupId] = useState("");
+  const { sendMessage } = useSendMessage();
+  const { fetchMessages } = useFetchMessage();
   useEffect(() => {
     if (!socket) return;
 
@@ -21,39 +24,7 @@ const Message = ({ socket }) => {
       socket.off("newMessage");
       socket.off("groupMessage");
     };
-  }, [socket, chat,groupId]);
-
-  const sendMessage = () => {
-    axios.defaults.withCredentials = true;
-    axios
-      .post("http://localhost:8000/api/v1/messages/send-message", {
-        message: message,
-        receiverId: receiverId,
-        groupId: groupId,
-      })
-      .then(() => {
-        setMessage("");
-      })
-      .catch((error) => {
-        console.error("Error sending message:", error);
-      });
-  };
-
-  const fetchMessages = () => {
-    axios.defaults.withCredentials = true;
-    axios
-      .post("http://localhost:8000/api/v1/messages/get-message", {
-        receiverId: receiverId,
-        groupId: groupId,
-      })
-      .then((response) => {
-        const messages = response.data.data;
-        setChat(messages);
-      })
-      .catch((error) => {
-        console.error("Error fetching messages:", error);
-      });
-  };
+  }, [socket, chat, groupId]);
 
   const joinGroup = () => {
     socket.emit("joinGroup", groupId);
@@ -78,7 +49,20 @@ const Message = ({ socket }) => {
         value={groupId}
         onChange={(e) => setGroupId(e.target.value)}
       />
-      <button onClick={sendMessage}>Send</button>
+      <button
+        onClick={() => {
+          sendMessage(message, receiverId, groupId);
+        }}
+      >
+        Send
+      </button>
+      <button
+        onClick={() => {
+          fetchMessages(receiverId, groupId, setChat);
+        }}
+      >
+        Fetch
+      </button>
       <button onClick={joinGroup}>Join Group</button>
       <div>
         {chat.map((message) => (
