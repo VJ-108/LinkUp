@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import useSendMessage from "../hooks/useSendMessage";
 import useFetchMessage from "../hooks/useFetchMessage";
+import SocketMessage from "../socket/SocketMessage";
 
 const Message = ({ socket }) => {
   const [message, setMessage] = useState("");
@@ -9,26 +10,7 @@ const Message = ({ socket }) => {
   const [groupId, setGroupId] = useState("");
   const { sendMessage } = useSendMessage();
   const { fetchMessages } = useFetchMessage();
-  useEffect(() => {
-    if (!socket) return;
-
-    socket.on("newMessage", (newMessage) => {
-      setChat([...chat, newMessage]);
-    });
-    socket.on("groupMessage", (groupMessage) => {
-      if (groupMessage.groupId === groupId) {
-        setChat([...chat, groupMessage.message]);
-      }
-    });
-    return () => {
-      socket.off("newMessage");
-      socket.off("groupMessage");
-    };
-  }, [socket, chat, groupId]);
-
-  const joinGroup = () => {
-    socket.emit("joinGroup", groupId);
-  };
+  const { joinGroup } = SocketMessage(socket, setChat, chat, groupId);
   return (
     <div>
       <input
