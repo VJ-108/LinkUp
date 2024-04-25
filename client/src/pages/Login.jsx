@@ -2,6 +2,7 @@ import { useState } from "react";
 import Message from "../components/message";
 import useLogin from "../hooks/useLogin";
 import SocketCreate from "../socket/SocketCreate";
+import { Link } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,7 +11,7 @@ const Login = () => {
   return (
     <>
       <div className="hero min-h-screen bg-base-200">
-        <div className="hero-content flex-col lg:flex-row-reverse">
+        <div className="hero-content flex-col-reverse lg:flex-row-reverse">
           <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
             {/* <div>
               <h2>Active Users:</h2>
@@ -35,7 +36,6 @@ const Login = () => {
                   required
                   onChange={(e) => {
                     setEmail(e.target.value);
-                    console.log(email);
                   }}
                 />
               </div>
@@ -50,13 +50,12 @@ const Login = () => {
                   required
                   onChange={(e) => {
                     setPassword(e.target.value);
-                    console.log(password);
                   }}
                 />
                 <label className="label">
-                  <a href="#" className="label-text-alt link link-hover">
-                    Forgot password?
-                  </a>
+                  <Link to={"/signup"} className="label-text-alt link link-hover">
+                    Don't have an account?
+                  </Link>
                 </label>
               </div>
               <div className="form-control mt-6">
