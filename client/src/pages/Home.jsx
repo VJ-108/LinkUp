@@ -2,12 +2,14 @@ import React from "react";
 import Message from "../components/message";
 import { useSelector } from "react-redux";
 import SocketCreate from "../socket/SocketCreate";
+import SearchUser from "../components/searchUser";
 
 const Home = () => {
   const onlineUsers = useSelector((store) => store.socket.onlineUsers);
   const { socket } = SocketCreate();
   return (
     <>
+      <SearchUser />
       <div>
         <h2>Active Users:</h2>
         <ul>

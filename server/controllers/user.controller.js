@@ -583,13 +583,21 @@ const removeAvatar = asyncHandler(async (req, res, next) => {
 const searchUser = asyncHandler(async (req, res, next) => {
   try {
     const { username } = req.body;
+    if (!username) {
+      return res
+        .status(400)
+        .json({ message: "Username is required to search user" });
+    }
     const user = await User.find({
       username: { $regex: username, $options: "i" },
     });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    const users = user.map((user) => user.username);
+    const users = user.map((user) => ({
+      _id: user._id,
+      username: user.username,
+    }));
     return res
       .status(200)
       .json(new ApiResponse(200, users, "Successfully fetched user"));
