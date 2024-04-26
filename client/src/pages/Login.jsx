@@ -1,35 +1,23 @@
-import { useState } from "react";
-import Message from "../components/message";
+import { useEffect, useState } from "react";
 import useLogin from "../hooks/useLogin";
-import SocketCreate from "../socket/SocketCreate";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { userId, login } = useLogin();
-  const { onlineUsers, socket } = SocketCreate(userId);
-  const navigate = useNavigate();
+  const { login } = useLogin();
   const isloggedin = useSelector((store) => store.user.isloggedIn);
-  if (isloggedin) {
-    navigate("/");
-  }
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isloggedin) {
+      navigate("/home");
+    }
+  }, [isloggedin]);
   return (
     <>
       <div className="hero min-h-screen bg-base-200">
         <div className="hero-content flex-col-reverse lg:flex-row-reverse w-[70%]">
           <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-            {/* <div>
-              <h2>Active Users:</h2>
-              <ul>
-                {Object.keys(onlineUsers).map((userId) => (
-                  <li key={userId}>
-                    userId: {userId}, SocketId: {onlineUsers[userId]}
-                  </li>
-                ))}
-              </ul>
-              <Message socket={socket} />
-            </div> */}
             <form className="card-body">
               <div className="form-control">
                 <label className="label">

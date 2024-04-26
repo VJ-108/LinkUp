@@ -1,11 +1,8 @@
-import { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { loggedIn } from "../store/slices/userSlice";
+import { loggedIn, setUser } from "../store/slices/userSlice";
 const useLogin = () => {
-  const [userId, setUserId] = useState("");
   const dispatch = useDispatch();
-
   const login = (email, password) => {
     axios.defaults.withCredentials = true;
     axios
@@ -14,7 +11,7 @@ const useLogin = () => {
         password: password,
       })
       .then((response) => {
-        setUserId(response.data.data?.user?._id);
+        dispatch(setUser(response.data.data?.user));
         dispatch(loggedIn(true));
       })
       .catch((error) => {
@@ -22,7 +19,7 @@ const useLogin = () => {
         dispatch(loggedIn(false))
       });
   };
-  return { userId, login };
+  return { login };
 };
 
 export default useLogin;
