@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useSignup from "../hooks/useSignup";
+import { useSelector } from "react-redux";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { isregistered, signup } = useSignup();
+  const { signup } = useSignup();
   const navigate = useNavigate();
-  if (isregistered) {
+  const isRegistered = useSelector((store) => store.user.isRegistered);
+  if (isRegistered) {
     document.getElementById("my_modal").showModal();
   }
   return (
@@ -95,8 +97,8 @@ const Signup = () => {
           <div className="text-center lg:text-left">
             <h1 className="text-5xl font-bold">Signup now!</h1>
             <p className="py-6">
-              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-              excepturi
+              Sign up now to join our friendly community! Connect with others
+              and start chatting instantly.
             </p>
           </div>
         </div>

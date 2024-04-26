@@ -1,8 +1,9 @@
 import axios from "axios";
-import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { registered } from "../store/slices/userSlice";
 
 const useSignup = () => {
-  const [isregistered, setIsRegistered] = useState("");
+  const dispatch = useDispatch();
   const signup = (username, email, password) => {
     axios.defaults.withCredentials = true;
     axios
@@ -12,13 +13,14 @@ const useSignup = () => {
         password: password,
       })
       .then((response) => {
-        setIsRegistered(response.data.data?._id);
+        dispatch(registered(true));
       })
       .catch((error) => {
         console.error("Error logging in:", error);
+        dispatch(registered(false));
       });
   };
-  return { isregistered, signup };
+  return { signup };
 };
 
 export default useSignup;

@@ -2,16 +2,22 @@ import { useState } from "react";
 import Message from "../components/message";
 import useLogin from "../hooks/useLogin";
 import SocketCreate from "../socket/SocketCreate";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { userId, login } = useLogin();
   const { onlineUsers, socket } = SocketCreate(userId);
+  const navigate = useNavigate();
+  const isloggedin = useSelector((store) => store.user.isloggedIn);
+  if (isloggedin) {
+    navigate("/");
+  }
   return (
     <>
       <div className="hero min-h-screen bg-base-200">
-        <div className="hero-content flex-col-reverse lg:flex-row-reverse">
+        <div className="hero-content flex-col-reverse lg:flex-row-reverse w-[70%]">
           <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
             {/* <div>
               <h2>Active Users:</h2>
@@ -53,7 +59,10 @@ const Login = () => {
                   }}
                 />
                 <label className="label">
-                  <Link to={"/signup"} className="label-text-alt link link-hover">
+                  <Link
+                    to={"/signup"}
+                    className="label-text-alt link link-hover"
+                  >
                     Don't have an account?
                   </Link>
                 </label>
@@ -74,8 +83,8 @@ const Login = () => {
           <div className="text-center lg:text-left">
             <h1 className="text-5xl font-bold">Login now!</h1>
             <p className="py-6">
-              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-              excepturi
+              Start chatting! Login to connect with others and explore new
+              conversations.
             </p>
           </div>
         </div>
