@@ -24,6 +24,7 @@ import {
   getGroups,
   changeAvatar,
   removeAvatar,
+  searchUser,
 } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
@@ -52,5 +53,6 @@ router.route("/leave-group").post(verifyJWT, leaveGroup);
 router.route("/get-groups").get(verifyJWT, getGroups);
 router.route("/change-avatar").post(verifyJWT, changeAvatar);
 router.route("/remove-avatar").delete(verifyJWT, removeAvatar);
+router.route("/search-user").post(verifyJWT, searchUser);
 
 export default router;
