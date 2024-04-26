@@ -6,6 +6,10 @@ const SearchUser = () => {
   const [filteredUsers, setFilteredUsers] = useState([]);
 
   const handleSearch = () => {
+    if (search === "") {
+      setFilteredUsers([]);
+      return;
+    }
     axios.defaults.withCredentials = true;
     axios
       .post("http://localhost:8000/api/v1/users/search-user", {
@@ -18,7 +22,7 @@ const SearchUser = () => {
         console.error("Error searching users:", error);
       });
   };
-
+  const getChats = (userId) => {};
   return (
     <div>
       <input
@@ -34,7 +38,15 @@ const SearchUser = () => {
       </button>
       <ul>
         {filteredUsers.map((user) => (
-          <li key={user._id}>{user.username}</li>
+          <button
+            className="btn"
+            key={user._id}
+            onClick={() => {
+              getChats(user._id);
+            }}
+          >
+            {user.username}
+          </button>
         ))}
       </ul>
     </div>

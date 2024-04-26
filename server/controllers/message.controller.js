@@ -105,4 +105,23 @@ const getMessage = asyncHandler(async (req, res, next) => {
   }
 });
 
-export { sendMessage, getMessage };
+const getUserChats = asyncHandler(async (req, res, next) => {
+  try {
+    const userChats = await Chat.find({ participants: req.user?._id })
+      .select("participants groupId")
+      .populate({
+        path: "participants",
+        select: "username",
+      })
+      .populate({
+        path: "groupId",
+        select: "name",
+      });;
+    return res
+      .status(200)
+      .json(new ApiResponse(200, userChats, "Successfully fetched Chats"));
+  } catch (error) {
+    throw new ApiError(500, "Error while fetching Chats");
+  }
+});
+export { sendMessage, getMessage, getUserChats };
