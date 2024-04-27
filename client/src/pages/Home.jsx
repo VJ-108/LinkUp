@@ -1,19 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import Message from "../components/message";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SocketCreate from "../socket/SocketCreate";
 import SearchUser from "../components/searchUser";
 import axios from "axios";
 import useOpenChat from "../hooks/useOpenChat";
 import { useNavigate } from "react-router-dom";
+import { setCurrentGroup, setCurrentReceiver } from "../store/slices/userSlice";
 
 const Home = () => {
   const [contact, setContact] = useState([]);
   const [chat, setChat] = useState([]);
+  const dispatch = useDispatch();
   const username = useSelector((store) => store.user.User.username);
   const userId = useSelector((store) => store.user.User._id);
   const isloggedIn = useSelector((store) => store.user.isloggedIn);
   const onlineUsers = useSelector((store) => store.socket.onlineUsers);
+  const receiver = useSelector((store) => store.user.currentReceiver.username);
   const navigate = useNavigate();
   const { socket } = SocketCreate();
   const { openChat } = useOpenChat();
@@ -30,12 +33,12 @@ const Home = () => {
       });
   };
   useEffect(() => {
-    userChats();
     if (!isloggedIn) {
       navigate("/login");
     }
   }, []);
   useEffect(() => {
+    userChats();
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
         chatContainerRef.current.scrollHeight;
@@ -43,8 +46,9 @@ const Home = () => {
   }, [chat]);
   return (
     <>
+      <h1 className="text-center">user: {username}</h1>
       <SearchUser setChat={setChat} />
-      <h2>Contacts: </h2>
+      <h2>Chats: </h2>
       <div>
         {contact.map((chat) => (
           <div key={chat._id}>
@@ -53,6 +57,7 @@ const Home = () => {
                 key={chat.groupId._id}
                 className="btn"
                 onClick={() => {
+                  dispatch(setCurrentGroup(chat.groupId._id));
                   openChat("group", chat.groupId._id, setChat);
                 }}
               >
@@ -67,6 +72,7 @@ const Home = () => {
                         key={participant._id}
                         className="btn"
                         onClick={() => {
+                          dispatch(setCurrentReceiver(participant));
                           openChat("chat", participant._id, setChat);
                         }}
                       >
@@ -79,19 +85,10 @@ const Home = () => {
           </div>
         ))}
       </div>
-      <div>
-        <h2>Active Users:</h2>
-        <ul>
-          {Object.keys(onlineUsers).map((userId) => (
-            <li key={userId}>
-              userId: {userId}, SocketId: {onlineUsers[userId]}
-            </li>
-          ))}
-        </ul>
-      </div>
       <h2>Messages: </h2>
       {chat && (
         <div ref={chatContainerRef} className="border overflow-y-auto h-60">
+          <h1 className="text-center">receiver: {receiver}</h1>
           {chat.map((chat) => (
             <div
               key={chat._id}

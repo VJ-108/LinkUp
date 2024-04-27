@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
 import useOpenChat from "../hooks/useOpenChat";
+import { useDispatch } from "react-redux";
+import { setCurrentReceiver } from "../store/slices/userSlice";
 
 const SearchUser = ({ setChat }) => {
   const [search, setSearch] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
+  const dispatch = useDispatch();
   const { openChat } = useOpenChat();
   const handleSearch = () => {
     if (search === "") {
@@ -42,6 +45,7 @@ const SearchUser = ({ setChat }) => {
             className="btn"
             key={user._id}
             onClick={() => {
+              dispatch(setCurrentReceiver(user));
               openChat("chat", user._id, setChat);
             }}
           >
