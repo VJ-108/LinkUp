@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+import useOpenChat from "../hooks/useOpenChat";
 
-const SearchUser = () => {
+const SearchUser = ({ setChat }) => {
   const [search, setSearch] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
-
+  const { openChat } = useOpenChat();
   const handleSearch = () => {
     if (search === "") {
       setFilteredUsers([]);
@@ -22,7 +23,6 @@ const SearchUser = () => {
         console.error("Error searching users:", error);
       });
   };
-  const getChats = (userId) => {};
   return (
     <div>
       <input
@@ -42,7 +42,7 @@ const SearchUser = () => {
             className="btn"
             key={user._id}
             onClick={() => {
-              getChats(user._id);
+              openChat("chat", user._id, setChat);
             }}
           >
             {user.username}

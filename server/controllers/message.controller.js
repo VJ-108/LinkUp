@@ -80,12 +80,10 @@ const getMessage = asyncHandler(async (req, res, next) => {
         participants: { $all: [senderId, receiverId] },
       }).populate({
         path: "messages",
-        select: "_id message",
       });
     } else {
       conversation = await Chat.findOne({ groupId }).populate({
         path: "messages",
-        select: "_id message",
       });
     }
     if (!conversation) {
