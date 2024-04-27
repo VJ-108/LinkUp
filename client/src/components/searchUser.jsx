@@ -27,16 +27,16 @@ const SearchUser = ({ setChat }) => {
       });
   };
   return (
-    <div>
+    <div className=" grid grid-cols-12 w-full p-1 gap-1">
       <input
         type="text"
         placeholder="search"
-        className="input input-bordered"
+        className="input input-bordered col-span-10"
         required
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
-      <button className="btn" onClick={handleSearch}>
+      <button className="btn col-span-2" onClick={handleSearch}>
         Search
       </button>
       <ul>

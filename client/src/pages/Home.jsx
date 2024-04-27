@@ -45,78 +45,87 @@ const Home = () => {
     }
   }, [chat]);
   return (
-    <>
-      <h1 className="text-center">user: {username}</h1>
-      <SearchUser setChat={setChat} />
-      <h2>Chats: </h2>
-      <div>
-        {contact.map((chat) => (
-          <div key={chat._id}>
-            {chat.groupId ? (
-              <button
-                key={chat.groupId._id}
-                className="btn"
-                onClick={() => {
-                  dispatch(setCurrentGroup(chat.groupId._id));
-                  openChat("group", chat.groupId._id, setChat);
-                }}
-              >
-                {chat.groupId.name}
-              </button>
-            ) : (
-              <>
-                {chat.participants.map(
-                  (participant) =>
-                    participant.username !== username && (
-                      <button
-                        key={participant._id}
-                        className="btn"
-                        onClick={() => {
-                          dispatch(setCurrentReceiver(participant));
-                          openChat("chat", participant._id, setChat);
-                        }}
-                      >
-                        {participant.username}
-                      </button>
-                    )
-                )}
-              </>
-            )}
-          </div>
-        ))}
-      </div>
-      <h2>Messages: </h2>
-      {chat && (
-        <div ref={chatContainerRef} className="border overflow-y-auto h-60">
-          <h1 className="text-center">receiver: {receiver}</h1>
-          {chat.map((chat) => (
-            <div
-              key={chat._id}
-              className={
-                chat.senderId === userId ? "text-green-700" : "text-blue-700"
-              }
-            >
-              <div
-                className={`chat ${
-                  chat.senderId === userId ? "chat-end" : "chat-start"
-                }`}
-              >
-                <div
-                  className={`chat-bubble ${
-                    chat.senderId === userId
-                      ? "chat-bubble-success"
-                      : "chat-bubble-primary"
-                  }`}
-                >
-                  {chat.message}
+    <div className="h-screen flex justify-center items-center p-6">
+      <div className="mockup-window border bg-base-300 h-full w-full">
+        <div className="grid grid-rows-12 grid-cols-3 h-full">
+          <div className="border m-2 rounded-lg row-span-12 col-span-1">
+            <SearchUser setChat={setChat} />
+            <h2>Chats: </h2>
+            <div>
+              {contact.map((chat) => (
+                <div key={chat._id}>
+                  {chat.groupId ? (
+                    <button
+                      key={chat.groupId._id}
+                      className="btn"
+                      onClick={() => {
+                        dispatch(setCurrentGroup(chat.groupId._id));
+                        openChat("group", chat.groupId._id, setChat);
+                      }}
+                    >
+                      {chat.groupId.name}
+                    </button>
+                  ) : (
+                    <>
+                      {chat.participants.map(
+                        (participant) =>
+                          participant.username !== username && (
+                            <button
+                              key={participant._id}
+                              className="btn"
+                              onClick={() => {
+                                dispatch(setCurrentReceiver(participant));
+                                openChat("chat", participant._id, setChat);
+                              }}
+                            >
+                              {participant.username}
+                            </button>
+                          )
+                      )}
+                    </>
+                  )}
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
+          </div>
+          {chat && (
+            <div
+              ref={chatContainerRef}
+              className="border overflow-y-auto relative m-2 rounded-lg row-span-12 col-span-2 "
+            >
+              <h1 className="text-center">receiver: {receiver}</h1>
+              {chat.map((chat) => (
+                <div
+                  key={chat._id}
+                  className={
+                    chat.senderId === userId
+                      ? "text-green-700"
+                      : "text-blue-700"
+                  }
+                >
+                  <div
+                    className={`chat ${
+                      chat.senderId === userId ? "chat-end" : "chat-start"
+                    }`}
+                  >
+                    <div
+                      className={`chat-bubble ${
+                        chat.senderId === userId
+                          ? "chat-bubble-success"
+                          : "chat-bubble-primary"
+                      }`}
+                    >
+                      {chat.message}
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <Message socket={socket} chat={chat} setChat={setChat} />
+            </div>
+          )}
         </div>
-      )}
-      <Message socket={socket} chat={chat} setChat={setChat} />
-    </>
+      </div>
+    </div>
   );
 };
 

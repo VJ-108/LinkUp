@@ -30,7 +30,7 @@ const SocketCreate = () => {
         // newSocket.disconnect();
       };
     }
-  }, [dispatch, userId]);
+  }, [userId]);
 
   return { socket };
 };

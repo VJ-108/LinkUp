@@ -10,16 +10,16 @@ const Message = ({ chat, setChat, socket }) => {
   const { sendMessage } = useSendMessage();
   const { joinGroup } = SocketMessage(socket, setChat, chat, groupId);
   return (
-    <div>
+    <div className="absolute bottom-0 grid grid-cols-12 w-full p-1 gap-1">
       <input
         type="text"
         placeholder="Type here"
-        className="input input-bordered input-info w-full max-w-xs"
+        className="input input-bordered input-info col-span-10"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
       <button
-        className="btn btn-outline btn-success"
+        className="btn btn-outline btn-success col-span-2"
         onClick={() => {
           sendMessage(message, receiverId, groupId);
         }}
