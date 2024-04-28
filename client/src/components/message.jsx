@@ -10,7 +10,7 @@ const Message = ({ chat, setChat, socket }) => {
   const { sendMessage } = useSendMessage();
   const { joinGroup } = SocketMessage(socket, setChat, chat, groupId);
   return (
-    <div className="col-span-2 row-span-2 grid grid-cols-12 w-full p-2 gap-1">
+    <div className="md:col-span-2 col-span-3 grid grid-cols-12 p-1 gap-1 row-span-1">
       <input
         type="text"
         placeholder="Type here"

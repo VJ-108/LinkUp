@@ -48,16 +48,15 @@ const Home = () => {
     <div className="h-screen flex justify-center items-center p-6">
       <div className="mockup-window border bg-base-300 h-full w-full">
         <div className="grid grid-rows-12 grid-cols-3 h-full">
-          <div className="border m-2 rounded-lg row-span-11 col-span-1">
+          <div className="border m-2 rounded-lg row-span-11 col-span-1 hidden md:block">
             <SearchUser setChat={setChat} />
-            <h2>Chats: </h2>
-            <div>
+            <div className="p-2 overflow-y-auto max-h-[29rem]">
               {contact.map((chat) => (
-                <div key={chat._id}>
+                <div key={chat._id} className="my-2 p-2">
                   {chat.groupId ? (
                     <button
                       key={chat.groupId._id}
-                      className="btn"
+                      className="btn w-full"
                       onClick={() => {
                         dispatch(setCurrentGroup(chat.groupId._id));
                         openChat("group", chat.groupId._id, setChat);
@@ -72,7 +71,7 @@ const Home = () => {
                           participant.username !== username && (
                             <button
                               key={participant._id}
-                              className="btn"
+                              className="btn w-full text-left"
                               onClick={() => {
                                 dispatch(setCurrentReceiver(participant));
                                 openChat("chat", participant._id, setChat);
@@ -91,7 +90,7 @@ const Home = () => {
           {chat && (
             <div
               ref={chatContainerRef}
-              className="border overflow-y-auto relative m-2 rounded-lg row-span-10 col-span-2"
+              className="border overflow-y-auto relative m-2 rounded-lg row-span-10 md:col-span-2 col-span-3"
             >
               <div className="flex justify-center items-center sticky top-0 left-0 bg-base-200 h-10 z-50 bg-opacity-90">
                 {receiver}

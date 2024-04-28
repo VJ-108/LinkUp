@@ -56,6 +56,9 @@ const registerUser = asyncHandler(async (req, res, next) => {
     if ([username, email, password].some((field) => field?.trim() === "")) {
       throw new ApiError(400, "All fields are required");
     }
+    if (username.length > 20) {
+      throw new ApiError(400, "Username must be less than 20 characters");
+    }
     const existedUser = await User.findOne({
       $or: [{ username }, { email }],
     });
