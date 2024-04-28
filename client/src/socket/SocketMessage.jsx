@@ -13,11 +13,14 @@ const SocketMessage = (socket, setChat, chat, groupId) => {
 
     const handleNewMessage = (newMessage) => {
       console.log("New message received:", newMessage);
-      if (newMessage.senderId === currentUser._id) {
+      if (
+        (newMessage.senderId === currentUser._id &&
+          newMessage.receiverId === currentReceiverId) ||
+        (newMessage.senderId === currentReceiverId &&
+          newMessage.receiverId === currentUser._id)
+      ) {
         setChat((prevChat) => [...prevChat, newMessage]);
-      }
-      else if (newMessage.senderId === currentReceiverId) {
-        setChat((prevChat) => [...prevChat, newMessage]);
+        console.log(chat);
       }
     };
 
@@ -41,8 +44,8 @@ const SocketMessage = (socket, setChat, chat, groupId) => {
   }, [
     socket,
     setChat,
-    chat,
     groupId,
+    currentUser,
     currentReceiverId,
     currentGroupId,
   ]);

@@ -48,7 +48,7 @@ const Home = () => {
     <div className="h-screen flex justify-center items-center p-6">
       <div className="mockup-window border bg-base-300 h-full w-full">
         <div className="grid grid-rows-12 grid-cols-3 h-full">
-          <div className="border m-2 rounded-lg row-span-12 col-span-1">
+          <div className="border m-2 rounded-lg row-span-11 col-span-1">
             <SearchUser setChat={setChat} />
             <h2>Chats: </h2>
             <div>
@@ -91,17 +91,19 @@ const Home = () => {
           {chat && (
             <div
               ref={chatContainerRef}
-              className="border overflow-y-auto relative m-2 rounded-lg row-span-12 col-span-2 "
+              className="border overflow-y-auto relative m-2 rounded-lg row-span-10 col-span-2"
             >
-              <h1 className="text-center">receiver: {receiver}</h1>
+              <div className="flex justify-center items-center sticky top-0 left-0 bg-base-200 h-10 z-50 bg-opacity-90">
+                {receiver}
+              </div>
               {chat.map((chat) => (
                 <div
                   key={chat._id}
-                  className={
+                  className={`md:m-12 break-words ${
                     chat.senderId === userId
-                      ? "text-green-700"
-                      : "text-blue-700"
-                  }
+                      ? "text-green-700 ml-4 mr-2 my-8 md:mr-4"
+                      : "text-blue-700  mr-4 ml-2 my-8 md:ml-4"
+                  }`}
                 >
                   <div
                     className={`chat ${
@@ -109,7 +111,7 @@ const Home = () => {
                     }`}
                   >
                     <div
-                      className={`chat-bubble ${
+                      className={`chat-bubble md:p-6 font-medium text-sm ${
                         chat.senderId === userId
                           ? "chat-bubble-success"
                           : "chat-bubble-primary"
@@ -120,9 +122,9 @@ const Home = () => {
                   </div>
                 </div>
               ))}
-              <Message socket={socket} chat={chat} setChat={setChat} />
             </div>
           )}
+          <Message socket={socket} chat={chat} setChat={setChat} />
         </div>
       </div>
     </div>

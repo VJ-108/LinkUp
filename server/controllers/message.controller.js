@@ -58,6 +58,8 @@ const sendMessage = asyncHandler(async (req, res, next) => {
     const senderSocketId = getReceiverSocketId(senderId);
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
+    if (senderSocketId) {
       io.to(senderSocketId).emit("newMessage", newMessage);
     } else if (groupId) {
       io.to(groupId).emit("groupMessage", { groupId, message: newMessage });
@@ -114,7 +116,7 @@ const getUserChats = asyncHandler(async (req, res, next) => {
       .populate({
         path: "groupId",
         select: "name",
-      });;
+      });
     return res
       .status(200)
       .json(new ApiResponse(200, userChats, "Successfully fetched Chats"));
