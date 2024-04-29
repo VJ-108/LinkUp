@@ -4,7 +4,7 @@ import useOpenChat from "../hooks/useOpenChat";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentReceiver } from "../store/slices/userSlice";
 
-const SearchUser = ({ setChat }) => {
+const SearchUser = ({ setChat, setIsChatPanelVisible }) => {
   const [search, setSearch] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
   const username = useSelector((store) => store.user.User.username);
@@ -72,6 +72,9 @@ const SearchUser = ({ setChat }) => {
                       openChat("chat", user._id, setChat);
                       setFilteredUsers([]);
                       setSearch("");
+                      if (window.innerWidth <= 768) {
+                        setIsChatPanelVisible(false);
+                      }
                     }}
                   >
                     {user.username}
