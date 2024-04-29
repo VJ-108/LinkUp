@@ -3,8 +3,9 @@ import axios from "axios";
 import useOpenChat from "../hooks/useOpenChat";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentReceiver } from "../store/slices/userSlice";
+import { setIsChatPanelVisible } from "../store/slices/chatSlice";
 
-const SearchUser = ({ setChat, setIsChatPanelVisible }) => {
+const SearchUser = ({ setChat }) => {
   const [search, setSearch] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
   const username = useSelector((store) => store.user.User.username);
@@ -73,7 +74,7 @@ const SearchUser = ({ setChat, setIsChatPanelVisible }) => {
                       setFilteredUsers([]);
                       setSearch("");
                       if (window.innerWidth <= 768) {
-                        setIsChatPanelVisible(false);
+                        dispatch(setIsChatPanelVisible(false));
                       }
                     }}
                   >

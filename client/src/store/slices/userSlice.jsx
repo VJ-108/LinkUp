@@ -8,6 +8,7 @@ const userSlice = createSlice({
     User: {},
     currentReceiver: {},
     currentGroup: {},
+    contact: [],
   },
   reducers: {
     registered: (state, action) => {
@@ -25,6 +26,9 @@ const userSlice = createSlice({
     setCurrentGroup: (state, action) => {
       state.currentGroup = action.payload;
     },
+    setContact: (state, action) => {
+      state.contact = action.payload;
+    },
   },
 });
 
@@ -34,5 +38,6 @@ export const {
   setUser,
   setCurrentReceiver,
   setCurrentGroup,
+  setContact,
 } = userSlice.actions;
 export default userSlice.reducer;

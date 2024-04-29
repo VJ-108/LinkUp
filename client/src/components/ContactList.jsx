@@ -2,10 +2,12 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import useOpenChat from "../hooks/useOpenChat";
 import { setCurrentGroup, setCurrentReceiver } from "../store/slices/userSlice";
+import { setIsChatPanelVisible } from "../store/slices/chatSlice";
 
-const ContactList = ({ contact, setIsChatPanelVisible,setChat }) => {
+const ContactList = ({ setChat }) => {
   const dispatch = useDispatch();
   const { openChat } = useOpenChat();
+  const contact = useSelector((store) => store.user.contact);
   const username = useSelector((store) => store.user.User.username);
   return (
     <div className="p-2 overflow-y-auto max-h-[29rem]">
@@ -19,7 +21,7 @@ const ContactList = ({ contact, setIsChatPanelVisible,setChat }) => {
                 dispatch(setCurrentGroup(chat.groupId._id));
                 openChat("group", chat.groupId._id, setChat);
                 if (window.innerWidth <= 768) {
-                  setIsChatPanelVisible(false);
+                  dispatch(setIsChatPanelVisible(false));
                 }
               }}
             >
@@ -37,7 +39,7 @@ const ContactList = ({ contact, setIsChatPanelVisible,setChat }) => {
                         dispatch(setCurrentReceiver(participant));
                         openChat("chat", participant._id, setChat);
                         if (window.innerWidth <= 768) {
-                          setIsChatPanelVisible(false);
+                          dispatch(setIsChatPanelVisible(false));
                         }
                       }}
                     >

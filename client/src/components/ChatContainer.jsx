@@ -1,15 +1,15 @@
 import React, { useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleChatPanelVisibility } from "../store/slices/chatSlice";
 
-const ChatContainer = ({ chat, isChatPanelVisible, setIsChatPanelVisible }) => {
+const ChatContainer = ({ chat }) => {
+  const dispatch = useDispatch();
   const chatContainerRef = useRef(null);
   const userId = useSelector((store) => store.user.User._id);
   const receiver = useSelector((store) => store.user.currentReceiver.username);
-  const toggleChatPanelVisibility = () => {
-    if (window.innerWidth <= 768) {
-      setIsChatPanelVisible((prev) => !prev);
-    }
-  };
+  const isChatPanelVisible = useSelector(
+    (store) => store.chat.isChatPanelVisible
+  );
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop =
@@ -25,7 +25,11 @@ const ChatContainer = ({ chat, isChatPanelVisible, setIsChatPanelVisible }) => {
     >
       <div
         className="flex justify-center items-center sticky top-0 left-0 bg-base-200 h-10 z-50 bg-opacity-90 cursor-pointer"
-        onClick={toggleChatPanelVisibility}
+        onClick={() => {
+          if (window.innerWidth <= 768) {
+            dispatch(toggleChatPanelVisibility());
+          }
+        }}
       >
         {receiver}
       </div>

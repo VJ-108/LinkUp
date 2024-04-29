@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import SocketCreate from "../socket/SocketCreate";
+import { setContact } from "../store/slices/userSlice";
 import Message from "../components/message";
 import SearchUser from "../components/searchUser";
 import ContactList from "../components/ContactList";
 import ChatContainer from "../components/ChatContainer";
 
 const Home = () => {
-  const [contact, setContact] = useState([]);
+  const dispatch = useDispatch();
   const [chat, setChat] = useState([]);
-  const [isChatPanelVisible, setIsChatPanelVisible] = useState(true);
   const isloggedIn = useSelector((store) => store.user.isloggedIn);
+  const isChatPanelVisible = useSelector(
+    (store) => store.chat.isChatPanelVisible
+  );
 
   const navigate = useNavigate();
   const { socket } = SocketCreate();
@@ -22,7 +25,7 @@ const Home = () => {
     axios
       .post("http://localhost:8000/api/v1/messages/get-user-chats")
       .then((response) => {
-        setContact(response.data.data);
+        dispatch(setContact(response.data.data));
       })
       .catch((error) => {
         console.error("Error fetching messages:", error);
@@ -48,29 +51,11 @@ const Home = () => {
               isChatPanelVisible ? "" : "hidden"
             } md:block`}
           >
-            <SearchUser
-              setChat={setChat}
-              setIsChatPanelVisible={setIsChatPanelVisible}
-            />
-            <ContactList
-              contact={contact}
-              setIsChatPanelVisible={setIsChatPanelVisible}
-              setChat={setChat}
-            />
+            <SearchUser setChat={setChat} />
+            <ContactList setChat={setChat} />
           </div>
-          {chat && (
-            <ChatContainer
-              chat={chat}
-              isChatPanelVisible={isChatPanelVisible}
-            />
-          )}
-          <Message
-            socket={socket}
-            chat={chat}
-            setChat={setChat}
-            isChatPanelVisible={isChatPanelVisible}
-            setIsChatPanelVisible={setIsChatPanelVisible}
-          />
+          {chat && <ChatContainer chat={chat} />}
+          <Message socket={socket} chat={chat} setChat={setChat} />
         </div>
       </div>
     </div>
