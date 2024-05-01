@@ -43,11 +43,11 @@ const Home = () => {
   }, [chat]);
 
   return (
-    <div className="h-screen flex justify-center items-center p-6">
-      <div className="mockup-window border bg-base-300 h-full w-full">
+    <div className="h-screen flex justify-center items-center p-6 bg-gradient-to-r from-black via-gray-900 to-black">
+      <div className="mockup-window border border-gray-800 h-full w-full bg-gradient-to-r from-black via-gray-900 to-black">
         <div className="grid grid-rows-12 grid-cols-3 h-full">
           <div
-            className={`border m-2 rounded-lg row-span-11 md:col-span-1 col-span-3 ${
+            className={`border border-gray-800 m-2 rounded-lg row-span-11 md:col-span-1 col-span-3 ${
               isChatPanelVisible ? "" : "hidden"
             } md:block`}
           >

@@ -49,7 +49,7 @@ const SearchUser = ({ setChat }) => {
       <input
         type="text"
         placeholder="Search"
-        className="input input-bordered col-span-6"
+        className="input input-bordered col-span-6 "
         required
         value={search}
         onChange={(e) => setSearch(e.target.value)}
@@ -61,12 +61,12 @@ const SearchUser = ({ setChat }) => {
       />
       {filteredUsers.length !== 0 && (
         <div className="absolute top-full left-0 right-0 z-[9999] col-span-6 max-h-[29rem] overflow-y-auto mx-2 rounded-lg">
-          <ul className="dropdown-content menu bg-base-100">
+          <ul className="dropdown-content menu bg-black">
             {filteredUsers.map(
               (user) =>
                 user.username !== username && (
                   <button
-                    className="btn w-full block my-2"
+                    className="btn w-full block my-2 hover:outline"
                     key={user._id}
                     onClick={() => {
                       dispatch(setCurrentReceiver(user));

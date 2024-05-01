@@ -16,7 +16,7 @@ const ContactList = ({ setChat }) => {
           {chat.groupId ? (
             <button
               key={chat.groupId._id}
-              className="btn w-full"
+              className="btn w-full bg-gradient-to-r from-slate-900 to-gray-950 hover:outline"
               onClick={() => {
                 dispatch(setCurrentGroup(chat.groupId._id));
                 openChat("group", chat.groupId._id, setChat);
@@ -34,7 +34,7 @@ const ContactList = ({ setChat }) => {
                   participant.username !== username && (
                     <button
                       key={participant._id}
-                      className="btn w-full text-left"
+                      className="btn w-full hover:outline"
                       onClick={() => {
                         dispatch(setCurrentReceiver(participant));
                         openChat("chat", participant._id, setChat);

@@ -21,12 +21,12 @@ const Message = ({ chat, setChat, socket }) => {
       <input
         type="text"
         placeholder="Type here"
-        className="input input-bordered input-info col-span-10"
+        className="input input-bordered input-info col-span-10 bg-transparent"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
       <button
-        className="btn btn-outline btn-success col-span-2"
+        className="btn btn-outline bg-gray-950 hover:bg-gray-900 hover:text-white col-span-2"
         onClick={() => {
           sendMessage(message, receiverId, groupId);
         }}

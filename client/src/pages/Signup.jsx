@@ -33,9 +33,9 @@ const Signup = () => {
         </div>
       </dialog>
 
-      <div className="hero min-h-screen bg-base-200">
+      <div className="hero min-h-screen bg-gradient-to-r from-black via-gray-900 to-black">
         <div className="hero-content flex-col-reverse lg:flex-row-reverse">
-          <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+          <div className="card shrink-0 w-full max-w-sm shadow-2xl border border-gray-800">
             <form className="card-body">
               <div className="form-control">
                 <label className="label">
@@ -44,7 +44,7 @@ const Signup = () => {
                 <input
                   type="username"
                   placeholder="username"
-                  className="input input-bordered"
+                  className="input input-bordered bg-transparent"
                   required
                   onChange={(e) => setUsername(e.target.value)}
                 />
@@ -56,7 +56,7 @@ const Signup = () => {
                 <input
                   type="email"
                   placeholder="email"
-                  className="input input-bordered"
+                  className="input input-bordered bg-transparent"
                   required
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -68,7 +68,7 @@ const Signup = () => {
                 <input
                   type="password"
                   placeholder="password"
-                  className="input input-bordered"
+                  className="input input-bordered bg-transparent"
                   required
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -83,7 +83,7 @@ const Signup = () => {
               </div>
               <div className="form-control mt-6">
                 <button
-                  className="btn btn-primary"
+                  className="btn bg-gray-950 hover:bg-gray-800"
                   onClick={(e) => {
                     e.preventDefault();
                     signup(username, email, password);

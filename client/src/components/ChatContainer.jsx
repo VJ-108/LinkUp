@@ -19,12 +19,12 @@ const ChatContainer = ({ chat }) => {
   return (
     <div
       ref={chatContainerRef}
-      className={`border overflow-y-auto relative m-2 rounded-lg row-span-10 md:col-span-2 col-span-3 ${
+      className={`border border-gray-800 overflow-y-auto relative m-2 rounded-lg row-span-10 md:col-span-2 col-span-3 ${
         isChatPanelVisible ? "hidden md:block" : ""
       }`}
     >
       <div
-        className="flex justify-center items-center sticky top-0 left-0 bg-base-200 h-10 z-50 bg-opacity-90 cursor-pointer"
+        className="flex justify-center items-center sticky top-0 left-0 bg-base-100 h-10 z-50 bg-opacity-90 cursor-pointer text-white"
         onClick={() => {
           if (window.innerWidth <= 768) {
             dispatch(toggleChatPanelVisibility());
