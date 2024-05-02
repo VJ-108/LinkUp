@@ -2,8 +2,9 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleChatPanelVisibility } from "../store/slices/chatSlice";
 
-const ChatContainer = ({ chat }) => {
+const ChatContainer = () => {
   const dispatch = useDispatch();
+  const chat = useSelector((store) => store.chat.chats);
   const chatContainerRef = useRef(null);
   const userId = useSelector((store) => store.user.User._id);
   const receiver = useSelector((store) => store.user.currentReceiver.username);
@@ -24,7 +25,7 @@ const ChatContainer = ({ chat }) => {
       }`}
     >
       <div
-        className="flex justify-center items-center sticky top-0 left-0 bg-base-100 h-10 z-50 bg-opacity-90 cursor-pointer text-white"
+        className="flex justify-center items-center sticky top-0 left-0 bg-base-100 h-10 z-50 cursor-pointer text-white"
         onClick={() => {
           if (window.innerWidth <= 768) {
             dispatch(toggleChatPanelVisibility());

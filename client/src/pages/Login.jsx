@@ -5,9 +5,15 @@ import { useSelector } from "react-redux";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useLogin();
+  const { login, loginWithToken } = useLogin();
   const isloggedin = useSelector((store) => store.user.isloggedIn);
   const navigate = useNavigate();
+  useEffect(() => {
+    loginWithToken();
+    if (isloggedin) {
+      navigate("/home");
+    }
+  }, []);
   useEffect(() => {
     if (isloggedin) {
       navigate("/home");

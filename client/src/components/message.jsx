@@ -3,7 +3,7 @@ import useSendMessage from "../hooks/useSendMessage";
 import SocketMessage from "../socket/SocketMessage";
 import { useSelector } from "react-redux";
 
-const Message = ({ chat, setChat, socket }) => {
+const Message = ({ socket }) => {
   const [message, setMessage] = useState("");
   const receiverId = useSelector((store) => store.user.currentReceiver._id);
   const groupId = useSelector((store) => store.user.currentGroup._id);
@@ -11,7 +11,7 @@ const Message = ({ chat, setChat, socket }) => {
     (store) => store.chat.isChatPanelVisible
   );
   const { sendMessage } = useSendMessage();
-  const { joinGroup } = SocketMessage(socket, setChat, chat, groupId);
+  const { joinGroup } = SocketMessage(socket, groupId);
   return (
     <div
       className={`md:col-span-2 col-span-3 grid grid-cols-12 p-1 gap-1 row-span-1 ${

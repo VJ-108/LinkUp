@@ -11,7 +11,7 @@ import ChatContainer from "../components/ChatContainer";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const [chat, setChat] = useState([]);
+  const chat = useSelector((store) => store.chat.chats);
   const isloggedIn = useSelector((store) => store.user.isloggedIn);
   const isChatPanelVisible = useSelector(
     (store) => store.chat.isChatPanelVisible
@@ -51,11 +51,11 @@ const Home = () => {
               isChatPanelVisible ? "" : "hidden"
             } md:block`}
           >
-            <SearchUser setChat={setChat} />
-            <ContactList setChat={setChat} />
+            <SearchUser />
+            <ContactList />
           </div>
-          {chat && <ChatContainer chat={chat} />}
-          <Message socket={socket} chat={chat} setChat={setChat} />
+          {chat && <ChatContainer />}
+          <Message socket={socket} />
         </div>
       </div>
     </div>

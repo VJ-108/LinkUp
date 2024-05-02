@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentReceiver } from "../store/slices/userSlice";
 import { setIsChatPanelVisible } from "../store/slices/chatSlice";
 
-const SearchUser = ({ setChat }) => {
+const SearchUser = () => {
   const [search, setSearch] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
   const username = useSelector((store) => store.user.User.username);
@@ -60,7 +60,7 @@ const SearchUser = ({ setChat }) => {
         }}
       />
       {filteredUsers.length !== 0 && (
-        <div className="absolute top-full left-0 right-0 z-[9999] col-span-6 max-h-[29rem] overflow-y-auto mx-2 rounded-lg">
+        <div className="absolute top-full left-0 right-0 z-[9999] col-span-6 overflow-y-auto mx-2 rounded-lg max-h-[29rem] ">
           <ul className="dropdown-content menu bg-black">
             {filteredUsers.map(
               (user) =>
@@ -70,7 +70,7 @@ const SearchUser = ({ setChat }) => {
                     key={user._id}
                     onClick={() => {
                       dispatch(setCurrentReceiver(user));
-                      openChat("chat", user._id, setChat);
+                      openChat("chat", user._id);
                       setFilteredUsers([]);
                       setSearch("");
                       if (window.innerWidth <= 768) {

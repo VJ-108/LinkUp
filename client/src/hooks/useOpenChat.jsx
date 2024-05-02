@@ -1,8 +1,11 @@
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setChat } from "../store/slices/chatSlice";
 
 const useOpenChat = () => {
-  const openChat = (type, id, setChat) => {
-    setChat([]);
+  const dispatch = useDispatch();
+  const openChat = (type, id) => {
+    dispatch(setChat([]));
     axios.defaults.withCredentials = true;
     let receiverId, groupId;
     if (type === "group") groupId = id;
@@ -13,7 +16,7 @@ const useOpenChat = () => {
         groupId: groupId,
       })
       .then((response) => {
-        setChat(response.data.data);
+        dispatch(setChat(response.data.data));
       })
       .catch((error) => {
         console.error("Error fetching messages:", error);

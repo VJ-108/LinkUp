@@ -1,8 +1,10 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addChat } from "../store/slices/chatSlice";
 
-const SocketMessage = (socket, setChat, chat, groupId) => {
+const SocketMessage = (socket, groupId) => {
   const currentUser = useSelector((store) => store.user.User);
+  const dispatch = useDispatch();
   const currentReceiverId = useSelector(
     (store) => store.user.currentReceiver._id
   );
@@ -12,25 +14,22 @@ const SocketMessage = (socket, setChat, chat, groupId) => {
     if (!socket) return;
 
     const handleNewMessage = (newMessage) => {
-      console.log("New message received:", newMessage);
       if (
         (newMessage.senderId === currentUser._id &&
           newMessage.receiverId === currentReceiverId) ||
         (newMessage.senderId === currentReceiverId &&
           newMessage.receiverId === currentUser._id)
       ) {
-        setChat((prevChat) => [...prevChat, newMessage]);
-        console.log(chat);
+        dispatch(addChat(newMessage));
       }
     };
 
     const handleGroupMessage = (groupMessage) => {
-      console.log("Group message received:", groupMessage);
       if (
         groupMessage.groupId === groupId &&
         groupMessage.groupId === currentGroupId
       ) {
-        setChat((prevChat) => [...prevChat, groupMessage.message]);
+        dispatch(addChat(groupMessage.message));
       }
     };
 
@@ -43,7 +42,6 @@ const SocketMessage = (socket, setChat, chat, groupId) => {
     };
   }, [
     socket,
-    setChat,
     groupId,
     currentUser,
     currentReceiverId,

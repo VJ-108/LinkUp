@@ -16,10 +16,23 @@ const useLogin = () => {
       })
       .catch((error) => {
         console.error("Error logging in:", error);
-        dispatch(loggedIn(false))
+        dispatch(loggedIn(false));
       });
   };
-  return { login };
+  const loginWithToken = () => {
+    axios.defaults.withCredentials = true;
+    axios
+      .post("http://localhost:8000/api/v1/users/login")
+      .then((response) => {
+        dispatch(setUser(response.data.data?.user));
+        dispatch(loggedIn(true));
+      })
+      .catch((error) => {
+        console.error("Error logging in with token:", error);
+        dispatch(loggedIn(false));
+      });
+  };
+  return { login, loginWithToken };
 };
 
 export default useLogin;
