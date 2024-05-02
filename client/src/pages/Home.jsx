@@ -16,7 +16,7 @@ const Home = () => {
   const isChatPanelVisible = useSelector(
     (store) => store.chat.isChatPanelVisible
   );
-
+  
   const navigate = useNavigate();
   const { socket } = SocketCreate();
 
