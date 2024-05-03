@@ -9,14 +9,14 @@ import SearchUser from "../components/searchUser";
 import ContactList from "../components/ContactList";
 import ChatContainer from "../components/ChatContainer";
 
-const Home = () => {
+const Chat_page = () => {
   const dispatch = useDispatch();
   const chat = useSelector((store) => store.chat.chats);
   const isloggedIn = useSelector((store) => store.user.isloggedIn);
   const isChatPanelVisible = useSelector(
     (store) => store.chat.isChatPanelVisible
   );
-  
+
   const navigate = useNavigate();
   const { socket } = SocketCreate();
 
@@ -62,4 +62,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Chat_page;

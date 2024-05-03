@@ -94,7 +94,7 @@ const Signup = () => {
               </div>
             </form>
           </div>
-          <div className="text-center lg:text-left">
+          <div className="text-center lg:text-left mt-28 md:mt-0">
             <h1 className="text-5xl font-bold">Signup now!</h1>
             <p className="py-6">
               Sign up now to join our friendly community! Connect with others

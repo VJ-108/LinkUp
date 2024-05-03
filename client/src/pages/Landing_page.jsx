@@ -3,78 +3,46 @@ import { Link } from "react-router-dom";
 
 const Landing_page = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-r from-black via-gray-900 to-black">
-      <div className="navbar bg-base-300 bg-opacity-95">
-        <div className="navbar-start">
-          <div className="dropdown">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h7"
-                />
-              </svg>
+    <div className="h-screen bg-gradient-to-r from-black via-gray-900 to-black">
+      <div className="m-2">
+        <div className="h-screen grid grid-cols-2">
+          <div className="md:col-span-1 col-span-2 w-full grid md:py-48 py-36 gap-10">
+            <div className="text-white font-extrabold text-4xl font-sans text-wrap flex justify-center items-center text-center">
+              Experience seamless communication like never before with Chat App.
             </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li>
-                <Link to={"/"}>Homepage</Link>
-              </li>
-              <li>
-                <Link to={"/home"}>Chat</Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="navbar-center">
-          <a className="btn btn-ghost text-xl">Chat App</a>
-        </div>
-        <div className="navbar-end">
-          <div className="flex-none gap-2">
-            <div className="dropdown dropdown-end">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn btn-ghost btn-circle avatar"
-              >
-                <div className="w-10">
-                  <img alt="..." src="/user-avatar.png" />
-                </div>
+            <div className="text-gray-500 text-lg text-wrap flex justify-center text-center p-0">
+              <div>
+                Say goodbye to{" "}
+                <span className="text-sky-500">endless email threads</span> and
+                disjointed conversations. Say hello to{" "}
+                <span className="text-sky-500">effortless collaboration </span>
+                and meaningful connections.
               </div>
-              <ul
-                tabIndex={0}
-                className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+            </div>
+            <div className="flex justify-center">
+              <Link
+                to={"/signup"}
+                className="btn btn-info text-white text-base w-[8rem]"
               >
-                <li>
-                  <a className="justify-between">
-                    Profile
-                    <span className="badge">New</span>
-                  </a>
-                </li>
-                <li>
-                  <a>Settings</a>
-                </li>
-                <li>
-                  <a>Logout</a>
-                </li>
-              </ul>
+                Get Started
+              </Link>
             </div>
           </div>
+          <div className="col-span-1 hidden md:flex items-center justify-center">
+            <img src="/chat.png" alt="..." className="h-[80%] " />
+          </div>
         </div>
+        <footer className="footer items-center p-4 bg-base-300 text-neutral-content absolute left-0">
+          <aside className="items-center grid-flow-col p-2">
+            <p className="text-sky-500 text-xl">Chat App</p>
+            <p>Copyright © 2024 - All right reserved</p>
+          </aside>
+          <nav className="grid-flow-col gap-4 md:place-self-center md:justify-self-end px-3">
+            <Link to={"/"}>Home</Link>
+            <Link to={"/about"}>About Us</Link>
+            <Link to={"/help-center"}>Help Center</Link>
+          </nav>
+        </footer>
       </div>
     </div>
   );
