@@ -14,7 +14,7 @@ const useSendHelp = () => {
       })
       .then((response) => {})
       .catch((error) => {
-        console.error("Error fetching messages:", error);
+        console.error("Error sending help:", error);
       });
   };
   return { sendHelp };

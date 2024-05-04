@@ -128,7 +128,9 @@ const loginUser = asyncHandler(async (req, res, next) => {
       if (!decoded || !decoded._id) {
         throw new ApiError(401, "Invalid access token");
       }
-      const user = await User.findById(decoded._id);
+      const user = await User.findById(decoded._id).select(
+        "-password -refreshToken"
+      );
       if (!user) {
         throw new ApiError(401, "User not found");
       }
@@ -137,7 +139,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
         .json(
           new ApiResponse(
             200,
-            { user },
+            { user: user },
             "User logged in successfully using access token"
           )
         );
@@ -217,7 +219,12 @@ const refreshAccessToken = asyncHandler(async (req, res, next) => {
 const changeCurrentPassword = asyncHandler(async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body;
-    const user = await User.findById(req.user?._id);
+    const user = await User.findById(req.user?._id).select(
+      "-password -refreshToken"
+    );
+    if (!user) {
+      throw new ApiError(404, "User not found");
+    }
     const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
     if (!isPasswordCorrect) {
       throw new ApiError(401, "Invalid old password");
@@ -227,22 +234,27 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 
     return res
       .status(200)
-      .json(new ApiResponse(200, {}, "Password changed successfully"));
+      .json(
+        new ApiResponse(200, { user: user }, "Password changed successfully")
+      );
   } catch (error) {
-    throw new ApiError(500, "Error while changing current password");
+    // throw new ApiError(500, "Error while changing current password");
+    console.log(error);
   }
 });
 
 const changeAbout = asyncHandler(async (req, res, next) => {
   try {
     const { about } = req.body;
-    const user = await User.findById(req.user?._id);
+    const user = await User.findById(req.user?._id).select(
+      "-password -refreshToken"
+    );
     user.about = about;
     await user.save({ validateBeforeSave: false });
 
     return res
       .status(200)
-      .json(new ApiResponse(200, {}, "About changed successfully"));
+      .json(new ApiResponse(200, { user: user }, "About changed successfully"));
   } catch (error) {
     throw new ApiError(500, "Error while changing about");
   }
@@ -280,8 +292,10 @@ const toggleChat_Bot = asyncHandler(async (req, res, next) => {
       req.user?._id,
       { Chat_Bot: !req.user.Chat_Bot },
       { new: true }
+    ).select("-password -refreshToken");
+    return res.json(
+      new ApiResponse(200, { user: user }, "Chat_bot toggled successfully")
     );
-    return res.json(new ApiResponse(200, "Chat_bot toggled successfully"));
   } catch (error) {
     throw new ApiError(500, "Error while toggling chat_bot");
   }
@@ -295,8 +309,10 @@ const toggleChat_type = asyncHandler(async (req, res, next) => {
       req.user?._id,
       { chat_type: newChatType },
       { new: true }
+    ).select("-password -refreshToken");
+    return res.json(
+      new ApiResponse(200, { user: user }, "Chat_type toggled successfully")
     );
-    return res.json(new ApiResponse(200, "Chat_type toggled successfully"));
   } catch (error) {
     throw new ApiError(500, "Error while toggling chat_type");
   }
@@ -375,8 +391,7 @@ const toggleContact_id = asyncHandler(async (req, res, next) => {
       )
     );
   } catch (error) {
-    // throw new ApiError(500, "Error while toggling contact_id");
-    console.log(error);
+    throw new ApiError(500, "Error while toggling contact_id");
   }
 });
 
@@ -410,7 +425,9 @@ const getUserId = asyncHandler(async (req, res, next) => {
 
 const changeUsername = asyncHandler(async (req, res, next) => {
   try {
-    const user = await User.findById(req.user?._id);
+    const user = await User.findById(req.user?._id).select(
+      "-password -refreshToken"
+    );
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -423,7 +440,9 @@ const changeUsername = asyncHandler(async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
     return res
       .status(200)
-      .json(new ApiResponse(200, {}, "Username changed successfully"));
+      .json(
+        new ApiResponse(200, { user: user }, "Username changed successfully")
+      );
   } catch (error) {
     throw new ApiError(500, "Error while changing username");
   }
@@ -575,7 +594,9 @@ const deleteAccount = asyncHandler(async (req, res, next) => {
 const changeAvatar = asyncHandler(async (req, res, next) => {
   try {
     const { avatar } = req.body;
-    const user = await User.findById(req.user?._id);
+    const user = await User.findById(req.user?._id).select(
+      "-password -refreshToken"
+    );
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -583,7 +604,9 @@ const changeAvatar = asyncHandler(async (req, res, next) => {
     await user.save({ validateBeforeSave: false });
     return res
       .status(200)
-      .json(new ApiResponse(200, user.avatar, "Successfully changed avatar"));
+      .json(
+        new ApiResponse(200, { user: user }, "Successfully changed avatar")
+      );
   } catch (error) {
     throw new ApiError(500, "Error while changing Avatar");
   }

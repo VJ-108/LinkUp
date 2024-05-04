@@ -16,7 +16,7 @@ const useSignup = () => {
         dispatch(registered(true));
       })
       .catch((error) => {
-        console.error("Error logging in:", error);
+        console.error("Error signing up:", error);
         dispatch(registered(false));
       });
   };
