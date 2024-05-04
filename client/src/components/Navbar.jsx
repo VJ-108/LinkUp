@@ -47,9 +47,11 @@ const Navbar = () => {
             <li>
               <Link to={"/about"}>About Us</Link>
             </li>
-            <li>
-              <Link to={"/help-center"}>Help Center</Link>
-            </li>
+            {isloggedIn && (
+              <li>
+                <Link to={"/help-center"}>Help Center</Link>
+              </li>
+            )}
           </ul>
         </div>
       </div>

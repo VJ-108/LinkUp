@@ -7,7 +7,7 @@ const Profile = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (!isloggedIn) {
-      navigate("/");
+      navigate("/login");
     }
   }, []);
   return <div>Profile</div>;

@@ -1,9 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Landing_page = () => {
+  const isloggedIn = useSelector((store) => store.user.isloggedIn);
   return (
-    <div className="h-screen bg-gradient-to-r from-black via-gray-900 to-black">
+    <div className="bg-gradient-to-r from-black via-gray-900 to-black">
       <div className="m-2">
         <div className="h-screen grid grid-cols-2">
           <div className="md:col-span-1 col-span-2 w-full grid md:py-48 py-36 gap-10">
@@ -37,10 +39,10 @@ const Landing_page = () => {
             <p className="text-sky-500 text-xl">Chat App</p>
             <p>Copyright © 2024 - All right reserved</p>
           </aside>
-          <nav className="grid-flow-col gap-4 md:place-self-center md:justify-self-end px-3">
+          <nav className="grid-flow-col md:place-self-center md:justify-self-end gap-4 px-3">
             <Link to={"/"}>Home</Link>
             <Link to={"/about"}>About Us</Link>
-            <Link to={"/help-center"}>Help Center</Link>
+            {isloggedIn && <Link to={"/help-center"}>Help Center</Link>}
           </nav>
         </footer>
       </div>
