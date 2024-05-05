@@ -35,7 +35,9 @@ const createGroup = asyncHandler(async (req, res, next) => {
 const getGroup = asyncHandler(async (req, res, next) => {
   try {
     const { name } = req.body;
-    const group = await Group.findOne({ name: name, members: req.user?._id });
+    const group = await Group.findOne({ name: name, members: req.user?._id })
+      .populate("admin", "username")
+      .populate("members", "username");
     if (!group) {
       return res.json({ message: "Group Doesn't exist" });
     }
@@ -53,27 +55,42 @@ const toggleMember = asyncHandler(async (req, res, next) => {
     const user = await User.findById(userId);
     const groupName = await Group.findOne({
       name: group,
-      admin: req.user?._id,
+      admin: req.user._id,
     });
     if (!groupName) {
       return res.json({ message: "Can't toggle member" });
     }
-    const groupIndex = user.Group_ids.indexOf(groupName._id);
-    const index = groupName.members.indexOf(userId);
-    if (index === -1) {
+    const isMember = user.Group_ids.includes(groupName._id);
+    const isAdmin = groupName.admin.includes(userId);
+    if (!isMember) {
       groupName.members.push(userId);
       user.Group_ids.push(groupName._id);
     } else {
-      groupName.members.splice(index, 1);
-      user.Group_ids.splice(groupIndex, 1);
+      const index = groupName.members.indexOf(userId);
+      if (index !== -1) {
+        groupName.members.splice(index, 1);
+      }
+      const userIndex = user.Group_ids.indexOf(groupName._id);
+      if (userIndex !== -1) {
+        user.Group_ids.splice(userIndex, 1);
+      }
+      if (isAdmin) {
+        const adminIndex = groupName.admin.indexOf(userId);
+        if (adminIndex !== -1) {
+          groupName.admin.splice(adminIndex, 1);
+        }
+      }
     }
-    await groupName.save();
-    await user.save({ validateBeforeSave: false });
+    await Promise.all([
+      groupName.save(),
+      user.save({ validateBeforeSave: false }),
+    ]);
+    const editedGroup = await Group.findById(groupName._id)
+      .populate("admin", "username")
+      .populate("members", "username");
     return res
       .status(200)
-      .json(
-        new ApiResponse(200, groupName.members, "Successfully toggled member")
-      );
+      .json(new ApiResponse(200, editedGroup, "Successfully toggled member"));
   } catch (error) {
     throw new ApiError(500, "Error toggling member");
   }
@@ -82,34 +99,76 @@ const toggleMember = asyncHandler(async (req, res, next) => {
 const toggleAdmin = asyncHandler(async (req, res, next) => {
   try {
     const { userId, group } = req.body;
-    const isMember = await Group.findOne({
-      name: group,
-      members: userId,
-    });
     const groupName = await Group.findOne({
       name: group,
-      admin: req.user?._id,
+      admin: req.user._id,
     });
     if (!groupName) {
       return res.json({ message: "Can't toggle admin" });
     }
-    if (!isMember) {
-      return res.json({ message: "Can't toggle admin" });
-    }
-    const index = groupName.admin.indexOf(userId);
-    if (index === -1) {
+    const isAdmin = groupName.admin.includes(userId);
+    if (!isAdmin) {
       groupName.admin.push(userId);
     } else {
-      groupName.admin.splice(index, 1);
+      groupName.admin.pull(userId);
     }
     await groupName.save();
+    const editedGroup = await Group.findById(groupName._id)
+      .populate("admin", "username")
+      .populate("members", "username");
     return res
       .status(200)
-      .json(
-        new ApiResponse(200, groupName.admin, "Successfully toggled admin")
-      );
+      .json(new ApiResponse(200, editedGroup, "Successfully toggled admin"));
   } catch (error) {
     throw new ApiError(500, "Error toggling Admin");
+  }
+});
+
+const leaveGroup = asyncHandler(async (req, res, next) => {
+  try {
+    const { group } = req.body;
+    const userId = req.user?._id;
+    const user = await User.findById(userId);
+    const groupName = await Group.findOne({
+      name: group,
+      members: req.user._id,
+    });
+    if (!groupName) {
+      return res.status(404).json({ message: "Group not found" });
+    }
+    const isMember = user.Group_ids.includes(groupName._id);
+    if (!isMember) {
+      return res
+        .status(400)
+        .json({ message: "You are not a member of this group" });
+    }
+    const isAdmin = groupName.admin.includes(user._id);
+    if (isAdmin) {
+      const adminIndex = groupName.admin.indexOf(user._id);
+      if (adminIndex !== -1) {
+        groupName.admin.splice(adminIndex, 1);
+      }
+    }
+    const memberIndex = groupName.members.indexOf(userId);
+    if (memberIndex !== -1) {
+      groupName.members.splice(memberIndex, 1);
+    }
+    const groupIndex = user.Group_ids.indexOf(groupName._id);
+    if (groupIndex !== -1) {
+      user.Group_ids.splice(groupIndex, 1);
+    }
+    await Promise.all([
+      groupName.save(),
+      user.save({ validateBeforeSave: false }),
+    ]);
+    const editedGroup = await Group.findById(groupName._id)
+      .populate("admin", "username")
+      .populate("members", "username");
+    return res
+      .status(200)
+      .json(new ApiResponse(200, editedGroup, "Successfully toggled admin"));
+  } catch (error) {
+    throw new ApiError(500, "Error leaving group");
   }
 });
 
@@ -208,4 +267,5 @@ export {
   deleteGroup,
   changeAvatar,
   removeAvatar,
+  leaveGroup,
 };

@@ -5,6 +5,7 @@ const chatSlice = createSlice({
   initialState: {
     isChatPanelVisible: true,
     chats: [],
+    showParticipant: false,
   },
   reducers: {
     setIsChatPanelVisible: (state, action) => {
@@ -19,6 +20,9 @@ const chatSlice = createSlice({
     addChat: (state, action) => {
       state.chats.push(action.payload);
     },
+    setShowParticipant: (state, action) => {
+      state.showParticipant = action.payload;
+    },
   },
 });
 
@@ -27,5 +31,6 @@ export const {
   toggleChatPanelVisibility,
   setChat,
   addChat,
+  setShowParticipant,
 } = chatSlice.actions;
 export default chatSlice.reducer;

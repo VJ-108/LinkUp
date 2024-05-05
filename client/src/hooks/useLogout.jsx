@@ -2,7 +2,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { loggedIn, setUser } from "../store/slices/userSlice";
 const useLogout = () => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const logout = () => {
     axios.defaults.withCredentials = true;
     axios

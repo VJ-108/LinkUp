@@ -7,19 +7,19 @@ const About = () => {
   const features = [
     {
       feat: "Intuitive Interface",
-      desc: "<span class='text-sky-500'>User-friendly</span> interface designed to be <span class='text-sky-500'>easy to use</span> and navigate.",
+      desc: "<span className='text-sky-500'>User-friendly</span> interface designed to be <span className='text-sky-500'>easy to use</span> and navigate.",
     },
     {
       feat: "Instant Messaging",
-      desc: "<span class='text-sky-500'>Real-time</span> messaging functionality for <span class='text-sky-500'>quick</span> communication.",
+      desc: "<span className='text-sky-500'>Real-time</span> messaging functionality for <span className='text-sky-500'>quick</span> communication.",
     },
     {
       feat: "Security Features",
-      desc: "Robust <span class='text-sky-500'>security measures</span> to protect user data and ensure <span class='text-sky-500'>privacy</span>.",
+      desc: "Robust <span className='text-sky-500'>security measures</span> to protect user data and ensure <span className='text-sky-500'>privacy</span>.",
     },
     {
       feat: "Customizable Settings",
-      desc: "Ability to <span class='text-sky-500'>personalize settings</span> according to <span class='text-sky-500'>individual preferences</span> and needs.",
+      desc: "Ability to <span className='text-sky-500'>personalize settings</span> according to <span className='text-sky-500'>individual preferences</span> and needs.",
     },
   ];
 

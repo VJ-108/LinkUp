@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import Message from "../components/message";
 import SearchUser from "../components/searchUser";
 import ContactList from "../components/ContactList";
 import ChatContainer from "../components/ChatContainer";
+import useGetUserChats from "../hooks/useGetUserChats";
 
 const Chat_page = () => {
   const dispatch = useDispatch();
@@ -20,17 +21,7 @@ const Chat_page = () => {
   const navigate = useNavigate();
   const { socket } = SocketCreate();
 
-  const userChats = () => {
-    axios.defaults.withCredentials = true;
-    axios
-      .post("http://localhost:8000/api/v1/messages/get-user-chats")
-      .then((response) => {
-        dispatch(setContact(response.data.data));
-      })
-      .catch((error) => {
-        console.error("Error fetching messages:", error);
-      });
-  };
+  const { userChats } = useGetUserChats();
 
   useEffect(() => {
     if (!isloggedIn) {

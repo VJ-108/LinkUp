@@ -1,6 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleChatPanelVisibility } from "../store/slices/chatSlice";
+import {
+  setShowParticipant,
+  toggleChatPanelVisibility,
+} from "../store/slices/chatSlice";
+import GroupParticipants from "./GroupParticipants";
 
 const ChatContainer = () => {
   const dispatch = useDispatch();
@@ -8,6 +12,8 @@ const ChatContainer = () => {
   const chatContainerRef = useRef(null);
   const userId = useSelector((store) => store.user.User._id);
   const receiver = useSelector((store) => store.user.currentReceiver.username);
+  const group = useSelector((store) => store.user.currentGroup.name);
+  const showParticipant = useSelector((store) => store.chat.showParticipant);
   const isChatPanelVisible = useSelector(
     (store) => store.chat.isChatPanelVisible
   );
@@ -17,22 +23,46 @@ const ChatContainer = () => {
         chatContainerRef.current.scrollHeight;
     }
   }, [chat]);
-  return (
+  return showParticipant ? (
+    <GroupParticipants />
+  ) : (
     <div
       ref={chatContainerRef}
       className={`border border-gray-800 overflow-y-auto relative m-2 rounded-lg row-span-10 md:col-span-2 col-span-3 ${
         isChatPanelVisible ? "hidden md:block" : ""
       }`}
     >
-      <div
-        className="flex justify-center items-center sticky top-0 left-0 bg-base-100 h-10 z-50 cursor-pointer text-white"
-        onClick={() => {
-          if (window.innerWidth <= 768) {
-            dispatch(toggleChatPanelVisibility());
-          }
-        }}
-      >
-        {receiver}
+      <div className="navbar sticky top-0 left-0 bg-base-100 h-10 z-50 text-white">
+        <div
+          className="navbar-start w-10 cursor-pointer block md:hidden"
+          onClick={() => {
+            if (window.innerWidth <= 768) {
+              dispatch(toggleChatPanelVisibility());
+            }
+          }}
+        >
+          <svg
+            className="h-6 w-6 fill-current md:h-8 md:w-8"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"></path>
+          </svg>
+        </div>
+        <div className="navbar-center">
+          <a
+            className="btn btn-ghost text-xl"
+            onClick={() =>
+              group
+                ? dispatch(setShowParticipant(true))
+                : dispatch(setShowParticipant(false))
+            }
+          >
+            {receiver ? receiver : group}
+          </a>
+        </div>
       </div>
       {chat.map((chat) => (
         <div

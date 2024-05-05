@@ -10,6 +10,7 @@ const userSlice = createSlice({
     currentGroup: {},
     contact: [],
     change_profile: "",
+    Group: {},
   },
   reducers: {
     registered: (state, action) => {
@@ -33,6 +34,9 @@ const userSlice = createSlice({
     setChange_Profile: (state, action) => {
       state.change_profile = action.payload;
     },
+    setGroup: (state, action) => {
+      state.Group = action.payload;
+    },
   },
 });
 
@@ -44,5 +48,6 @@ export const {
   setCurrentGroup,
   setContact,
   setChange_Profile,
+  setGroup,
 } = userSlice.actions;
 export default userSlice.reducer;

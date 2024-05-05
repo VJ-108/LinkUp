@@ -12,7 +12,10 @@ const Message = ({ socket }) => {
   );
   const { sendMessage } = useSendMessage();
   const { joinGroup } = SocketMessage(socket, groupId);
-  return (
+  const showParticipant = useSelector((store) => store.chat.showParticipant);
+  return showParticipant ? (
+    <></>
+  ) : (
     <div
       className={`md:col-span-2 col-span-3 grid grid-cols-12 p-1 gap-1 row-span-1 ${
         isChatPanelVisible ? "hidden md:grid" : ""
@@ -29,6 +32,7 @@ const Message = ({ socket }) => {
         className="btn btn-outline bg-gray-950 hover:bg-gray-900 hover:text-white col-span-2"
         onClick={() => {
           sendMessage(message, receiverId, groupId);
+          setMessage("");
         }}
       >
         Send
