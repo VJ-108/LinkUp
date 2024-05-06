@@ -17,7 +17,7 @@ const ChangeProfile = ({ setChangeProfile }) => {
     if (change_type === "Username") {
       change_username(newChange);
     } else if (change_type === "Password") {
-    //   change_password(oldChange, newChange);
+      change_password(oldChange, newChange);
     } else if (change_type === "About") {
       change_about(newChange);
     } else if (change_type === "Avatar") {

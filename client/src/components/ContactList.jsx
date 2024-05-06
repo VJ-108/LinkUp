@@ -15,6 +15,7 @@ const ContactList = () => {
   const username = useSelector((store) => store.user.User.username);
   const userId = useSelector((store) => store.user.User._id);
   const group = useSelector((store) => store.user.Group);
+  const onlineUsers = useSelector((store) => store.socket.onlineUsers);
   const { getGroup } = useGetGroup();
   useEffect(() => {
     contact.forEach((chat) => {
@@ -22,7 +23,7 @@ const ContactList = () => {
         getGroup(chat.groupId.name);
       }
     });
-  }, [contact, getGroup]);
+  }, [contact]);
 
   const ifParticipant = () => {
     return group?.members?.some((member) => member._id === userId);
@@ -35,7 +36,7 @@ const ContactList = () => {
           {chat.groupId && ifParticipant() ? (
             <button
               key={chat.groupId._id}
-              className="btn w-full hover:outline"
+              className="btn w-full hover:outline grid grid-cols-12"
               onClick={() => {
                 dispatch(setCurrentGroup(chat.groupId));
                 dispatch(setCurrentReceiver({}));
@@ -46,17 +47,23 @@ const ContactList = () => {
                 }
               }}
             >
+              <div className="col-span-11">
               {chat.groupId.name}
+              </div>
+              <div className="col-span-1"></div>
             </button>
           ) : null}
           {!chat.groupId && (
             <>
               {chat.participants.map((participant) => {
                 if (participant.username !== username) {
+                  const isOnline = Object.keys(onlineUsers).some(
+                    (userId) => participant._id === userId
+                  );
                   return (
                     <button
                       key={participant._id}
-                      className="btn w-full hover:outline"
+                      className="btn w-full hover:outline grid grid-cols-12"
                       onClick={() => {
                         dispatch(setCurrentReceiver(participant));
                         dispatch(setCurrentGroup({}));
@@ -67,7 +74,10 @@ const ContactList = () => {
                         }
                       }}
                     >
-                      {participant.username}
+                      <div className="col-span-11">{participant.username}</div>
+                      {isOnline && (
+                        <div className="h-4 w-4 rounded-full bg-green-600 col-span-1"></div>
+                      )}
                     </button>
                   );
                 } else {

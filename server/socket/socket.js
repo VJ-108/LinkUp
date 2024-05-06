@@ -32,6 +32,11 @@ io.on("connection", (socket) => {
     delete activeUsers[userId];
     io.emit("activeUsers", activeUsers);
   });
+  socket.on("logout", () => {
+    console.log("Active Users:", activeUsers);
+    delete activeUsers[userId];
+    io.emit("activeUsers", activeUsers);
+  });
 });
 
 export { server, io };

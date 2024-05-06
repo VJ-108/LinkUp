@@ -1,8 +1,10 @@
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { loggedIn, setUser } from "../store/slices/userSlice";
+import SocketCreate from "../socket/SocketCreate";
 const useLogout = () => {
   const dispatch = useDispatch();
+  const { handleLogout } = SocketCreate();
   const logout = () => {
     axios.defaults.withCredentials = true;
     axios
@@ -10,6 +12,7 @@ const useLogout = () => {
       .then((response) => {
         dispatch(setUser({}));
         dispatch(loggedIn(false));
+        handleLogout();
       })
       .catch((error) => {
         console.error("Error logging out:", error);

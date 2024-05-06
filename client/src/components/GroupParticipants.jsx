@@ -6,6 +6,7 @@ import useToggleAdmin from "../hooks/useToggleAdmin";
 import useToggleMember from "../hooks/useToggleMember";
 import useLeaveGroup from "../hooks/useLeaveGroup";
 import useGetUserChats from "../hooks/useGetUserChats";
+import AddUser from "./AddUser";
 
 const GroupParticipants = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const GroupParticipants = () => {
   const Group = useSelector((store) => store.user.Group);
   const userId = useSelector((store) => store.user.User._id);
   const [isAdmin, setisAdmin] = useState(false);
+  const [changeAddUser, setChangeAddUser] = useState(false);
   const { getGroup } = useGetGroup();
   const { toggleMember } = useToggleMember();
   const { toggleAdmin } = useToggleAdmin();
@@ -22,9 +24,8 @@ const GroupParticipants = () => {
 
   useEffect(() => {
     getGroup(group);
-  }, []);
+  }, [group]);
   useEffect(() => {
-    getGroup(group);
     Group?.admin?.map((admin) => {
       if (admin._id === userId) {
         setisAdmin(true);
@@ -48,6 +49,7 @@ const GroupParticipants = () => {
             </a>
           </div>
         </div>
+        {changeAddUser && <AddUser setChangeAddUser={setChangeAddUser} />}
         <div>
           <h1 className="px-4 pt-3 text-2xl font-semibold">Admin</h1>
           <div className="p-3">
@@ -108,6 +110,9 @@ const GroupParticipants = () => {
           <h1 className="px-4 pt-3 text-2xl font-semibold">Members</h1>
           <div className="p-3">
             {Group?.members?.map((member) => {
+              const isMemberAdmin = Group?.admin?.some(
+                (admin) => admin._id === member._id
+              );
               return (
                 <div
                   className="navbar bg-base-100 my-3 rounded-lg"
@@ -138,14 +143,16 @@ const GroupParticipants = () => {
                           tabIndex={0}
                           className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
                         >
-                          <li>
-                            <a
-                              className="justify-between"
-                              onClick={() => toggleAdmin(member._id)}
-                            >
-                              Make Admin
-                            </a>
-                          </li>
+                          {!isMemberAdmin && (
+                            <li>
+                              <a
+                                className="justify-between"
+                                onClick={() => toggleAdmin(member._id)}
+                              >
+                                Make Admin
+                              </a>
+                            </li>
+                          )}
                           <li>
                             <a onClick={() => toggleMember(member._id)}>
                               Remove User
@@ -161,7 +168,10 @@ const GroupParticipants = () => {
           </div>
         </div>
         {isAdmin && (
-          <button className="btn bg-blue-700 text-white hover:bg-blue-600 m-3">
+          <button
+            className="btn bg-blue-700 text-white hover:bg-blue-600 m-3"
+            onClick={() => setChangeAddUser(true)}
+          >
             Add User
           </button>
         )}

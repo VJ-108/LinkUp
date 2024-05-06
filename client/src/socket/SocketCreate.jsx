@@ -32,7 +32,11 @@ const SocketCreate = () => {
     }
   }, [userId]);
 
-  return { socket };
+  const handleLogout = () => {
+    socket.emit("logout");
+  };
+
+  return { socket, handleLogout };
 };
 
 export default SocketCreate;

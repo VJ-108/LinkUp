@@ -12,10 +12,15 @@ const ChatContainer = () => {
   const chatContainerRef = useRef(null);
   const userId = useSelector((store) => store.user.User._id);
   const receiver = useSelector((store) => store.user.currentReceiver.username);
+  const receiverId = useSelector((store) => store.user.currentReceiver._id);
   const group = useSelector((store) => store.user.currentGroup.name);
   const showParticipant = useSelector((store) => store.chat.showParticipant);
+  const onlineUsers = useSelector((store) => store.socket.onlineUsers);
   const isChatPanelVisible = useSelector(
     (store) => store.chat.isChatPanelVisible
+  );
+  const isOnline = Object.keys(onlineUsers).some(
+    (userId) => receiverId === userId
   );
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -52,6 +57,13 @@ const ChatContainer = () => {
           </svg>
         </div>
         <div className="navbar-center">
+          {isOnline && (
+            <div
+              className={`h-4 w-4 rounded-full bg-green-600 ${
+                receiver ? "block" : "hidden"
+              }`}
+            ></div>
+          )}
           <a
             className="btn btn-ghost text-xl"
             onClick={() =>
