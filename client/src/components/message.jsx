@@ -11,7 +11,7 @@ const Message = ({ socket }) => {
     (store) => store.chat.isChatPanelVisible
   );
   const { sendMessage } = useSendMessage();
-  const { joinGroup } = SocketMessage(socket, groupId);
+  const { handleTyping } = SocketMessage(socket, groupId);
   const showParticipant = useSelector((store) => store.chat.showParticipant);
   return showParticipant ? (
     <></>
@@ -26,7 +26,10 @@ const Message = ({ socket }) => {
         placeholder="Type here"
         className="input input-bordered input-info col-span-10 bg-transparent"
         value={message}
-        onChange={(e) => setMessage(e.target.value)}
+        onChange={(e) => {
+          setMessage(e.target.value);
+          handleTyping();
+        }}
       />
       <button
         className="btn btn-outline bg-gray-950 hover:bg-gray-900 hover:text-white col-span-2"

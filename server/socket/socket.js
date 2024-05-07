@@ -32,6 +32,19 @@ io.on("connection", (socket) => {
     delete activeUsers[userId];
     io.emit("activeUsers", activeUsers);
   });
+  socket.on("typing", (receiverId) => {
+    const receiverSocketId = activeUsers[receiverId];
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("typing");
+    }
+  });
+
+  socket.on("stop typing", (receiverId) => {
+    const receiverSocketId = activeUsers[receiverId];
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("stop typing");
+    }
+  });
   socket.on("logout", () => {
     console.log("Active Users:", activeUsers);
     delete activeUsers[userId];

@@ -16,6 +16,7 @@ const ChatContainer = () => {
   const group = useSelector((store) => store.user.currentGroup.name);
   const showParticipant = useSelector((store) => store.chat.showParticipant);
   const onlineUsers = useSelector((store) => store.socket.onlineUsers);
+  const isTyping = useSelector((store) => store.chat.isTyping);
   const isChatPanelVisible = useSelector(
     (store) => store.chat.isChatPanelVisible
   );
@@ -91,7 +92,7 @@ const ChatContainer = () => {
             }`}
           >
             <div
-              className={`chat-bubble md:p-6 font-medium text-sm ${
+              className={`chat-bubble md:p-5 font-medium text-sm ${
                 chat.senderId === userId
                   ? "chat-bubble-success"
                   : "chat-bubble-primary"
@@ -102,6 +103,9 @@ const ChatContainer = () => {
           </div>
         </div>
       ))}
+      {isTyping && (
+        <span className="loading loading-dots loading-lg m-5"></span>
+      )}
     </div>
   );
 };

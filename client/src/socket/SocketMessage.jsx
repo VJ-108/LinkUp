@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addChat } from "../store/slices/chatSlice";
+import { addChat, setIsTyping } from "../store/slices/chatSlice";
 
 const SocketMessage = (socket, groupId) => {
   const currentUser = useSelector((store) => store.user.User);
@@ -9,7 +9,13 @@ const SocketMessage = (socket, groupId) => {
     (store) => store.user.currentReceiver._id
   );
   const currentGroupId = useSelector((store) => store.user.currentGroup._id);
-
+  const handleTyping = () => {
+    if (!socket) return;
+    socket.emit("typing", currentReceiverId);
+    setTimeout(() => {
+      socket.emit("stop typing", currentReceiverId);
+    }, 3000);
+  };
   useEffect(() => {
     if (!socket) return;
 
@@ -36,17 +42,13 @@ const SocketMessage = (socket, groupId) => {
     socket.on("newMessage", handleNewMessage);
     socket.on("groupMessage", handleGroupMessage);
 
+    socket.on("typing", () => dispatch(setIsTyping(true)));
+    socket.on("stop typing", () => dispatch(setIsTyping(false)));
     return () => {
       socket.off("newMessage", handleNewMessage);
       socket.off("groupMessage", handleGroupMessage);
     };
-  }, [
-    socket,
-    groupId,
-    currentUser,
-    currentReceiverId,
-    currentGroupId,
-  ]);
+  }, [socket, groupId, currentUser, currentReceiverId, currentGroupId]);
 
   const joinGroup = () => {
     if (socket) {
@@ -54,7 +56,7 @@ const SocketMessage = (socket, groupId) => {
     }
   };
 
-  return { joinGroup };
+  return { joinGroup, handleTyping };
 };
 
 export default SocketMessage;
