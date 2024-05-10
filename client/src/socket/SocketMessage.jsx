@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addChat, setIsTyping } from "../store/slices/chatSlice";
+import {
+  addChat,
+  setIsTyping,
+  setOfflineMessages,
+} from "../store/slices/chatSlice";
 
 const SocketMessage = (socket, groupId) => {
   const currentUser = useSelector((store) => store.user.User);
@@ -9,6 +13,7 @@ const SocketMessage = (socket, groupId) => {
     (store) => store.user.currentReceiver._id
   );
   const currentGroupId = useSelector((store) => store.user.currentGroup._id);
+  const offlineMessages = useSelector((store) => store.chat.offlineMessages);
   const handleStartTyping = () => {
     socket.emit("typing", currentReceiverId);
   };
@@ -20,8 +25,13 @@ const SocketMessage = (socket, groupId) => {
     }
   };
   useEffect(() => {
+    const storedMessages = localStorage.getItem("offlineMessages");
+    if (storedMessages) {
+      dispatch(setOfflineMessages(JSON.parse(storedMessages)));
+    }
+  }, []);
+  useEffect(() => {
     if (!socket) return;
-
     const handleNewMessage = (newMessage) => {
       if (
         (newMessage.senderId === currentUser._id &&
@@ -30,28 +40,59 @@ const SocketMessage = (socket, groupId) => {
           newMessage.receiverId === currentUser._id)
       ) {
         dispatch(addChat(newMessage));
+      } else {
+        const key =
+          newMessage.senderId === currentUser._id
+            ? newMessage.receiverId
+            : newMessage.senderId;
+        const unreadCount = (offlineMessages[key] || 0) + 1;
+        const updatedOfflineMessages = {
+          ...offlineMessages,
+          [key]: unreadCount,
+        };
+        dispatch(setOfflineMessages(updatedOfflineMessages));
+        localStorage.setItem(
+          "offlineMessages",
+          JSON.stringify(updatedOfflineMessages)
+        );
       }
     };
 
     const handleGroupMessage = (groupMessage) => {
-      if (
-        groupMessage.groupId === groupId &&
-        groupMessage.groupId === currentGroupId
-      ) {
+      if (groupMessage.groupId === currentGroupId) {
         dispatch(addChat(groupMessage.message));
+      } else {
+        const key = groupMessage.groupId;
+        const unreadCount = (offlineMessages[key] || 0) + 1;
+        const updatedOfflineMessages = {
+          ...offlineMessages,
+          [key]: unreadCount,
+        };
+        dispatch(setOfflineMessages(updatedOfflineMessages));
+        localStorage.setItem(
+          "offlineMessages",
+          JSON.stringify(updatedOfflineMessages)
+        );
       }
     };
 
     socket.on("newMessage", handleNewMessage);
     socket.on("groupMessage", handleGroupMessage);
 
-    socket.on("typing", () => dispatch(setIsTyping(true)));
-    socket.on("stop typing", () => dispatch(setIsTyping(false)));
+    socket.on("typing", () => dispatch(setIsTyping(currentReceiverId)));
+    socket.on("stop typing", () => dispatch(setIsTyping("")));
     return () => {
       socket.off("newMessage", handleNewMessage);
       socket.off("groupMessage", handleGroupMessage);
     };
-  }, [socket, groupId, currentUser, currentReceiverId, currentGroupId]);
+  }, [
+    socket,
+    currentUser,
+    currentReceiverId,
+    currentGroupId,
+    dispatch,
+    offlineMessages,
+  ]);
 
   const joinGroup = () => {
     if (socket) {
@@ -59,7 +100,7 @@ const SocketMessage = (socket, groupId) => {
     }
   };
 
-  return { joinGroup,handleStartTyping,handleStopTyping };
+  return { joinGroup, handleStartTyping, handleStopTyping };
 };
 
 export default SocketMessage;

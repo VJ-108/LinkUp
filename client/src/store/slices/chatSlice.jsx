@@ -7,7 +7,8 @@ const chatSlice = createSlice({
     chats: [],
     showParticipant: false,
     filteredUsers: [],
-    isTyping: false,
+    isTyping: "",
+    offlineMessages: {},
   },
   reducers: {
     setIsChatPanelVisible: (state, action) => {
@@ -31,6 +32,9 @@ const chatSlice = createSlice({
     setIsTyping: (state, action) => {
       state.isTyping = action.payload;
     },
+    setOfflineMessages: (state, action) => {
+      state.offlineMessages = action.payload;
+    },
   },
 });
 
@@ -42,5 +46,6 @@ export const {
   setShowParticipant,
   setFilteredUsers,
   setIsTyping,
+  setOfflineMessages,
 } = chatSlice.actions;
 export default chatSlice.reducer;

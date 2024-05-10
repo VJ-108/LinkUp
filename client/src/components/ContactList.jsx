@@ -16,6 +16,7 @@ const ContactList = () => {
   const userId = useSelector((store) => store.user.User._id);
   const group = useSelector((store) => store.user.Group);
   const onlineUsers = useSelector((store) => store.socket.onlineUsers);
+  const offlineMessages = useSelector((store) => store.chat.offlineMessages);
   const { getGroup } = useGetGroup();
   useEffect(() => {
     contact.forEach((chat) => {
@@ -28,7 +29,6 @@ const ContactList = () => {
   const ifParticipant = () => {
     return group?.members?.some((member) => member._id === userId);
   };
-
   return (
     <div className="p-2 overflow-y-auto max-h-[78%] md:max-h-[82%]">
       {contact.map((chat) => (
@@ -47,10 +47,11 @@ const ContactList = () => {
                 }
               }}
             >
-              <div className="col-span-11">
-              {chat.groupId.name}
-              </div>
               <div className="col-span-1"></div>
+              <div className="col-span-10">{chat.groupId.name}</div>
+              <div className={`h-4 w-4 col-span-1`}>
+                {offlineMessages[chat.groupId._id]}
+              </div>
             </button>
           ) : null}
           {!chat.groupId && (
@@ -74,10 +75,17 @@ const ContactList = () => {
                         }
                       }}
                     >
-                      <div className="col-span-11">{participant.username}</div>
-                      {isOnline && (
-                        <div className="h-4 w-4 rounded-full bg-green-600 col-span-1"></div>
-                      )}
+                      <div
+                        className={`h-4 w-4 rounded-full bg-green-600 col-span-1 ${
+                          isOnline ? "" : "invisible"
+                        }`}
+                      ></div>
+                      <div className="col-span-10">{participant.username}</div>
+                      <div className={`h-4 w-4 col-span-1`}>
+                        {offlineMessages[participant._id] !== 0
+                          ? offlineMessages[participant._id]
+                          : ""}
+                      </div>
                     </button>
                   );
                 } else {
