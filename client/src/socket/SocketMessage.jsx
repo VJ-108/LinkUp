@@ -9,12 +9,15 @@ const SocketMessage = (socket, groupId) => {
     (store) => store.user.currentReceiver._id
   );
   const currentGroupId = useSelector((store) => store.user.currentGroup._id);
-  const handleTyping = () => {
-    if (!socket) return;
+  const handleStartTyping = () => {
     socket.emit("typing", currentReceiverId);
-    setTimeout(() => {
-      socket.emit("stop typing", currentReceiverId);
-    }, 3000);
+  };
+  const handleStopTyping = (message) => {
+    if (message === "") {
+      if (socket) {
+        socket.emit("stop typing", currentReceiverId);
+      }
+    }
   };
   useEffect(() => {
     if (!socket) return;
@@ -56,7 +59,7 @@ const SocketMessage = (socket, groupId) => {
     }
   };
 
-  return { joinGroup, handleTyping };
+  return { joinGroup,handleStartTyping,handleStopTyping };
 };
 
 export default SocketMessage;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useSendMessage from "../hooks/useSendMessage";
 import SocketMessage from "../socket/SocketMessage";
 import { useSelector } from "react-redux";
@@ -11,8 +11,14 @@ const Message = ({ socket }) => {
     (store) => store.chat.isChatPanelVisible
   );
   const { sendMessage } = useSendMessage();
-  const { handleTyping } = SocketMessage(socket, groupId);
+  const { handleStartTyping, handleStopTyping } = SocketMessage(
+    socket,
+    groupId
+  );
   const showParticipant = useSelector((store) => store.chat.showParticipant);
+  useEffect(() => {
+    handleStopTyping(message);
+  }, [message, receiverId]);
   return showParticipant ? (
     <></>
   ) : (
@@ -28,7 +34,7 @@ const Message = ({ socket }) => {
         value={message}
         onChange={(e) => {
           setMessage(e.target.value);
-          handleTyping();
+          handleStartTyping();
         }}
       />
       <button
