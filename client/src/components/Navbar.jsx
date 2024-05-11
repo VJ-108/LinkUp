@@ -7,6 +7,7 @@ const Navbar = () => {
   const { logout } = useLogout();
   const navigate = useNavigate();
   const isloggedIn = useSelector((store) => store.user.isloggedIn);
+  const avatar = useSelector((store) => store.user.User.avatar)
   useEffect(() => {
     if (!isloggedIn) {
       navigate("/");
@@ -70,7 +71,7 @@ const Navbar = () => {
                 className="btn btn-ghost btn-circle avatar"
               >
                 <div className="w-10">
-                  <img alt="..." src="/user-avatar.png" />
+                  <img alt="..." src={`/${avatar}.png`} />
                 </div>
               </div>
               <ul

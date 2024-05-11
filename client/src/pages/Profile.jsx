@@ -6,9 +6,11 @@ import useToggleChat_Bot from "../hooks/useToggleChat_Bot";
 import useDeleteAccount from "../hooks/useDeleteAccount";
 import ChangeProfile from "../components/ChangeProfile";
 import { setChange_Profile } from "../store/slices/userSlice";
+import Change_Avatar from "../components/Change_Avatar";
 
 const Profile = () => {
   const [changeProfile, setChangeProfile] = useState(false);
+  const [changeAvatar, setChangeAvatar] = useState(false);
   const isloggedIn = useSelector((store) => store.user.isloggedIn);
   const user = useSelector((store) => store.user.User);
   const dispatch = useDispatch();
@@ -30,11 +32,6 @@ const Profile = () => {
     {
       label: "About",
       value: user?.about,
-      disabled: true,
-    },
-    {
-      label: "Avatar",
-      value: user.avatar,
       disabled: true,
     },
   ];
@@ -60,6 +57,7 @@ const Profile = () => {
   return (
     <div className="bg-gradient-to-r from-black via-gray-900 to-black">
       {changeProfile && <ChangeProfile setChangeProfile={setChangeProfile} />}
+      {changeAvatar && <Change_Avatar setChangeAvatar={setChangeAvatar} />}
       <div className="lg:h-screen min-h-screen grid grid-cols-2 gap-5 mt-16">
         <div className="md:col-span-1 col-span-2 w-full flex pt-16 f flex-col items-center gap-10">
           {options1.map((item) => {
@@ -86,6 +84,25 @@ const Profile = () => {
               </div>
             );
           })}
+          <div className="w-[80%]">
+            <label className="label">
+              <span className="label-text mx-2">Avatar</span>
+            </label>
+            <input
+              type="text"
+              value={user.avatar}
+              className="input input-bordered w-[75%] mx-2 mb-2"
+              disabled
+            />
+            <button
+              className="btn w-[20%]"
+              onClick={() => {
+                setChangeAvatar(true);
+              }}
+            >
+              Change
+            </button>
+          </div>
         </div>
         <div className="md:col-span-1 col-span-2 w-full  pt-16 flex flex-col items-center gap-10">
           {options2.map((item) => {

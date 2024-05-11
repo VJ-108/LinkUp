@@ -111,11 +111,15 @@ const getUserChats = asyncHandler(async (req, res, next) => {
       .select("participants groupId")
       .populate({
         path: "participants",
-        select: "username",
+        select: "username avatar",
       })
       .populate({
         path: "groupId",
-        select: "name",
+        select: "name members",
+        populate: {
+          path: "members",
+          select: "username avatar",
+        },
       });
     return res
       .status(200)

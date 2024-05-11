@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import useChangeAbout from "../hooks/useChangeAbout";
-import useChangeAvatar from "../hooks/useChangeAvatar";
 import useChangePassword from "../hooks/useChangePassword";
 import useChangeUsername from "../hooks/useChangeUsername";
 
@@ -10,7 +9,6 @@ const ChangeProfile = ({ setChangeProfile }) => {
   const [oldChange, setOldChange] = useState();
   const [newChange, setNewChange] = useState();
   const { change_about } = useChangeAbout();
-  const { change_avatar } = useChangeAvatar();
   const { change_password } = useChangePassword();
   const { change_username } = useChangeUsername();
   const changeProfile = () => {
@@ -20,8 +18,6 @@ const ChangeProfile = ({ setChangeProfile }) => {
       change_password(oldChange, newChange);
     } else if (change_type === "About") {
       change_about(newChange);
-    } else if (change_type === "Avatar") {
-      change_avatar(newChange);
     }
     setChangeProfile(false);
   };
@@ -58,7 +54,6 @@ const ChangeProfile = ({ setChangeProfile }) => {
                   className="btn bg-gray-950 hover:bg-gray-800"
                   onClick={(e) => {
                     e.preventDefault();
-                    setChangeProfile(false);
                     changeProfile();
                   }}
                 >

@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import SocketCreate from "../socket/SocketCreate";
-import { setContact } from "../store/slices/userSlice";
 import Message from "../components/message";
 import SearchUser from "../components/searchUser";
 import ContactList from "../components/ContactList";
@@ -11,7 +9,6 @@ import ChatContainer from "../components/ChatContainer";
 import useGetUserChats from "../hooks/useGetUserChats";
 
 const Chat_page = () => {
-  const dispatch = useDispatch();
   const chat = useSelector((store) => store.chat.chats);
   const isloggedIn = useSelector((store) => store.user.isloggedIn);
   const isChatPanelVisible = useSelector(

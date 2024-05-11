@@ -9,16 +9,21 @@ import GroupParticipants from "./GroupParticipants";
 
 const ChatContainer = () => {
   const dispatch = useDispatch();
-  const chats = useSelector((store) => store.chat.chats);
   const chatContainerRef = useRef(null);
+  const chats = useSelector((store) => store.chat.chats);
+  const avatar = useSelector((store) => store.user.User.avatar);
   const userId = useSelector((store) => store.user.User._id);
   const receiver = useSelector((store) => store.user.currentReceiver.username);
   const receiverId = useSelector((store) => store.user.currentReceiver._id);
   const group = useSelector((store) => store.user.currentGroup.name);
+  const group_members = useSelector((store) => store.user.currentGroup.members);
   const showParticipant = useSelector((store) => store.chat.showParticipant);
   const onlineUsers = useSelector((store) => store.socket.onlineUsers);
   const isTyping = useSelector((store) => store.chat.isTyping);
   const offlineMessages = useSelector((store) => store.chat.offlineMessages);
+  const receiver_avatar = useSelector(
+    (store) => store.user.currentReceiver.avatar
+  );
   const isChatPanelVisible = useSelector(
     (store) => store.chat.isChatPanelVisible
   );
@@ -79,13 +84,14 @@ const ChatContainer = () => {
           </svg>
         </div>
         <div className="navbar-center">
-          {isOnline && (
-            <div
-              className={`h-4 w-4 rounded-full bg-green-600 ${
-                receiver ? "block" : "hidden"
-              }`}
-            ></div>
-          )}
+          <div
+            className={`h-10 w-10 rounded-full ${
+              isOnline ? "border-4 border-green-600" : ""
+            } ${receiver ? "block" : "hidden"}`}
+          >
+            <img className="w-full" alt="..." src={`/${receiver_avatar}.png`} />
+          </div>
+
           <a
             className="btn btn-ghost text-xl"
             onClick={() =>
@@ -118,6 +124,39 @@ const ChatContainer = () => {
                     chat.senderId === userId ? "chat-end" : "chat-start"
                   }`}
                 >
+                  {group
+                    ? group_members.map((member) => {
+                        if (
+                          member._id === chat.senderId &&
+                          member._id !== userId
+                        ) {
+                          return (
+                            <div
+                              key={member._id}
+                              className="h-full flex items-end flex-col justify-center"
+                            >
+                              <div className="text-white w-full text-center">
+                                {member.username}
+                              </div>
+                              <img
+                                className="w-8"
+                                alt="..."
+                                src={`/${member.avatar}.png`}
+                              />
+                            </div>
+                          );
+                        }
+                        return null;
+                      })
+                    : chat.senderId !== userId && (
+                        <div className="h-full flex items-end">
+                          <img
+                            className="w-8 "
+                            alt="..."
+                            src={`/${receiver_avatar}.png`}
+                          />
+                        </div>
+                      )}
                   <div
                     className={`chat-bubble md:p-5 font-medium text-sm ${
                       chat.senderId === userId
@@ -127,12 +166,19 @@ const ChatContainer = () => {
                   >
                     {chat.message}
                   </div>
+                  {chat.senderId === userId && (
+                    <img
+                      className="w-8 float-right"
+                      alt="..."
+                      src={`/${avatar}.png`}
+                    />
+                  )}
                 </div>
               </div>
             </div>
           );
         })}
-      {chats.length > 0 && isTyping===receiverId && (
+      {chats.length > 0 && isTyping === receiverId && (
         <span className="loading loading-dots loading-lg m-5"></span>
       )}
     </div>

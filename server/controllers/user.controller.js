@@ -642,6 +642,7 @@ const searchUser = asyncHandler(async (req, res, next) => {
     const users = user.map((user) => ({
       _id: user._id,
       username: user.username,
+      avatar: user.avatar
     }));
     return res
       .status(200)
