@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import { setGroup } from "../store/slices/userSlice";
 
 const useLeaveGroup = () => {
   const dispatch = useDispatch();

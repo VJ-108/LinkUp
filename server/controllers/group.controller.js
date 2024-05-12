@@ -24,9 +24,12 @@ const createGroup = asyncHandler(async (req, res, next) => {
     user.Group_ids.push(group._id);
     await createdGroup.save();
     await user.save({ validateBeforeSave: false });
+    const newGroup = await Group.findOne({ name: name, admin: req.user?._id })
+      .populate("admin", "username")
+      .populate("members", "username");
     return res
       .status(200)
-      .json(new ApiResponse(200, createdGroup, "Group Created successfully"));
+      .json(new ApiResponse(200, newGroup, "Group Created successfully"));
   } catch (error) {
     throw new ApiError(500, "Error creating Group");
   }

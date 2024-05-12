@@ -26,14 +26,15 @@ const ContactList = () => {
     });
   }, [contact]);
 
-  const ifParticipant = () => {
+  const ifParticipant = (group) => {
     return group?.members?.some((member) => member._id === userId);
   };
+
   return (
-    <div className="p-2 overflow-y-auto max-h-[78%] md:max-h-[82%]">
+    <div className="p-2 overflow-y-auto h-[75%]">
       {contact.map((chat) => (
         <div key={chat._id} className="my-2 p-2">
-          {chat.groupId && ifParticipant() ? (
+          {chat.groupId && ifParticipant(chat.groupId) ? (
             <button
               key={chat.groupId._id}
               className="btn w-full hover:outline grid grid-cols-12"
@@ -53,46 +54,49 @@ const ContactList = () => {
                 {offlineMessages[chat.groupId._id]}
               </div>
             </button>
-          ) : null}
-          {!chat.groupId && (
-            <>
-              {chat.participants.map((participant) => {
-                if (participant.username !== username) {
-                  const isOnline = Object.keys(onlineUsers).some(
-                    (userId) => participant._id === userId
-                  );
-                  return (
-                    <button
-                      key={participant._id}
-                      className="btn w-full hover:outline grid grid-cols-12"
-                      onClick={() => {
-                        dispatch(setCurrentReceiver(participant));
-                        dispatch(setCurrentGroup({}));
-                        dispatch(setShowParticipant(false));
-                        openChat("chat", participant._id);
-                        if (window.innerWidth <= 768) {
-                          dispatch(setIsChatPanelVisible(false));
-                        }
-                      }}
-                    >
-                      <div
-                        className={`h-4 w-4 rounded-full bg-green-600 col-span-1 ${
-                          isOnline ? "" : "invisible"
-                        }`}
-                      ></div>
-                      <div className="col-span-10">{participant.username}</div>
-                      <div className={`h-4 w-4 col-span-1`}>
-                        {offlineMessages[participant._id] !== 0
-                          ? offlineMessages[participant._id]
-                          : ""}
-                      </div>
-                    </button>
-                  );
-                } else {
-                  return null;
-                }
-              })}
-            </>
+          ) : (
+            !chat.groupId && (
+              <>
+                {chat.participants.map((participant) => {
+                  if (participant.username !== username) {
+                    const isOnline = Object.keys(onlineUsers).some(
+                      (userId) => participant._id === userId
+                    );
+                    return (
+                      <button
+                        key={participant._id}
+                        className="btn w-full hover:outline grid grid-cols-12"
+                        onClick={() => {
+                          dispatch(setCurrentReceiver(participant));
+                          dispatch(setCurrentGroup({}));
+                          dispatch(setShowParticipant(false));
+                          openChat("chat", participant._id);
+                          if (window.innerWidth <= 768) {
+                            dispatch(setIsChatPanelVisible(false));
+                          }
+                        }}
+                      >
+                        <div
+                          className={`h-4 w-4 rounded-full bg-green-600 col-span-1 ${
+                            isOnline ? "" : "invisible"
+                          }`}
+                        ></div>
+                        <div className="col-span-10">
+                          {participant.username}
+                        </div>
+                        <div className={`h-4 w-4 col-span-1`}>
+                          {offlineMessages[participant._id] !== 0
+                            ? offlineMessages[participant._id]
+                            : ""}
+                        </div>
+                      </button>
+                    );
+                  } else {
+                    return null;
+                  }
+                })}
+              </>
+            )
           )}
         </div>
       ))}
