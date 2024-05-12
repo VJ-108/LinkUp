@@ -1,15 +1,17 @@
 import React from "react";
 import useChangeAvatar from "../hooks/useChangeAvatar";
-import { AvatarList } from "../utils/constants";
+import { AvatarList, lang } from "../utils/constants";
+import { useSelector } from "react-redux";
 const Change_Avatar = ({ setChangeAvatar }) => {
   const { change_avatar } = useChangeAvatar();
+  const ln = useSelector((store) => store.user.ln);
   return (
     <>
       <div className="hero min-h-screen bg-transparent z-[100] absolute top-0">
         <div className="hero-content flex-col-reverse lg:flex-row-reverse w-[32rem] h-[30rem]">
           <div className="card shrink-0 w-full h-full shadow-2xl border border-gray-800 bg-base-300">
             <form className="card-body overflow-y-auto">
-              <div className="text-center text-lg text-white">Avatar</div>
+              <div className="text-center text-lg text-white">{lang[ln].avatar}</div>
               <div className="form-control cursor-pointer flex flex-row flex-wrap justify-center">
                 {AvatarList.map((avatar, index) => {
                   return (

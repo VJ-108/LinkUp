@@ -7,9 +7,11 @@ import useToggleMember from "../hooks/useToggleMember";
 import useLeaveGroup from "../hooks/useLeaveGroup";
 import useGetUserChats from "../hooks/useGetUserChats";
 import AddUser from "./AddUser";
+import { lang } from "../utils/constants";
 
 const GroupParticipants = () => {
   const dispatch = useDispatch();
+  const ln = useSelector((store) => store.user.ln);
   const group = useSelector((store) => store.user.currentGroup.name);
   const showParticipant = useSelector((store) => store.chat.showParticipant);
   const Group = useSelector((store) => store.user.Group);
@@ -51,7 +53,7 @@ const GroupParticipants = () => {
         </div>
         {changeAddUser && <AddUser setChangeAddUser={setChangeAddUser} />}
         <div>
-          <h1 className="px-4 pt-3 text-2xl font-semibold">Admin</h1>
+          <h1 className="px-4 pt-3 text-2xl font-semibold">{lang[ln].Admin}</h1>
           <div className="p-3">
             {Group?.admin?.map((admin) => {
               return (
@@ -89,12 +91,12 @@ const GroupParticipants = () => {
                               className="justify-between"
                               onClick={() => toggleAdmin(admin._id)}
                             >
-                              Dismiss as Admin
+                              {lang[ln].Dismiss_as_Admin}
                             </a>
                           </li>
                           <li>
                             <a onClick={() => toggleMember(admin._id)}>
-                              Remove User
+                              {lang[ln].Remove_User}
                             </a>
                           </li>
                         </ul>
@@ -107,7 +109,9 @@ const GroupParticipants = () => {
           </div>
         </div>
         <div>
-          <h1 className="px-4 pt-3 text-2xl font-semibold">Members</h1>
+          <h1 className="px-4 pt-3 text-2xl font-semibold">
+            {lang[ln].Members}
+          </h1>
           <div className="p-3">
             {Group?.members?.map((member) => {
               const isMemberAdmin = Group?.admin?.some(
@@ -149,13 +153,13 @@ const GroupParticipants = () => {
                                 className="justify-between"
                                 onClick={() => toggleAdmin(member._id)}
                               >
-                                Make Admin
+                                {lang[ln].Make_Admin}
                               </a>
                             </li>
                           )}
                           <li>
                             <a onClick={() => toggleMember(member._id)}>
-                              Remove User
+                              {lang[ln].Remove_User}
                             </a>
                           </li>
                         </ul>
@@ -172,7 +176,7 @@ const GroupParticipants = () => {
             className="btn bg-blue-700 text-white hover:bg-blue-600 m-3"
             onClick={() => setChangeAddUser(true)}
           >
-            Add User
+            {lang[ln].Add_User}
           </button>
         )}
         <button
@@ -183,7 +187,7 @@ const GroupParticipants = () => {
             dispatch(setShowParticipant(false));
           }}
         >
-          Leave Group
+          {lang[ln].Leave_Group}
         </button>
       </div>
     )

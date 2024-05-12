@@ -2,11 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useToggleMember from "../hooks/useToggleMember";
+import { lang } from "../utils/constants";
 
 const AddUser = ({ setChangeAddUser }) => {
   const [search, setSearch] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
   const Group = useSelector((store) => store.user.Group);
+  const ln = useSelector((store) => store.user.ln);
   const { toggleMember } = useToggleMember();
   useEffect(() => {
     function handleClickOutside(event) {
@@ -16,6 +18,7 @@ const AddUser = ({ setChangeAddUser }) => {
       }
     }
     document.addEventListener("click", handleClickOutside);
+    console.log(lang[ln]);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
@@ -44,7 +47,7 @@ const AddUser = ({ setChangeAddUser }) => {
           <div className="card-body">
             <input
               type="text"
-              placeholder="Search"
+              placeholder={lang[ln].search}
               className="input input-bordered col-span-6 "
               required
               value={search}

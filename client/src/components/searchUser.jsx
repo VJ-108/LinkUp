@@ -8,9 +8,11 @@ import {
   setShowParticipant,
 } from "../store/slices/chatSlice";
 import useSearchUser from "../hooks/useSearchUser";
+import { lang } from "../utils/constants";
 
 const SearchUser = () => {
   const [search, setSearch] = useState("");
+  const ln = useSelector((store) => store.user.ln);
   const filteredUsers = useSelector((store) => store.chat.filteredUsers);
   const username = useSelector((store) => store.user.User.username);
   const dispatch = useDispatch();
@@ -35,7 +37,7 @@ const SearchUser = () => {
     <div className="relative grid grid-cols-6 gap-1 p-2">
       <input
         type="text"
-        placeholder="Search"
+        placeholder={lang[ln].search}
         className="input input-bordered col-span-6 "
         required
         value={search}

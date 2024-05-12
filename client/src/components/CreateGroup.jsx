@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import useCreateGroup from "../hooks/useCreateGroup";
+import { useSelector } from "react-redux";
+import { lang } from "../utils/constants";
 
 const CreateGroup = ({ setCreateGroup }) => {
   const [groupName, setGroupName] = useState("");
+  const ln = useSelector((store) => store.user.ln);
   const { createGroup } = useCreateGroup();
   return (
     <div className="hero min-h-screen bg-transparent z-[100] absolute top-0">
@@ -11,7 +14,7 @@ const CreateGroup = ({ setCreateGroup }) => {
           <div className="card-body">
             <input
               type="text"
-              placeholder="Group Name"
+              placeholder={lang[ln].Group_Name}
               className="input input-bordered col-span-6 "
               required
               value={groupName}

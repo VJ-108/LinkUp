@@ -1,22 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useChangeAbout from "../hooks/useChangeAbout";
 import useChangePassword from "../hooks/useChangePassword";
 import useChangeUsername from "../hooks/useChangeUsername";
+import { lang } from "../utils/constants";
 
 const ChangeProfile = ({ setChangeProfile }) => {
   const change_type = useSelector((store) => store.user.change_profile);
+  const ln = useSelector((store) => store.user.ln);
   const [oldChange, setOldChange] = useState();
   const [newChange, setNewChange] = useState();
+  const [displayChange, setDisplayChange] = useState();
   const { change_about } = useChangeAbout();
   const { change_password } = useChangePassword();
   const { change_username } = useChangeUsername();
+  useEffect(() => {
+    if (change_type === "Username") {
+      setDisplayChange(lang[ln].username);
+    } else if (change_type === "Password") {
+      setDisplayChange(lang[ln].password);
+    } else if (change_type === "About") {
+      setDisplayChange(lang[ln].about);
+    }
+  }, []);
   const changeProfile = () => {
     if (change_type === "Username") {
+      setDisplayChange(lang[ln].username);
       change_username(newChange);
     } else if (change_type === "Password") {
+      setDisplayChange(lang[ln].password);
       change_password(oldChange, newChange);
     } else if (change_type === "About") {
+      setDisplayChange(lang[ln].about);
       change_about(newChange);
     }
     setChangeProfile(false);
@@ -29,7 +44,7 @@ const ChangeProfile = ({ setChangeProfile }) => {
             <form className="card-body">
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Old {change_type}</span>
+                  <span className="label-text">{`${lang[ln].old}  ${displayChange}`}</span>
                 </label>
                 <input
                   type="text"
@@ -40,7 +55,7 @@ const ChangeProfile = ({ setChangeProfile }) => {
               </div>
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">New {change_type}</span>
+                  <span className="label-text">{`${lang[ln].new}  ${displayChange}`}</span>
                 </label>
                 <input
                   type="text"
@@ -57,7 +72,7 @@ const ChangeProfile = ({ setChangeProfile }) => {
                     changeProfile();
                   }}
                 >
-                  Change
+                  {lang[ln].change}
                 </button>
               </div>
               <button

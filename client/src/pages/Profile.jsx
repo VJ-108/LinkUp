@@ -7,10 +7,12 @@ import useDeleteAccount from "../hooks/useDeleteAccount";
 import ChangeProfile from "../components/ChangeProfile";
 import { setChange_Profile } from "../store/slices/userSlice";
 import Change_Avatar from "../components/Change_Avatar";
+import { lang } from "../utils/constants";
 
 const Profile = () => {
   const [changeProfile, setChangeProfile] = useState(false);
   const [changeAvatar, setChangeAvatar] = useState(false);
+  const ln = useSelector((store) => store.user.ln);
   const isloggedIn = useSelector((store) => store.user.isloggedIn);
   const user = useSelector((store) => store.user.User);
   const dispatch = useDispatch();
@@ -20,16 +22,19 @@ const Profile = () => {
   const { delete_account } = useDeleteAccount();
   const options1 = [
     {
+      name: lang[ln].username,
       label: "Username",
       value: user.username,
       disabled: true,
     },
     {
+      name: lang[ln].password,
       label: "Password",
       value: "********",
       disabled: true,
     },
     {
+      name: lang[ln].about,
       label: "About",
       value: user?.about,
       disabled: true,
@@ -37,12 +42,14 @@ const Profile = () => {
   ];
   const options2 = [
     {
+      name: lang[ln].Chat_Bot,
       label: "Chat Bot",
       value: `${user.Chat_Bot}`,
       disabled: true,
       function: () => toggleChat_bot(),
     },
     {
+      name: lang[ln].Chat_Type,
       label: "Chat Type",
       value: user.chat_type,
       disabled: true,
@@ -64,7 +71,7 @@ const Profile = () => {
             return (
               <div className="w-[80%]" key={item.label}>
                 <label className="label">
-                  <span className="label-text mx-2">{item.label}</span>
+                  <span className="label-text mx-2">{item.name}</span>
                 </label>
                 <input
                   type="text"
@@ -79,14 +86,14 @@ const Profile = () => {
                     dispatch(setChange_Profile(item.label));
                   }}
                 >
-                  Change
+                  {lang[ln].Change}
                 </button>
               </div>
             );
           })}
           <div className="w-[80%]">
             <label className="label">
-              <span className="label-text mx-2">Avatar</span>
+              <span className="label-text mx-2">{lang[ln].Avatar}</span>
             </label>
             <input
               type="text"
@@ -100,7 +107,7 @@ const Profile = () => {
                 setChangeAvatar(true);
               }}
             >
-              Change
+              {lang[ln].Change}
             </button>
           </div>
         </div>
@@ -109,7 +116,7 @@ const Profile = () => {
             return (
               <div className="w-[80%]" key={item.label}>
                 <label className="label">
-                  <span className="label-text mx-2">{item.label}</span>
+                  <span className="label-text mx-2">{item.name}</span>
                 </label>
                 <input
                   type="text"
@@ -118,14 +125,14 @@ const Profile = () => {
                   disabled={item.disabled}
                 />
                 <button className="btn w-[20%]" onClick={item.function}>
-                  Toggle
+                  {lang[ln].Toggle}
                 </button>
               </div>
             );
           })}
           <div className="w-[80%]">
             <label className="label">
-              <span className="label-text mx-2">Email</span>
+              <span className="label-text mx-2">{lang[ln].Email}</span>
             </label>
             <input
               type="text"
@@ -139,7 +146,7 @@ const Profile = () => {
               className="btn w-full bg-red-700 text-white hover:bg-red-600"
               onClick={() => delete_account()}
             >
-              Delete Account
+              {lang[ln].Delete_Account}
             </button>
           </div>
         </div>

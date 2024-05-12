@@ -1,13 +1,17 @@
 import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useLogout from "../hooks/useLogout";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setLanguage } from "../store/slices/userSlice";
+import { lang } from "../utils/constants";
 
 const Navbar = () => {
   const { logout } = useLogout();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const isloggedIn = useSelector((store) => store.user.isloggedIn);
-  const avatar = useSelector((store) => store.user.User.avatar)
+  const avatar = useSelector((store) => store.user.User.avatar);
+  const ln = useSelector((store) => store.user.ln);
   useEffect(() => {
     if (!isloggedIn) {
       navigate("/");
@@ -38,19 +42,19 @@ const Navbar = () => {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <Link to={"/"}>Home</Link>
+              <Link to={"/"}>{lang[ln].Home}</Link>
             </li>
             {isloggedIn && (
               <li>
-                <Link to={"/chat"}>Chat</Link>
+                <Link to={"/chat"}>{lang[ln].Chat}</Link>
               </li>
             )}
             <li>
-              <Link to={"/about"}>About Us</Link>
+              <Link to={"/about"}>{lang[ln].About_Us}</Link>
             </li>
             {isloggedIn && (
               <li>
-                <Link to={"/help-center"}>Help Center</Link>
+                <Link to={"/help-center"}>{lang[ln].Help_Center}</Link>
               </li>
             )}
           </ul>
@@ -58,11 +62,33 @@ const Navbar = () => {
       </div>
       <div className="navbar-center">
         <Link to={"/"} className="btn btn-ghost text-xl">
-          Chat App
+          {lang[ln].Chat_App}
         </Link>
       </div>
       <div className="navbar-end">
-        <div className="flex-none gap-2">
+        <div className="flex gap-2">
+          <div className="dropdown dropdown-hover">
+            <div tabIndex={0} role="button" className="btn mx-3">
+              {lang[ln].Change_Language}
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40 m-1"
+            >
+              <li onClick={() => dispatch(setLanguage("en"))}>
+                <a>English</a>
+              </li>
+              <li onClick={() => dispatch(setLanguage("hindi"))}>
+                <a>Hindi</a>
+              </li>
+              <li onClick={() => dispatch(setLanguage("pjb"))}>
+                <a>Punjabi</a>
+              </li>
+              <li onClick={() => dispatch(setLanguage("marathi"))}>
+                <a>Marathi</a>
+              </li>
+            </ul>
+          </div>
           {isloggedIn ? (
             <div className="dropdown dropdown-end">
               <div
@@ -80,11 +106,11 @@ const Navbar = () => {
               >
                 <li>
                   <Link to={"/profile"} className="justify-between">
-                    Profile
+                    {lang[ln].Profile}
                   </Link>
                 </li>
                 <li>
-                  <a onClick={() => logout()}>Logout</a>
+                  <a onClick={() => logout()}>{lang[ln].Logout}</a>
                 </li>
               </ul>
             </div>
@@ -95,7 +121,7 @@ const Navbar = () => {
                 navigate("/login");
               }}
             >
-              LogIn
+              {lang[ln].LogIn}
             </button>
           )}
         </div>

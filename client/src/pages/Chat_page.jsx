@@ -8,9 +8,11 @@ import ContactList from "../components/ContactList";
 import ChatContainer from "../components/ChatContainer";
 import useGetUserChats from "../hooks/useGetUserChats";
 import CreateGroup from "../components/CreateGroup";
+import { lang } from "../utils/constants";
 
 const Chat_page = () => {
   const [createGroup, setCreateGroup] = useState(false);
+  const ln = useSelector((store) => store.user.ln);
   const chat = useSelector((store) => store.chat.chats);
   const isloggedIn = useSelector((store) => store.user.isloggedIn);
   const isChatPanelVisible = useSelector(
@@ -49,7 +51,7 @@ const Chat_page = () => {
                 className="btn text-center w-full text-white bg-blue-700 hover:bg-blue-800"
                 onClick={() => setCreateGroup(true)}
               >
-                Create Group
+                {lang[ln].Create_Group}
               </button>
             </div>
           </div>

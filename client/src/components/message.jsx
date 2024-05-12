@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import useSendMessage from "../hooks/useSendMessage";
 import SocketMessage from "../socket/SocketMessage";
 import { useSelector } from "react-redux";
+import { lang } from "../utils/constants";
 
 const Message = ({ socket }) => {
   const [message, setMessage] = useState("");
+  const ln = useSelector((store) => store.user.ln);
   const receiverId = useSelector((store) => store.user.currentReceiver._id);
   const groupId = useSelector((store) => store.user.currentGroup._id);
   const isChatPanelVisible = useSelector(
@@ -29,7 +31,7 @@ const Message = ({ socket }) => {
     >
       <input
         type="text"
-        placeholder="Type here"
+        placeholder={lang[ln].Type_here}
         className="input input-bordered input-info col-span-10 bg-transparent"
         value={message}
         onChange={(e) => {
@@ -44,7 +46,7 @@ const Message = ({ socket }) => {
           setMessage("");
         }}
       >
-        Send
+        {lang[ln].Send}
       </button>
     </div>
   );

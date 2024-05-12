@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useSignup from "../hooks/useSignup";
 import { useSelector } from "react-redux";
+import { lang } from "../utils/constants";
 
 const Signup = () => {
   const [username, setUsername] = useState("");
@@ -10,6 +11,7 @@ const Signup = () => {
   const { signup } = useSignup();
   const navigate = useNavigate();
   const isRegistered = useSelector((store) => store.user.isRegistered);
+  const ln = useSelector((store) => store.user.ln);
   if (isRegistered) {
     document.getElementById("my_modal").showModal();
   }
@@ -17,16 +19,12 @@ const Signup = () => {
     <>
       <dialog id="my_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Registration Successful!</h3>
-          <p className="py-4">
-            Congratulations on successfully joining our chat community! Your
-            journey starts here. Hit the button below to log in and start
-            chatting away!
-          </p>
+          <h3 className="font-bold text-lg">{lang[ln].Signup_dialog_title}</h3>
+          <p className="py-4">{lang[ln].Signup_dialog_msg}</p>
           <div className="modal-action">
             <form method="dialog">
               <button className="btn" onClick={() => navigate("/login")}>
-                Login
+                {lang[ln].LogIn}
               </button>
             </form>
           </div>
@@ -39,11 +37,11 @@ const Signup = () => {
             <form className="card-body">
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Username</span>
+                  <span className="label-text">{lang[ln].username}</span>
                 </label>
                 <input
                   type="username"
-                  placeholder="username"
+                  placeholder={lang[ln].username}
                   className="input input-bordered bg-transparent"
                   required
                   onChange={(e) => setUsername(e.target.value)}
@@ -51,11 +49,11 @@ const Signup = () => {
               </div>
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Email</span>
+                  <span className="label-text">{lang[ln].Email}</span>
                 </label>
                 <input
                   type="email"
-                  placeholder="email"
+                  placeholder={lang[ln].Email}
                   className="input input-bordered bg-transparent"
                   required
                   onChange={(e) => setEmail(e.target.value)}
@@ -63,11 +61,11 @@ const Signup = () => {
               </div>
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Password</span>
+                  <span className="label-text">{lang[ln].Password}</span>
                 </label>
                 <input
                   type="password"
-                  placeholder="password"
+                  placeholder={lang[ln].Password}
                   className="input input-bordered bg-transparent"
                   required
                   onChange={(e) => setPassword(e.target.value)}
@@ -77,7 +75,7 @@ const Signup = () => {
                     to={"/login"}
                     className="label-text-alt link link-hover"
                   >
-                    Already have an account?
+                    {lang[ln].Signup_msg}
                   </Link>
                 </label>
               </div>
@@ -89,17 +87,14 @@ const Signup = () => {
                     signup(username, email, password);
                   }}
                 >
-                  Signup
+                  {lang[ln].Signup}
                 </button>
               </div>
             </form>
           </div>
           <div className="text-center lg:text-left mt-28 md:mt-0">
-            <h1 className="text-5xl font-bold">Signup now!</h1>
-            <p className="py-6">
-              Sign up now to join our friendly community! Connect with others
-              and start chatting instantly.
-            </p>
+            <h1 className="text-5xl font-bold">{lang[ln].Signup_title_1}</h1>
+            <p className="py-6">{lang[ln].Signup_title_2}</p>
           </div>
         </div>
       </div>

@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import useLogin from "../hooks/useLogin";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { lang } from "../utils/constants";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login, loginWithToken } = useLogin();
   const isloggedin = useSelector((store) => store.user.isloggedIn);
+  const ln = useSelector((store) => store.user.ln);
   const navigate = useNavigate();
   useEffect(() => {
     loginWithToken();
@@ -27,11 +29,11 @@ const Login = () => {
             <form className="card-body">
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Email</span>
+                  <span className="label-text">{lang[ln].Email}</span>
                 </label>
                 <input
                   type="email"
-                  placeholder="email"
+                  placeholder={lang[ln].Email}
                   className="input input-bordered bg-transparent"
                   required
                   onChange={(e) => {
@@ -41,11 +43,11 @@ const Login = () => {
               </div>
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Password</span>
+                  <span className="label-text">{lang[ln].Password}</span>
                 </label>
                 <input
                   type="password"
-                  placeholder="password"
+                  placeholder={lang[ln].Password}
                   className="input input-bordered bg-transparent"
                   required
                   onChange={(e) => {
@@ -57,7 +59,7 @@ const Login = () => {
                     to={"/signup"}
                     className="label-text-alt link link-hover"
                   >
-                    Don't have an account?
+                    {lang[ln].Login_msg}
                   </Link>
                 </label>
               </div>
@@ -69,17 +71,14 @@ const Login = () => {
                     login(email, password);
                   }}
                 >
-                  Login
+                  {lang[ln].LogIn}
                 </button>
               </div>
             </form>
           </div>
           <div className="text-center lg:text-left mt-28 md:mt-0">
-            <h1 className="text-5xl font-bold">Login now!</h1>
-            <p className="py-6">
-              Start chatting! Login to connect with others and explore new
-              conversations.
-            </p>
+            <h1 className="text-5xl font-bold">{lang[ln].Login_title_1}</h1>
+            <p className="py-6">{lang[ln].Login_title_2}</p>
           </div>
         </div>
       </div>
