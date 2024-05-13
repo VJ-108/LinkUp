@@ -31,31 +31,17 @@ const userSchema = new Schema(
     },
     about: {
       type: String,
+      default: "",
     },
-    Blocked_ids: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
     Group_ids: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Group",
       },
     ],
-    lastSeen: {
-      type: Date,
-      default: Date.now,
-    },
     Chat_Bot: {
       type: Boolean,
       default: false,
-    },
-    chat_type: {
-      type: String,
-      enum: ["temporary", "permanent"],
-      default: "temporary",
     },
   },
   {

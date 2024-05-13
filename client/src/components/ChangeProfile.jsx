@@ -42,6 +42,7 @@ const ChangeProfile = ({ setChangeProfile }) => {
         <div className="hero-content flex-col-reverse lg:flex-row-reverse w-[28rem] h-[28rem]">
           <div className="card shrink-0 w-full h-full shadow-2xl border border-gray-800 bg-base-300">
             <form className="card-body">
+              <h1>{lang[ln].ChangeProfile_msg}</h1>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">{`${lang[ln].old}  ${displayChange}`}</span>
@@ -69,14 +70,14 @@ const ChangeProfile = ({ setChangeProfile }) => {
                   className="btn bg-gray-950 hover:bg-gray-800"
                   onClick={(e) => {
                     e.preventDefault();
-                    changeProfile();
+                    if (newChange.length < 30) changeProfile();
                   }}
                 >
                   {lang[ln].change}
                 </button>
               </div>
               <button
-                className=" mt-16 w-full flex justify-center"
+                className=" mt-14 w-full flex justify-center"
                 onClick={() => setChangeProfile(false)}
               >
                 <svg

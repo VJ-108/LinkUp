@@ -5,35 +5,6 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 
-const formatLastSeen = (lastSeen) => {
-  const lastSeenDate = new Date(lastSeen);
-  const now = new Date();
-  const diffMilliseconds = now - lastSeenDate;
-  const diffSeconds = Math.floor(diffMilliseconds / 1000);
-  const diffMinutes = Math.floor(diffSeconds / 60);
-  const diffHours = Math.floor(diffMinutes / 60);
-  const diffDays = Math.floor(diffHours / 24);
-  const diffMonths = Math.floor(diffDays / 30);
-
-  if (diffMonths > 0) {
-    if (diffMonths === 1 && diffDays <= 30) {
-      return "1 month ago";
-    } else if (diffMonths < 6) {
-      return `${diffMonths} month${diffMonths > 1 ? "s" : ""} ago`;
-    } else {
-      return "Long time ago";
-    }
-  } else if (diffDays > 0) {
-    return `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
-  } else if (diffHours > 0) {
-    return `${diffHours} hour${diffHours > 1 ? "s" : ""} ago`;
-  } else if (diffMinutes > 0) {
-    return `${diffMinutes} minute${diffMinutes > 1 ? "s" : ""} ago`;
-  } else {
-    return "Just Now";
-  }
-};
-
 const generateAccessandRefreshToken = async (userId) => {
   try {
     const user = await User.findById(userId);
@@ -236,7 +207,11 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     return res
       .status(200)
       .json(
-        new ApiResponse(200, { user: editedUser }, "Password changed successfully")
+        new ApiResponse(
+          200,
+          { user: editedUser },
+          "Password changed successfully"
+        )
       );
   } catch (error) {
     throw new ApiError(500, "Error while changing current password");
@@ -260,32 +235,6 @@ const changeAbout = asyncHandler(async (req, res, next) => {
   }
 });
 
-const getLastseen = asyncHandler(async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user?._id);
-    const lastSeen = user.lastSeen;
-    const formattedLastSeen = formatLastSeen(lastSeen);
-    return res.json(new ApiResponse(200, `Last seen ${formattedLastSeen}`));
-  } catch (error) {
-    throw new ApiError(500, "Error while fetching lastseen");
-  }
-});
-
-const updateLastseen = asyncHandler(async (req, res, next) => {
-  try {
-    const user = await User.findByIdAndUpdate(
-      req.user?._id,
-      { lastSeen: new Date() },
-      { new: true }
-    );
-    const lastSeen = user.lastSeen;
-    const formattedLastSeen = formatLastSeen(lastSeen);
-    return res.json(new ApiResponse(200, `Last seen ${formattedLastSeen}`));
-  } catch (error) {
-    throw new ApiError(500, "Error while updating lastseen");
-  }
-});
-
 const toggleChat_Bot = asyncHandler(async (req, res, next) => {
   try {
     const user = await User.findByIdAndUpdate(
@@ -298,82 +247,6 @@ const toggleChat_Bot = asyncHandler(async (req, res, next) => {
     );
   } catch (error) {
     throw new ApiError(500, "Error while toggling chat_bot");
-  }
-});
-
-const toggleChat_type = asyncHandler(async (req, res, next) => {
-  try {
-    const newChatType =
-      req.user.chat_type === "temporary" ? "permanent" : "temporary";
-    const user = await User.findByIdAndUpdate(
-      req.user?._id,
-      { chat_type: newChatType },
-      { new: true }
-    ).select("-password -refreshToken");
-    return res.json(
-      new ApiResponse(200, { user: user }, "Chat_type toggled successfully")
-    );
-  } catch (error) {
-    throw new ApiError(500, "Error while toggling chat_type");
-  }
-});
-
-const toggleBlocked_id = asyncHandler(async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user?._id);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    const { blocked_user } = req.body;
-    const blockedUser = await User.findOne({ username: blocked_user });
-    if (!blockedUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    const blocked_id = blockedUser._id;
-    const index = user.Blocked_ids.indexOf(blocked_id);
-    if (index === -1) {
-      user.Blocked_ids.push(blocked_id);
-    } else {
-      user.Blocked_ids.splice(index, 1);
-    }
-    await user.save({ validateBeforeSave: false });
-    return res.json(
-      new ApiResponse(
-        200,
-        { Blocked_ids: user.Blocked_ids },
-        "Blocked user toggled successfully"
-      )
-    );
-  } catch (error) {
-    throw new ApiError(500, "Error while toggling blocked_id");
-  }
-});
-
-const getBlocked_ids = asyncHandler(async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user?._id).populate({
-      path: "Blocked_ids",
-      select: "_id username",
-    });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    return res.json(new ApiResponse(200, { blocked_id: user.Blocked_ids }));
-  } catch (error) {
-    throw new ApiError(500, "Error while fetching blocked_id");
-  }
-});
-
-const getUserId = asyncHandler(async (req, res, next) => {
-  try {
-    const { username } = req.body;
-    const user = await User.findOne({ username });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    return res.json(new ApiResponse(200, { userId: user._id }));
-  } catch (error) {
-    throw new ApiError(500, "Error while fetching userId");
   }
 });
 
@@ -399,66 +272,6 @@ const changeUsername = asyncHandler(async (req, res, next) => {
       );
   } catch (error) {
     throw new ApiError(500, "Error while changing username");
-  }
-});
-
-const getUsername = asyncHandler(async (req, res, next) => {
-  try {
-    const { userId } = req.body;
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    return res.json(new ApiResponse(200, { username: user.username }));
-  } catch (error) {
-    throw new ApiError(500, "Error while fetching username");
-  }
-});
-
-const leaveGroup = asyncHandler(async (req, res, next) => {
-  try {
-    const { group } = req.body;
-    const user = await User.findById(req.user?._id);
-    const groupName = await Group.findOne({
-      name: group,
-      members: req.user?._id,
-    });
-    if (!groupName) {
-      return res.json({ message: "Group Not Found" });
-    }
-    const groupIndex = user.Group_ids.indexOf(groupName._id);
-    const userIndex = groupName.members.indexOf(user._id);
-    const adminIndex = groupName.admin.indexOf(user._id);
-    user.Group_ids.splice(groupIndex, 1);
-    groupName.members.splice(userIndex, 1);
-    if (adminIndex !== -1) groupName.admin.splice(adminIndex, 1);
-    await user.save({ validateBeforeSave: false });
-    await groupName.save();
-    if (groupName.admin.length === 0)
-      await Group.findByIdAndDelete(groupName._id);
-    return res
-      .status(200)
-      .json(
-        new ApiResponse(200, groupName.name, "Successfully left the group")
-      );
-  } catch (error) {
-    throw new ApiError(500, "Error while leaving group");
-  }
-});
-
-const getGroups = asyncHandler(async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user?._id).populate("Group_ids");
-    if (!user) {
-      return res.json({ message: "No Group Found" });
-    }
-    return res
-      .status(200)
-      .json(
-        new ApiResponse(200, user.Group_ids, "Successfully fetched Groups")
-      );
-  } catch (error) {
-    throw new ApiError(500, "Error while fetching groups");
   }
 });
 
@@ -503,19 +316,6 @@ const changeAvatar = asyncHandler(async (req, res, next) => {
   }
 });
 
-const removeAvatar = asyncHandler(async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user?._id);
-    user.avatar = "";
-    await user.save({ validateBeforeSave: false });
-    return res
-      .status(200)
-      .json(new ApiResponse(200, user.avatar, "Successfully removed avatar"));
-  } catch (error) {
-    throw new ApiError(500, "Error while removing Avatar");
-  }
-});
-
 const searchUser = asyncHandler(async (req, res, next) => {
   try {
     const { username } = req.body;
@@ -533,7 +333,8 @@ const searchUser = asyncHandler(async (req, res, next) => {
     const users = user.map((user) => ({
       _id: user._id,
       username: user.username,
-      avatar: user.avatar
+      avatar: user.avatar,
+      about: user.about,
     }));
     return res
       .status(200)
@@ -550,19 +351,9 @@ export {
   refreshAccessToken,
   changeCurrentPassword,
   changeAbout,
-  getLastseen,
-  updateLastseen,
   toggleChat_Bot,
-  toggleChat_type,
-  toggleBlocked_id,
-  getBlocked_ids,
-  getUserId,
   changeUsername,
-  getUsername,
   deleteAccount,
-  leaveGroup,
-  getGroups,
   changeAvatar,
-  removeAvatar,
   searchUser,
 };

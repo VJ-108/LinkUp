@@ -103,6 +103,7 @@ const lang = {
     Change_Group_About: "Change Group About",
     Change_Group_About_msg: "Should be less than 60 letters",
     Delete_Group: "Delete Group",
+    ChangeProfile_msg: "Should be less than 30 letters",
   },
   hindi: {
     Change_Language: "भाषा बदलें",
@@ -188,6 +189,7 @@ const lang = {
     Change_Group_About: "समूह के बारे में बदलें",
     Change_Group_About_msg: "60 अक्षरों से कम होना चाहिए",
     Delete_Group: "समूह हटाएँ",
+    ChangeProfile_msg: "30 अक्षरों से कम होना चाहिए",
   },
   pjb: {
     Change_Language: "ਭਾਸ਼ਾ ਬਦਲੋ",
@@ -273,6 +275,7 @@ const lang = {
     Change_Group_About: "ਬਦਲੋ ਗਰੁੱਪ ਬਾਰੇ",
     Change_Group_About_msg: "60 ਅੱਖਰਾਂ ਤੋਂ ਘੱਟ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ",
     Delete_Group: "ਗਰੁੱਪ ਨੂੰ ਮਿਟਾਓ",
+    ChangeProfile_msg: "30 ਅੱਖਰਾਂ ਤੋਂ ਘੱਟ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ",
   },
   marathi: {
     Change_Language: "भाषा बदला",
@@ -358,6 +361,7 @@ const lang = {
     Change_Group_About: "बदला गट बद्दल",
     Change_Group_About_msg: "60 अक्षरांपेक्षा कमी असावे",
     Delete_Group: "गट हटवा",
+    ChangeProfile_msg: "३० अक्षरांपेक्षा कमी असावे",
   },
 };
 export { AvatarList, lang };

@@ -15,6 +15,9 @@ const ChatContainer = () => {
   const userId = useSelector((store) => store.user.User._id);
   const receiver = useSelector((store) => store.user.currentReceiver.username);
   const receiverId = useSelector((store) => store.user.currentReceiver._id);
+  const receiver_about = useSelector(
+    (store) => store.user.currentReceiver.about
+  );
   const group = useSelector((store) => store.user.currentGroup.name);
   const group_members = useSelector((store) => store.user.currentGroup.members);
   const showParticipant = useSelector((store) => store.chat.showParticipant);
@@ -84,16 +87,40 @@ const ChatContainer = () => {
           </svg>
         </div>
         <div className="navbar-center">
-          <div
-            className={`h-10 w-10 rounded-full ${
-              isOnline ? "border-4 border-green-600" : ""
-            } ${receiver ? "block" : "hidden"}`}
-          >
-            <img className="w-full" alt="..." src={`/${receiver_avatar}.png`} />
-          </div>
-
+          {receiver_avatar ? (
+            <div
+              className={`h-10 w-10 rounded-full ${
+                isOnline ? "border-4 border-green-600" : ""
+              } ${receiver ? "block" : "hidden"}`}
+            >
+              <img
+                className="w-full"
+                alt="..."
+                src={`/${receiver_avatar}.png`}
+              />
+            </div>
+          ) : (
+            group_members && (
+              <div className="avatar-group -space-x-6 rtl:space-x-reverse">
+                {group_members?.slice(0, 3).map((member, index) => {
+                  console.log(member.avatar);
+                  return (
+                    <div className="avatar" key={index}>
+                      <div className="w-10">
+                        <img
+                          className="w-full"
+                          alt="..."
+                          src={`/${member.avatar}.png`}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )
+          )}
           <a
-            className="btn btn-ghost text-xl"
+            className="btn btn-ghost text-xl mx-3"
             onClick={() =>
               group
                 ? dispatch(setShowParticipant(true))
@@ -103,6 +130,11 @@ const ChatContainer = () => {
             {receiver ? receiver : group}
           </a>
         </div>
+        {receiver_about?.length > 0 && receiver && (
+          <div className="navbar-end float-right w-full px-4 text-cyan-400">
+            " {receiver_about} "
+          </div>
+        )}
       </div>
       {chats &&
         chats.map((chat) => {

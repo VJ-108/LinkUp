@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import useToggleChat_Type from "../hooks/useToggleChat_Type";
 import useToggleChat_Bot from "../hooks/useToggleChat_Bot";
 import useDeleteAccount from "../hooks/useDeleteAccount";
 import ChangeProfile from "../components/ChangeProfile";
@@ -18,7 +17,6 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { toggleChat_bot } = useToggleChat_Bot();
-  const { toggleChat_type } = useToggleChat_Type();
   const { delete_account } = useDeleteAccount();
   const options1 = [
     {
@@ -47,14 +45,7 @@ const Profile = () => {
       value: `${user.Chat_Bot}`,
       disabled: true,
       function: () => toggleChat_bot(),
-    },
-    {
-      name: lang[ln].Chat_Type,
-      label: "Chat Type",
-      value: user.chat_type,
-      disabled: true,
-      function: () => toggleChat_type(),
-    },
+    }
   ];
   useEffect(() => {
     if (!isloggedIn) {
