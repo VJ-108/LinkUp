@@ -1,3 +1,4 @@
+import { Chat } from "../models/chat.model.js";
 import { Group } from "../models/group.model.js";
 import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
@@ -207,10 +208,7 @@ const deleteGroup = asyncHandler(async (req, res, next) => {
     if (!group) {
       return res.json({ message: "You are not an admin" });
     }
-    await Group.deleteOne({
-      name: name,
-      admin: req.user?._id,
-    });
+    await Chat.deleteMany({ groupId: group._id });
     for (const memberId of group.members) {
       const member = await User.findById(memberId);
       if (member) {
@@ -219,6 +217,10 @@ const deleteGroup = asyncHandler(async (req, res, next) => {
         await member.save({ validateBeforeSave: false });
       }
     }
+    await Group.deleteOne({
+      name: name,
+      admin: req.user?._id,
+    });
     return res
       .status(200)
       .json(new ApiResponse(200, "Group Deleted Successfully"));

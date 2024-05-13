@@ -364,52 +364,6 @@ const getBlocked_ids = asyncHandler(async (req, res, next) => {
   }
 });
 
-const toggleContact_id = asyncHandler(async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user?._id);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    const { contact_user } = req.body;
-    const ContactUser = await User.findOne({ username: contact_user });
-    if (!ContactUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    const contact_id = ContactUser._id;
-    const index = user.Contact_ids.indexOf(contact_id);
-    if (index === -1) {
-      user.Contact_ids.push(contact_id);
-    } else {
-      user.Contact_ids.splice(index, 1);
-    }
-    await user.save({ validateBeforeSave: false });
-    return res.json(
-      new ApiResponse(
-        200,
-        { Contact_ids: user.Contact_ids },
-        "Contact user toggled successfully"
-      )
-    );
-  } catch (error) {
-    throw new ApiError(500, "Error while toggling contact_id");
-  }
-});
-
-const getContact_ids = asyncHandler(async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user?._id).populate({
-      path: "Contact_ids",
-      select: "_id username",
-    });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    return res.json(new ApiResponse(200, { contact_id: user.Contact_ids }));
-  } catch (error) {
-    throw new ApiError(500, "Error while fetching contact_id");
-  }
-});
-
 const getUserId = asyncHandler(async (req, res, next) => {
   try {
     const { username } = req.body;
@@ -508,69 +462,6 @@ const getGroups = asyncHandler(async (req, res, next) => {
   }
 });
 
-const toggleArchived = asyncHandler(async (req, res, next) => {
-  try {
-    const { name } = req.body;
-    const user = await User.findById(req.user?._id);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    let archiveArray;
-    if (name) {
-      const archivedUser = await User.findOne({ username: name });
-      const archivedGroup = await Group.findOne({
-        name: name,
-        members: req.user?._id,
-      });
-      if (!archivedUser && !archivedGroup) {
-        return res.status(404).json({ message: "User or Group not found" });
-      }
-      archiveArray = archivedUser ? user.Archived_User : user.Archived_Group;
-      const index = archiveArray.indexOf(
-        archivedUser ? archivedUser._id : archivedGroup._id
-      );
-      if (index === -1) {
-        archiveArray.push(archivedUser ? archivedUser._id : archivedGroup._id);
-      } else {
-        archiveArray.splice(index, 1);
-      }
-    } else {
-      return res
-        .status(400)
-        .json({ message: "Name of User or Group is required" });
-    }
-    await user.save({ validateBeforeSave: false });
-    return res
-      .status(200)
-      .json(new ApiResponse(200, "Successfully toggled archived chats"));
-  } catch (error) {
-    throw new ApiError(500, "Error while toggling archived items");
-  }
-});
-
-const getArchived = asyncHandler(async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user?._id)
-      .populate({
-        path: "Archived_User",
-        select: "_id username",
-      })
-      .populate("Archived_Group");
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    const archived = {
-      Archived_User: user.Archived_User,
-      Archived_Group: user.Archived_Group,
-    };
-    return res.json(
-      new ApiResponse(200, archived, "Successfully fetched archived chats")
-    );
-  } catch (error) {
-    throw new ApiError(500, "Error while fetching archived items");
-  }
-});
-
 const deleteAccount = asyncHandler(async (req, res, next) => {
   try {
     const user = await User.findById(req.user?._id);
@@ -665,14 +556,10 @@ export {
   toggleChat_type,
   toggleBlocked_id,
   getBlocked_ids,
-  toggleContact_id,
-  getContact_ids,
   getUserId,
   changeUsername,
   getUsername,
   deleteAccount,
-  toggleArchived,
-  getArchived,
   leaveGroup,
   getGroups,
   changeAvatar,

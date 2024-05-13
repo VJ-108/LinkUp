@@ -12,14 +12,10 @@ import {
   toggleChat_type,
   toggleBlocked_id,
   getBlocked_ids,
-  toggleContact_id,
-  getContact_ids,
   getUserId,
   changeUsername,
   getUsername,
   deleteAccount,
-  toggleArchived,
-  getArchived,
   leaveGroup,
   getGroups,
   changeAvatar,
@@ -41,14 +37,10 @@ router.route("/toggle-chat-bot").post(verifyJWT, toggleChat_Bot);
 router.route("/toggle-chat-type").post(verifyJWT, toggleChat_type);
 router.route("/toggle-blocked-id").post(verifyJWT, toggleBlocked_id);
 router.route("/get-blocked-ids").get(verifyJWT, getBlocked_ids);
-router.route("/toggle-contact-id").post(verifyJWT, toggleContact_id);
-router.route("/get-contact-ids").get(verifyJWT, getContact_ids);
 router.route("/get-user-id").post(verifyJWT, getUserId);
 router.route("/change-username").post(verifyJWT, changeUsername);
 router.route("/get-username").post(verifyJWT, getUsername);
 router.route("/delete-account").delete(verifyJWT, deleteAccount);
-router.route("/toggle-archived").post(verifyJWT, toggleArchived);
-router.route("/get-archived").get(verifyJWT, getArchived);
 router.route("/leave-group").post(verifyJWT, leaveGroup);
 router.route("/get-groups").get(verifyJWT, getGroups);
 router.route("/change-avatar").post(verifyJWT, changeAvatar);

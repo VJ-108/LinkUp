@@ -17,7 +17,7 @@ router.route("/get-group").post(verifyJWT, getGroup);
 router.route("/toggle-member").post(verifyJWT, toggleMember);
 router.route("/toggle-admin").post(verifyJWT, toggleAdmin);
 router.route("/change-about").post(verifyJWT, changeAbout);
-router.route("/delete-group").delete(verifyJWT, deleteGroup);
+router.route("/delete-group").post(verifyJWT, deleteGroup);
 router.route("/leave-group").post(verifyJWT, leaveGroup);
 
 export default router;

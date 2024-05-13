@@ -38,12 +38,6 @@ const userSchema = new Schema(
         ref: "User",
       },
     ],
-    Contact_ids: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
     Group_ids: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -63,18 +57,6 @@ const userSchema = new Schema(
       enum: ["temporary", "permanent"],
       default: "temporary",
     },
-    Archived_User: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-    Archived_Group: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Group",
-      },
-    ],
   },
   {
     timestamps: true,

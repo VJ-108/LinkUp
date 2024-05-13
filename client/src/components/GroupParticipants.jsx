@@ -9,6 +9,7 @@ import useGetUserChats from "../hooks/useGetUserChats";
 import AddUser from "./AddUser";
 import { lang } from "../utils/constants";
 import ChangeGroupAbout from "./ChangeGroupAbout";
+import useDeleteGroup from "../hooks/useDeleteGroup";
 
 const GroupParticipants = () => {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ const GroupParticipants = () => {
   const { toggleAdmin } = useToggleAdmin();
   const { leaveGroup } = useLeaveGroup();
   const { userChats } = useGetUserChats();
+  const { deleteGroup } = useDeleteGroup();
 
   useEffect(() => {
     getGroup(group);
@@ -62,43 +64,46 @@ const GroupParticipants = () => {
           <h1 className="px-4 pt-3 text-2xl font-semibold">
             {lang[ln].Group_Description}
           </h1>
+
           <div className="p-3">
             <div className="navbar bg-base-100 my-3 rounded-lg">
               <div className="flex-1">
                 <a className="px-3 text-xl"> {group_desc}</a>
               </div>
-              <div className="flex-none">
-                <div className="dropdown dropdown-end">
-                  <button className="btn btn-square btn-ghost">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      className="inline-block w-5 h-5 stroke-current"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
-                      ></path>
-                    </svg>
-                  </button>
-                  <ul
-                    tabIndex={0}
-                    className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-                  >
-                    <li>
-                      <a
-                        className="justify-between"
-                        onClick={() => setChangeGroupDesc(true)}
+              {isAdmin && (
+                <div className="flex-none">
+                  <div className="dropdown dropdown-end">
+                    <button className="btn btn-square btn-ghost">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        className="inline-block w-5 h-5 stroke-current"
                       >
-                        {lang[ln].Change_Group_About}
-                      </a>
-                    </li>
-                  </ul>
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
+                        ></path>
+                      </svg>
+                    </button>
+                    <ul
+                      tabIndex={0}
+                      className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+                    >
+                      <li>
+                        <a
+                          className="justify-between"
+                          onClick={() => setChangeGroupDesc(true)}
+                        >
+                          {lang[ln].Change_Group_About}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
           <h1 className="px-4 pt-3 text-2xl font-semibold">{lang[ln].Admin}</h1>
@@ -237,6 +242,14 @@ const GroupParticipants = () => {
         >
           {lang[ln].Leave_Group}
         </button>
+        {isAdmin && (
+          <button
+            className="btn bg-red-700 text-white hover:bg-red-600 m-3"
+            onClick={() => deleteGroup(group)}
+          >
+            {lang[ln].Delete_Group}
+          </button>
+        )}
       </div>
     )
   );
