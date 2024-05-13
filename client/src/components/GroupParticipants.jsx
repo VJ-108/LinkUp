@@ -8,16 +8,19 @@ import useLeaveGroup from "../hooks/useLeaveGroup";
 import useGetUserChats from "../hooks/useGetUserChats";
 import AddUser from "./AddUser";
 import { lang } from "../utils/constants";
+import ChangeGroupAbout from "./ChangeGroupAbout";
 
 const GroupParticipants = () => {
   const dispatch = useDispatch();
   const ln = useSelector((store) => store.user.ln);
   const group = useSelector((store) => store.user.currentGroup.name);
+  const group_desc = useSelector((store) => store.user.currentGroup.about);
   const showParticipant = useSelector((store) => store.chat.showParticipant);
   const Group = useSelector((store) => store.user.Group);
   const userId = useSelector((store) => store.user.User._id);
   const [isAdmin, setisAdmin] = useState(false);
   const [changeAddUser, setChangeAddUser] = useState(false);
+  const [changeGroupDesc, setChangeGroupDesc] = useState(false);
   const { getGroup } = useGetGroup();
   const { toggleMember } = useToggleMember();
   const { toggleAdmin } = useToggleAdmin();
@@ -52,7 +55,52 @@ const GroupParticipants = () => {
           </div>
         </div>
         {changeAddUser && <AddUser setChangeAddUser={setChangeAddUser} />}
+        {changeGroupDesc && (
+          <ChangeGroupAbout setChangeGroupDesc={setChangeGroupDesc} />
+        )}
         <div>
+          <h1 className="px-4 pt-3 text-2xl font-semibold">
+            {lang[ln].Group_Description}
+          </h1>
+          <div className="p-3">
+            <div className="navbar bg-base-100 my-3 rounded-lg">
+              <div className="flex-1">
+                <a className="px-3 text-xl"> {group_desc}</a>
+              </div>
+              <div className="flex-none">
+                <div className="dropdown dropdown-end">
+                  <button className="btn btn-square btn-ghost">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      className="inline-block w-5 h-5 stroke-current"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
+                      ></path>
+                    </svg>
+                  </button>
+                  <ul
+                    tabIndex={0}
+                    className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+                  >
+                    <li>
+                      <a
+                        className="justify-between"
+                        onClick={() => setChangeGroupDesc(true)}
+                      >
+                        {lang[ln].Change_Group_About}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
           <h1 className="px-4 pt-3 text-2xl font-semibold">{lang[ln].Admin}</h1>
           <div className="p-3">
             {Group?.admin?.map((admin) => {

@@ -183,15 +183,18 @@ const changeAbout = asyncHandler(async (req, res, next) => {
       admin: req.user?._id,
     });
     if (!groupName) {
+      console.log(group);
+      console.log(req.user?._id);
       return res.json({ message: "Can't change about" });
     }
     groupName.about = about;
     await groupName.save();
+    const editedGroup = await Group.findById(groupName._id)
+      .populate("admin", "username")
+      .populate("members", "username");
     return res
       .status(200)
-      .json(
-        new ApiResponse(500, groupName.about, "Successfully changed about")
-      );
+      .json(new ApiResponse(500, editedGroup, "Successfully changed about"));
   } catch (error) {
     throw new ApiError(500, "Error while changing About");
   }
@@ -224,43 +227,6 @@ const deleteGroup = asyncHandler(async (req, res, next) => {
   }
 });
 
-const changeAvatar = asyncHandler(async (req, res, next) => {
-  try {
-    const { avatar, name } = req.body;
-    const group = await Group.findOne({
-      name: name,
-      admin: req.user?._id,
-    });
-    if (!group) {
-      return res.status(404).json({ message: "Group not found" });
-    }
-    group.avatar = avatar;
-    await group.save();
-    return res
-      .status(200)
-      .json(new ApiResponse(200, group.avatar, "Successfully changed avatar"));
-  } catch (error) {
-    throw new ApiError(500, "Error while changing Avatar");
-  }
-});
-
-const removeAvatar = asyncHandler(async (req, res, next) => {
-  try {
-    const { name } = req.body;
-    const group = await Group.findOne({
-      name: name,
-      admin: req.user?._id,
-    });
-    group.avatar = "";
-    await group.save();
-    return res
-      .status(200)
-      .json(new ApiResponse(200, group.avatar, "Successfully removed avatar"));
-  } catch (error) {
-    throw new ApiError(500, "Error while removing Avatar");
-  }
-});
-
 export {
   createGroup,
   getGroup,
@@ -268,7 +234,5 @@ export {
   toggleAdmin,
   changeAbout,
   deleteGroup,
-  changeAvatar,
-  removeAvatar,
   leaveGroup,
 };

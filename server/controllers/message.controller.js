@@ -115,7 +115,7 @@ const getUserChats = asyncHandler(async (req, res, next) => {
       })
       .populate({
         path: "groupId",
-        select: "name members",
+        select: "name members about",
         populate: {
           path: "members",
           select: "username avatar",

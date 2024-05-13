@@ -99,6 +99,9 @@ const lang = {
     Signup_dialog_title: "Registration Successful!",
     Signup_dialog_msg:
       "Congratulations on successfully joining our chat community! Your journey starts here. Hit the button below to log in and start chatting away!",
+    Group_Description: "Group Description",
+    Change_Group_About: "Change Group About",
+    Change_Group_About_msg: "Should be less than 60 letters",
   },
   hindi: {
     Change_Language: "भाषा बदलें",
@@ -180,6 +183,9 @@ const lang = {
     Signup_dialog_title: "पंजीकरण सफल!",
     Signup_dialog_msg:
       "हमारे चैट समुदाय में सफलतापूर्वक शामिल होने पर बधाई! आपकी यात्रा यहां शुरू होती है। लॉग इन करने और चैट शुरू करने के लिए नीचे दिए गए बटन को दबाएं!",
+    Group_Description: "समूह विवरण",
+    Change_Group_About: "समूह के बारे में बदलें",
+    Change_Group_About_msg: "60 अक्षरों से कम होना चाहिए",
   },
   pjb: {
     Change_Language: "ਭਾਸ਼ਾ ਬਦਲੋ",
@@ -261,6 +267,9 @@ const lang = {
     Signup_dialog_title: "ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਸਫਲ!",
     Signup_dialog_msg:
       "ਸਾਡੇ ਚੈਟ ਭਾਈਚਾਰੇ ਵਿੱਚ ਸਫਲਤਾਪੂਰਵਕ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਵਧਾਈਆਂ! ਤੁਹਾਡੀ ਯਾਤਰਾ ਇੱਥੇ ਸ਼ੁਰੂ ਹੁੰਦੀ ਹੈ। ਲੌਗ ਇਨ ਕਰਨ ਅਤੇ ਚੈਟਿੰਗ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਹੇਠਾਂ ਦਿੱਤੇ ਬਟਨ ਨੂੰ ਦਬਾਓ!",
+    Group_Description: "ਸਮੂਹ ਵਰਣਨ",
+    Change_Group_About: "ਬਦਲੋ ਗਰੁੱਪ ਬਾਰੇ",
+    Change_Group_About_msg: "60 ਅੱਖਰਾਂ ਤੋਂ ਘੱਟ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ",
   },
   marathi: {
     Change_Language: "भाषा बदला",
@@ -342,6 +351,9 @@ const lang = {
     Signup_dialog_title: "नोंदणी यशस्वी!",
     Signup_dialog_msg:
       "आमच्या चॅट समुदायात यशस्वीरित्या सामील झाल्याबद्दल अभिनंदन! तुमचा प्रवास इथून सुरू होतो. लॉग इन करण्यासाठी खालील बटण दाबा आणि चॅटिंग सुरू करा!",
+    Group_Description: "गट वर्णन",
+    Change_Group_About: "बदला गट बद्दल",
+    Change_Group_About_msg: "60 अक्षरांपेक्षा कमी असावे",
   },
 };
 export { AvatarList, lang };

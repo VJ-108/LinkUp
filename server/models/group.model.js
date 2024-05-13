@@ -18,11 +18,9 @@ const groupSchema = new Schema(
         ref: "User",
       },
     ],
-    avatar: {
-      type: String,
-    },
     about: {
       type: String,
+      default: "",
     },
   },
   {
