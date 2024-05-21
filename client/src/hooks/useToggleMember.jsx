@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setGroup } from "../store/slices/userSlice";
+import { baseUrl } from "../utils/constants";
 
 const useToggleMember = () => {
   const dispatch = useDispatch();
@@ -8,7 +9,7 @@ const useToggleMember = () => {
   const toggleMember = (userId) => {
     axios.defaults.withCredentials = true;
     axios
-      .post("http://localhost:8000/api/v1/groups/toggle-member", {
+      .post(`${baseUrl}/api/v1/groups/toggle-member`, {
         userId: userId,
         group: group,
       })

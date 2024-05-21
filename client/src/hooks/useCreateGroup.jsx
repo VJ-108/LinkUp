@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { setCurrentGroup, setCurrentReceiver } from "../store/slices/userSlice";
 import useOpenChat from "./useOpenChat";
 import axios from "axios";
+import { baseUrl } from "../utils/constants";
 
 const useCreateGroup = () => {
   const dispatch = useDispatch();
@@ -9,7 +10,7 @@ const useCreateGroup = () => {
   const createGroup = (name) => {
     axios.defaults.withCredentials = true;
     axios
-      .post("http://localhost:8000/api/v1/groups/create-group", {
+      .post(`${baseUrl}/api/v1/groups/create-group`, {
         name: name,
       })
       .then((response) => {

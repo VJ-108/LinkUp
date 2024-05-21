@@ -1,10 +1,11 @@
 import axios from "axios";
+import { baseUrl } from "../utils/constants";
 
 const useDeleteGroup = () => {
   const deleteGroup = (name) => {
     axios.defaults.withCredentials = true;
     axios
-      .post("http://localhost:8000/api/v1/groups/delete-group", {
+      .post(`${baseUrl}/api/v1/groups/delete-group`, {
         name: name,
       })
       .then((response) => {})

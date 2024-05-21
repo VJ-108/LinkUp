@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import { OnlineUsers } from "../store/slices/socketSlice";
+import { baseUrl } from "../utils/constants";
 
 const SocketCreate = () => {
   const userId = useSelector((store) => store.user.User._id);
@@ -10,7 +11,7 @@ const SocketCreate = () => {
 
   useEffect(() => {
     if (userId) {
-      const newSocket = io("http://localhost:8000", {
+      const newSocket = io(`${baseUrl}`, {
         query: { userId: userId },
       });
 

@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { registered } from "../store/slices/userSlice";
+import { baseUrl } from "../utils/constants";
 
 const useSignup = () => {
   const dispatch = useDispatch();
   const signup = (username, email, password) => {
     axios.defaults.withCredentials = true;
     axios
-      .post("http://localhost:8000/api/v1/users/register", {
+      .post(`${baseUrl}/api/v1/users/register`, {
         username: username,
         email: email,
         password: password,

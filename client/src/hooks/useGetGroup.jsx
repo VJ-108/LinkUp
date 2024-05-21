@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setGroup } from "../store/slices/userSlice";
+import { baseUrl } from "../utils/constants";
 
 const useGetGroup = () => {
   const dispatch = useDispatch();
   const getGroup = (name) => {
     axios.defaults.withCredentials = true;
     axios
-      .post("http://localhost:8000/api/v1/groups/get-group", {
+      .post(`${baseUrl}/api/v1/groups/get-group`, {
         name: name,
       })
       .then((response) => {

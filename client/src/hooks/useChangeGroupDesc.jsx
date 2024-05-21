@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentGroup, setCurrentReceiver } from "../store/slices/userSlice";
+import { baseUrl } from "../utils/constants";
 
 const useChangeGroupDesc = () => {
   const group = useSelector((store) => store.user.currentGroup.name);
@@ -8,7 +9,7 @@ const useChangeGroupDesc = () => {
   const changeGroupDesc = (about) => {
     axios.defaults.withCredentials = true;
     axios
-      .post("http://localhost:8000/api/v1/groups/change-about", {
+      .post(`${baseUrl}/api/v1/groups/change-about`, {
         about: about,
         group: group,
       })

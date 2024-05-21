@@ -1,3 +1,5 @@
+const baseUrl = "http://localhost:8000";
+
 const AvatarList = [
   "bear",
   "buffalo",
@@ -17,6 +19,7 @@ const AvatarList = [
   "walrus",
   "woman",
 ];
+
 const lang = {
   en: {
     Change_Language: "Change Language",
@@ -364,4 +367,4 @@ const lang = {
     ChangeProfile_msg: "३० अक्षरांपेक्षा कमी असावे",
   },
 };
-export { AvatarList, lang };
+export { AvatarList, lang,baseUrl };

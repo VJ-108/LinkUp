@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useToggleMember from "../hooks/useToggleMember";
-import { lang } from "../utils/constants";
+import { baseUrl, lang } from "../utils/constants";
 
 const AddUser = ({ setChangeAddUser }) => {
   const [search, setSearch] = useState("");
@@ -30,7 +30,7 @@ const AddUser = ({ setChangeAddUser }) => {
     }
     axios.defaults.withCredentials = true;
     axios
-      .post("http://localhost:8000/api/v1/users/search-user", {
+      .post(`${baseUrl}/api/v1/users/search-user`, {
         username: search,
       })
       .then((response) => {

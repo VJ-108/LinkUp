@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { baseUrl } from "../utils/constants";
 
 const useSendHelp = () => {
   const name = useSelector((store) => store.user.User.username);
@@ -7,7 +8,7 @@ const useSendHelp = () => {
   const sendHelp = (message) => {
     axios.defaults.withCredentials = true;
     axios
-      .post("http://localhost:8000/api/v1/helps/send-help", {
+      .post(`${baseUrl}/api/v1/helps/send-help`, {
         name: name,
         email: email,
         message: message,

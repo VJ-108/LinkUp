@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setChat } from "../store/slices/chatSlice";
+import { baseUrl } from "../utils/constants";
 
 const useOpenChat = () => {
   const dispatch = useDispatch();
@@ -11,7 +12,7 @@ const useOpenChat = () => {
     if (type === "group") groupId = id;
     else receiverId = id;
     axios
-      .post("http://localhost:8000/api/v1/messages/get-message", {
+      .post(`${baseUrl}/api/v1/messages/get-message`, {
         receiverId: receiverId,
         groupId: groupId,
       })
