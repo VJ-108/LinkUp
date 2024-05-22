@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:8000";
+const baseUrl = "https://linkup-4m3r.onrender.com";
 
 const AvatarList = [
   "bear",
