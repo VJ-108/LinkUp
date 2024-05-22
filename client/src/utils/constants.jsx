@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:8000";
+const baseUrl = "https://linkup-beryl.vercel.app";
 
 const AvatarList = [
   "bear",
@@ -46,7 +46,7 @@ const lang = {
     Home: "Home",
     About_Us: "About Us",
     Chat: "Chat",
-    Chat_App: "Chat App",
+    Chat_App: "LinkUp",
     Help_Center: "Help Center",
     Profile: "Profile",
     Logout: "Logout",
@@ -133,7 +133,6 @@ const lang = {
     Home: "घर",
     About_Us: "हमारे बारे में",
     Chat: "चैट",
-    Chat_App: "चैट ऐप",
     Help_Center: "सहायता केंद्र",
     Profile: "प्रोफ़ाइल",
     Logout: "लॉग आउट",
@@ -219,7 +218,6 @@ const lang = {
     Home: "ਘਰ",
     About_Us: "ਸਾਡੇ ਬਾਰੇ",
     Chat: "ਚੈਟ",
-    Chat_App: "ਚੈਟ ਐਪ",
     Help_Center: "ਮਦਦ ਕੇਂਦਰ",
     Profile: "ਪ੍ਰੋਫਾਈਲ",
     Logout: "ਲੌਗਆਉਟ",
@@ -305,7 +303,6 @@ const lang = {
     Home: "मुख्यपृष्ठ",
     About_Us: "आमच्याबद्दल",
     Chat: "गप्पा",
-    Chat_App: "चॅट ॲप",
     Help_Center: "मदत केंद्र",
     Profile: "प्रोफाइल",
     Logout: "बाहेर पडणे",

@@ -62,7 +62,7 @@ const Navbar = () => {
       </div>
       <div className="navbar-center">
         <Link to={"/"} className="btn btn-ghost text-xl">
-          {lang[ln].Chat_App}
+          {lang.en.Chat_App}
         </Link>
       </div>
       <div className="navbar-end">
