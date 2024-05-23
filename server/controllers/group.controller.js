@@ -26,8 +26,8 @@ const createGroup = asyncHandler(async (req, res, next) => {
     await createdGroup.save();
     await user.save({ validateBeforeSave: false });
     const newGroup = await Group.findOne({ name: name, admin: req.user?._id })
-      .populate("admin", "username")
-      .populate("members", "username");
+      .populate({ path: "admin", select: "username avatar about" })
+      .populate({ path: "members", select: "username avatar about" });
     return res
       .status(200)
       .json(new ApiResponse(200, newGroup, "Group Created successfully"));
@@ -40,8 +40,8 @@ const getGroup = asyncHandler(async (req, res, next) => {
   try {
     const { name } = req.body;
     const group = await Group.findOne({ name: name, members: req.user?._id })
-      .populate("admin", "username")
-      .populate("members", "username");
+      .populate({ path: "admin", select: "username avatar about" })
+      .populate({ path: "members", select: "username avatar about" })
     if (!group) {
       return res.json({ message: "Group Doesn't exist" });
     }

@@ -67,7 +67,7 @@ const Profile = () => {
                 <input
                   type="text"
                   value={item.value}
-                  className="input input-bordered w-[75%] mx-2 mb-2"
+                  className="input input-bordered w-[70%] mx-2 mb-2"
                   disabled={item.disabled}
                 />
                 <button
@@ -89,7 +89,7 @@ const Profile = () => {
             <input
               type="text"
               value={user.avatar}
-              className="input input-bordered w-[75%] mx-2 mb-2"
+              className="input input-bordered w-[70%] mx-2 mb-2"
               disabled
             />
             <button
@@ -112,7 +112,7 @@ const Profile = () => {
                 <input
                   type="text"
                   value={item.value}
-                  className="input input-bordered w-[75%] mx-2 mb-2"
+                  className="input input-bordered w-[70%] mx-2 mb-2"
                   disabled={item.disabled}
                 />
                 <button className="btn w-[20%]" onClick={item.function}>
@@ -128,7 +128,7 @@ const Profile = () => {
             <input
               type="text"
               placeholder={user.email}
-              className="input input-bordered w-[97%] mx-2 mb-2"
+              className="input input-bordered w-[92%] mx-2 mb-2"
               disabled
             />
           </div>

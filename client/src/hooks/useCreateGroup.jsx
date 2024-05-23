@@ -3,6 +3,7 @@ import { setCurrentGroup, setCurrentReceiver } from "../store/slices/userSlice";
 import useOpenChat from "./useOpenChat";
 import axios from "axios";
 import { baseUrl } from "../utils/constants";
+import { toggleChatPanelVisibility } from "../store/slices/chatSlice";
 
 const useCreateGroup = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const useCreateGroup = () => {
           dispatch(setCurrentGroup(response.data?.data));
           dispatch(setCurrentReceiver({}));
           openChat("group", response.data?.data._id);
+          dispatch(toggleChatPanelVisibility(false));
         } else {
           alert("Group name already exists. Please choose another name.");
         }

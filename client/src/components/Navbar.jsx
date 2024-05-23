@@ -39,7 +39,7 @@ const Navbar = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-48"
           >
             <li>
               <Link to={"/"}>{lang[ln].Home}</Link>
@@ -57,6 +57,30 @@ const Navbar = () => {
                 <Link to={"/help-center"}>{lang[ln].Help_Center}</Link>
               </li>
             )}
+            <li>
+              <div className="dropdown dropdown-right">
+                <div tabIndex={0}>
+                  {lang[ln].Change_Language}
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-24"
+                >
+                  <li onClick={() => dispatch(setLanguage("en"))}>
+                    <a>English</a>
+                  </li>
+                  <li onClick={() => dispatch(setLanguage("hindi"))}>
+                    <a>Hindi</a>
+                  </li>
+                  <li onClick={() => dispatch(setLanguage("pjb"))}>
+                    <a>Punjabi</a>
+                  </li>
+                  <li onClick={() => dispatch(setLanguage("marathi"))}>
+                    <a>Marathi</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
@@ -67,28 +91,6 @@ const Navbar = () => {
       </div>
       <div className="navbar-end">
         <div className="flex gap-2">
-          <div className="dropdown dropdown-hover">
-            <div tabIndex={0} role="button" className="btn mx-3">
-              {lang[ln].Change_Language}
-            </div>
-            <ul
-              tabIndex={0}
-              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-40 m-1"
-            >
-              <li onClick={() => dispatch(setLanguage("en"))}>
-                <a>English</a>
-              </li>
-              <li onClick={() => dispatch(setLanguage("hindi"))}>
-                <a>Hindi</a>
-              </li>
-              <li onClick={() => dispatch(setLanguage("pjb"))}>
-                <a>Punjabi</a>
-              </li>
-              <li onClick={() => dispatch(setLanguage("marathi"))}>
-                <a>Marathi</a>
-              </li>
-            </ul>
-          </div>
           {isloggedIn ? (
             <div className="dropdown dropdown-end">
               <div

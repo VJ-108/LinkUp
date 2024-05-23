@@ -8,7 +8,7 @@ const Change_Avatar = ({ setChangeAvatar }) => {
   return (
     <>
       <div className="hero min-h-screen bg-transparent z-[100] absolute top-0">
-        <div className="hero-content flex-col-reverse lg:flex-row-reverse w-[32rem] h-[30rem]">
+        <div className="hero-content flex-col-reverse lg:flex-row-reverse h-[24rem] w-[24rem] md:w-[32rem] md:h-[30rem]">
           <div className="card shrink-0 w-full h-full shadow-2xl border border-gray-800 bg-base-300">
             <form className="card-body overflow-y-auto">
               <div className="text-center text-lg text-white">{lang[ln].avatar}</div>

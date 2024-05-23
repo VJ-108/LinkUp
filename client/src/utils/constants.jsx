@@ -1,4 +1,5 @@
 const baseUrl = "https://linkup-4m3r.onrender.com";
+// const baseUrl = "http://localhost:8000";
 
 const AvatarList = [
   "bear",
@@ -107,6 +108,16 @@ const lang = {
     Change_Group_About_msg: "Should be less than 60 letters",
     Delete_Group: "Delete Group",
     ChangeProfile_msg: "Should be less than 30 letters",
+    username_required: "username required",
+    username_too_long: "username is too long",
+    email_required: "email required",
+    email_invalid: "invalid email",
+    password_required: "password required",
+    password_too_short: "password is too short",
+    password_invalid: "invalid password",
+    old_password_required: "old password required",
+    about_required: "about required",
+    about_too_long: "about is too long",
   },
   hindi: {
     Change_Language: "भाषा बदलें",
@@ -192,6 +203,16 @@ const lang = {
     Change_Group_About_msg: "60 अक्षरों से कम होना चाहिए",
     Delete_Group: "समूह हटाएँ",
     ChangeProfile_msg: "30 अक्षरों से कम होना चाहिए",
+    username_required: "उपयोगकर्ता नाम आवश्यक",
+    username_too_long: "उपयोगकर्ता नाम बहुत लंबा है",
+    email_required: "ईमेल आवश्यक",
+    email_invalid: "अमान्य ईमेल",
+    password_required: "पासवर्ड आवश्यक",
+    password_too_short: "पासवर्ड बहुत छोटा है",
+    password_invalid: "अमान्य पासवर्ड",
+    old_password_required: "पुराना पासवर्ड आवश्यक",
+    about_required: "विवरण आवश्यक",
+    about_too_long: "विवरण बहुत लंबा है",
   },
   pjb: {
     Change_Language: "ਭਾਸ਼ਾ ਬਦਲੋ",
@@ -277,6 +298,16 @@ const lang = {
     Change_Group_About_msg: "60 ਅੱਖਰਾਂ ਤੋਂ ਘੱਟ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ",
     Delete_Group: "ਗਰੁੱਪ ਨੂੰ ਮਿਟਾਓ",
     ChangeProfile_msg: "30 ਅੱਖਰਾਂ ਤੋਂ ਘੱਟ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ",
+    username_required: "ਉਪਭੋਗਤਾ ਨਾਮ ਲੋੜੀਂਦਾ",
+    username_too_long: "ਉਪਭੋਗਤਾ ਨਾਮ ਬਹੁਤ ਲੰਮਾ ਹੈ",
+    email_required: "ਈਮੇਲ ਦੀ ਲੋੜ ਹੈ",
+    email_invalid: "ਅਵੈਧ ਈਮੇਲ",
+    password_required: "ਪਾਸਵਰਡ ਲੋੜੀਂਦਾ",
+    password_too_short: "ਪਾਸਵਰਡ ਬਹੁਤ ਛੋਟਾ ਹੈ",
+    password_invalid: "ਅਵੈਧ ਪਾਸਵਰਡ",
+    old_password_required: "ਪੁਰਾਣਾ ਪਾਸਵਰਡ ਲੋੜੀਂਦਾ ਹੈ",
+    about_required: "ਲੋੜੀਂਦੇ ਬਾਰੇ",
+    about_too_long: "ਬਾਰੇ ਬਹੁਤ ਲੰਮਾ ਹੈ",
   },
   marathi: {
     Change_Language: "भाषा बदला",
@@ -362,6 +393,16 @@ const lang = {
     Change_Group_About_msg: "60 अक्षरांपेक्षा कमी असावे",
     Delete_Group: "गट हटवा",
     ChangeProfile_msg: "३० अक्षरांपेक्षा कमी असावे",
+    username_required: "वापरकर्तानाव आवश्यक",
+    username_too_long: "वापरकर्तानाव खूप मोठे आहे",
+    email_required: "ईमेल आवश्यक",
+    email_invalid: "अवैध ईमेल",
+    password_required: "पासवर्ड आवश्यक",
+    password_too_short: "पासवर्ड खूप लहान आहे",
+    password_invalid: "अवैध पासवर्ड",
+    old_password_required: "जुना पासवर्ड आवश्यक",
+    about_required: "आवश्यकतेबद्दल",
+    about_too_long: "बद्दल खूप लांब आहे",
   },
 };
-export { AvatarList, lang,baseUrl };
+export { AvatarList, lang, baseUrl };

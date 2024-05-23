@@ -12,6 +12,7 @@ const CreateGroup = ({ setCreateGroup }) => {
       <div className="hero-content flex-col-reverse lg:flex-row-reverse w-[28rem] h-[12rem]">
         <div className="card shrink-0 w-full h-full shadow-2xl border border-gray-800 bg-base-300">
           <div className="card-body">
+            <h1>{lang[ln].ChangeProfile_msg}</h1>
             <input
               type="text"
               placeholder={lang[ln].Group_Name}
@@ -21,7 +22,7 @@ const CreateGroup = ({ setCreateGroup }) => {
               onChange={(e) => setGroupName(e.target.value)}
               onKeyUp={(e) => {
                 if (e.key === "Enter") {
-                  if (groupName) {
+                  if (groupName && groupName.length < 30) {
                     createGroup(groupName);
                     setCreateGroup(false);
                   }

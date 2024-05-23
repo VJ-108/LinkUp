@@ -104,7 +104,6 @@ const ChatContainer = () => {
               <div className="avatar-group -space-x-6 rtl:space-x-reverse">
                 {group_members.length > 3
                   ? group_members.slice(0, 3).map((member, index) => {
-                      console.log(member.avatar);
                       return (
                         <div className="avatar" key={index}>
                           <div className="w-10">
@@ -118,7 +117,6 @@ const ChatContainer = () => {
                       );
                     })
                   : group_members.map((member, index) => {
-                      console.log(member.avatar);
                       return (
                         <div className="avatar" key={index}>
                           <div className="w-10">
