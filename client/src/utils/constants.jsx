@@ -73,14 +73,14 @@ const lang = {
     ],
     How_It_Works: "How It Works",
     How_It_Works_explained:
-      "Getting started with Chat App is easy.Simply sign up, and start chatting! Invite your team members, friends, or family to join Chat App and start collaborating instantly.",
+      "Getting started with LinkUp is easy.Simply sign up, and start chatting! Invite your team members, friends, or family to join LinkUp and start collaborating instantly.",
     CopyRight: "Copyright © 2024 - All right reserved",
     Help_Center_msg:
       "Welcome to our Help Center! We're dedicated to helping you with any questions you may have and also thrilled to be part of your messaging journey!",
     Help_Center_input: "Tell us what we can help",
     Help_Center_input_button: "Submit",
     Home_title_1:
-      "Experience seamless communication like never before with Chat App.",
+      "Experience seamless communication like never before with LinkUp.",
     Home_title_2: `Say goodbye to <span class="text-sky-500">endless email threads</span> and disjointed conversations. Say hello to <span class="text-sky-500">effortless collaboration </span> and meaningful connections.`,
     Home_button: "Get Started",
     Email: "Email",
@@ -169,13 +169,13 @@ const lang = {
     ],
     How_It_Works: "यह काम किस प्रकार करता है",
     How_It_Works_explained:
-      "चैट ऐप के साथ शुरुआत करना आसान है। बस साइन अप करें, और चैट करना शुरू करें! चैट ऐप से जुड़ने के लिए अपनी टीम के सदस्यों, दोस्तों या परिवार को आमंत्रित करें और तुरंत सहयोग करना शुरू करें।",
+      "LinkUp के साथ शुरुआत करना आसान है। बस साइन अप करें, और चैट करना शुरू करें! LinkUp से जुड़ने के लिए अपनी टीम के सदस्यों, दोस्तों या परिवार को आमंत्रित करें और तुरंत सहयोग करना शुरू करें।",
     CopyRight: "कॉपीराइट © 2024 - सर्वाधिकार सुरक्षित",
     Help_Center_msg:
       "हमारे सहायता केंद्र में आपका स्वागत है! हम आपके किसी भी प्रश्न में आपकी सहायता करने के लिए समर्पित हैं और आपकी संदेश यात्रा का हिस्सा बनकर भी रोमांचित हैं!",
     Help_Center_input: "हमें बताएं कि हम क्या मदद कर सकते हैं",
     Help_Center_input_button: "जमा करें",
-    Home_title_1: "चैट ऐप के साथ पहले जैसा सहज संचार अनुभव करें।",
+    Home_title_1: "LinkUp के साथ पहले जैसा सहज संचार अनुभव करें।",
     Home_title_2: `<span class="text-sky-500">अंतहीन ईमेल थ्रेड्स</span> और असंबद्ध वार्तालापों को अलविदा कहें। <span class="text-sky-500">सहज सहयोग </span> और सार्थक कनेक्शन को नमस्ते कहें।`,
     Home_button: "चालू करे",
     Email: "ईमेल",
@@ -264,13 +264,13 @@ const lang = {
     ],
     How_It_Works: "ਕਿਦਾ ਚਲਦਾ",
     How_It_Works_explained:
-      "ਚੈਟ ਐਪ ਨਾਲ ਸ਼ੁਰੂਆਤ ਕਰਨਾ ਆਸਾਨ ਹੈ। ਬਸ ਸਾਈਨ ਅੱਪ ਕਰੋ, ਅਤੇ ਚੈਟਿੰਗ ਸ਼ੁਰੂ ਕਰੋ! ਚੈਟ ਐਪ ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਆਪਣੀ ਟੀਮ ਦੇ ਮੈਂਬਰਾਂ, ਦੋਸਤਾਂ ਜਾਂ ਪਰਿਵਾਰ ਨੂੰ ਸੱਦਾ ਦਿਓ ਅਤੇ ਤੁਰੰਤ ਸਹਿਯੋਗ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰੋ।",
+      "LinkUp ਨਾਲ ਸ਼ੁਰੂਆਤ ਕਰਨਾ ਆਸਾਨ ਹੈ। ਬਸ ਸਾਈਨ ਅੱਪ ਕਰੋ, ਅਤੇ ਚੈਟਿੰਗ ਸ਼ੁਰੂ ਕਰੋ! LinkUp ਵਿੱਚ ਸ਼ਾਮਲ ਹੋਣ ਲਈ ਆਪਣੀ ਟੀਮ ਦੇ ਮੈਂਬਰਾਂ, ਦੋਸਤਾਂ ਜਾਂ ਪਰਿਵਾਰ ਨੂੰ ਸੱਦਾ ਦਿਓ ਅਤੇ ਤੁਰੰਤ ਸਹਿਯੋਗ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰੋ।",
     CopyRight: "ਕਾਪੀਰਾਈਟ © 2024 - ਸਾਰੇ ਅਧਿਕਾਰ ਰਾਖਵੇਂ ਹਨ",
     Help_Center_msg:
       "ਸਾਡੇ ਮਦਦ ਕੇਂਦਰ ਵਿੱਚ ਸੁਆਗਤ ਹੈ! ਅਸੀਂ ਤੁਹਾਡੇ ਕਿਸੇ ਵੀ ਸਵਾਲ ਵਿੱਚ ਤੁਹਾਡੀ ਮਦਦ ਕਰਨ ਲਈ ਸਮਰਪਿਤ ਹਾਂ ਅਤੇ ਤੁਹਾਡੇ ਮੈਸੇਜਿੰਗ ਸਫ਼ਰ ਦਾ ਹਿੱਸਾ ਬਣਨ ਲਈ ਰੋਮਾਂਚਿਤ ਵੀ ਹਾਂ!",
     Help_Center_input: "ਸਾਨੂੰ ਦੱਸੋ ਕਿ ਅਸੀਂ ਕੀ ਮਦਦ ਕਰ ਸਕਦੇ ਹਾਂ",
     Help_Center_input_button: "ਜਮ੍ਹਾਂ ਕਰੋ",
-    Home_title_1: "ਚੈਟ ਐਪ ਦੇ ਨਾਲ ਪਹਿਲਾਂ ਕਦੇ ਵੀ ਸਹਿਜ ਸੰਚਾਰ ਦਾ ਅਨੁਭਵ ਕਰੋ।",
+    Home_title_1: "LinkUp ਦੇ ਨਾਲ ਪਹਿਲਾਂ ਕਦੇ ਵੀ ਸਹਿਜ ਸੰਚਾਰ ਦਾ ਅਨੁਭਵ ਕਰੋ।",
     Home_title_2: `<span class="text-sky-500">ਬੇਅੰਤ ਈਮੇਲ ਥ੍ਰੈਡਸ</span> ਨੂੰ ਅਲਵਿਦਾ ਕਹੋ ਅਤੇ ਅਸੰਬੰਧਿਤ ਗੱਲਬਾਤ। <span class="text-sky-500">ਸਹਿਯੋਗ ਸਹਿਯੋਗ </span> ਅਤੇ ਅਰਥਪੂਰਨ ਕਨੈਕਸ਼ਨਾਂ ਨੂੰ ਹੈਲੋ ਕਹੋ।`,
     Home_button: "ਸ਼ੁਰੂ ਕਰੋ",
     Email: "ਈ - ਮੇਲ",
@@ -359,13 +359,14 @@ const lang = {
     ],
     How_It_Works: "हे कसे कार्य करते",
     How_It_Works_explained:
-      "चॅट ॲपसह प्रारंभ करणे सोपे आहे. फक्त साइन अप करा आणि चॅटिंग सुरू करा! तुमच्या टीम सदस्यांना, मित्रांना किंवा कुटुंबाला चॅट ॲपमध्ये सामील होण्यासाठी आमंत्रित करा आणि त्वरित सहयोग सुरू करा.",
+      "LinkUp सह प्रारंभ करणे सोपे आहे. फक्त साइन अप करा आणि चॅटिंग सुरू करा! तुमच्या कार्यसंघ सदस्यांना, मित्रांना किंवा कुटुंबाला LinkUp मध्ये सामील होण्यासाठी आमंत्रित करा आणि त्वरित सहयोग सुरू करा.",
     CopyRight: "कॉपीराइट © 2024 - सर्व हक्क राखीव",
     Help_Center_msg:
       "आमच्या मदत केंद्रावर स्वागत आहे! तुमच्या कोणत्याही प्रश्नांसाठी आम्ही तुम्हाला मदत करण्यास समर्पित आहोत आणि तुमच्या संदेशन प्रवासाचा भाग होण्यासाठी आम्ही रोमांचित आहोत!",
     Help_Center_input: "आम्ही काय मदत करू शकतो ते आम्हाला सांगा",
     Help_Center_input_button: "प्रस्तुत करणे",
-    Home_title_1: "चॅट ॲपसह यापूर्वी कधीही नसलेल्या अखंड संवादाचा अनुभव घ्या.",
+    Home_title_1:
+      "LinkUp सह यापूर्वी कधीही नसलेल्या अखंड संप्रेषणाचा अनुभव घ्या.",
     Home_title_2: `<span class="text-sky-500">अंतहीन ईमेल थ्रेड्स</span> आणि असंबद्ध संभाषणांना गुडबाय म्हणा. <span class="text-sky-500">प्रयत्नहीन सहयोग </span> आणि अर्थपूर्ण कनेक्शनला नमस्कार म्हणा.`,
     Home_button: "सुरु करूया",
     Email: "ईमेल",
