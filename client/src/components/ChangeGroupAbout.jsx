@@ -9,7 +9,7 @@ const ChangeGroupAbout = ({ setChangeGroupDesc }) => {
   const { changeGroupDesc } = useChangeGroupDesc();
   return (
     <div className="hero min-h-screen bg-transparent z-[100] absolute top-0">
-      <div className="hero-content flex-col-reverse lg:flex-row-reverse w-[18rem] md:w-[28rem] h-[12rem]">
+      <div className="hero-content flex-col-reverse lg:flex-row-reverse w-[19rem] md:w-[28rem] h-[14rem]">
         <div className="card shrink-0 w-full h-full shadow-2xl border border-gray-800 bg-base-300">
           <div className="card-body">
             <h1>{lang[ln].Change_Group_About_msg}</h1>
