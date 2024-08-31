@@ -18,3 +18,11 @@ LinkUp is a real-time chat application that allows users to create an account an
 - **Socket.io**: Enables real-time, bidirectional communication between users.
 - **Redux**: Manages the global state of the application efficiently.
 - **Daisy UI**: A Tailwind CSS component library for quickly building responsive interfaces.
+
+## Usage
+
+1. **Create an Account**: Sign up with your details to start using LinkUp.
+2. **Search for Users**: Use the search bar to find people you want to chat with.
+3. **Start Chatting**: Send messages in real-time and receive instant replies.
+4. **Create Groups**: Add multiple people to a group and start a group chat.
+5. **Customize Your Profile**: Change your avatar or update your about section.
